@@ -1,0 +1,114 @@
+
+.hamburger {
+    z-index: 10;
+    display: none;
+    font-size: 30px;
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.fullscreen-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9); /* Fond semi-transparent */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  opacity: 0; /* Invisible par défaut */
+  visibility: hidden; /* Empêche les interactions */
+  transition: visibility 0s linear 0.3s, opacity 0.3s ease-in-out; /* Animations */
+}
+
+/* Lorsqu'il est actif */
+.fullscreen-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Liste des liens */
+.fullscreen-menu ul {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+}
+
+.fullscreen-menu ul li {
+  margin: 15px 0;
+}
+
+.fullscreen-menu ul li a {
+  text-decoration: none;
+  font-size: 24px;
+  color: white;
+  transition: color 0.3s ease-in-out;
+}
+
+.fullscreen-menu ul li a:hover {
+  color: #9B93FF; /* Change la couleur au survol */
+}
+
+/* Bouton de fermeture */
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  font-size: 36px;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+ /* Pour les petits écrans */
+@media (max-width: 768px) {
+    nav ul.menuindex {
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        background-color: #ffffff;
+        position: absolute;
+        top: 50px;
+        right: 0;
+        padding: 10px;
+        padding-right: 0px;
+        opacity: 0; /* Invisible initialement */
+        visibility: hidden;
+        transform: translateX(0); /* menuindex reste dans l'écran */
+        transition: transform 0.5s ease, opacity 0.5s ease, visibility 0.5s ease;
+        border-radius: 20px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+    }
+
+    nav ul.menuindex li a {
+        color: rgb(0, 0, 0); /* Changer la couleur du texte */
+        padding-right: 20px;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    /* menuindex actif (visible après clic) */
+    nav ul.menuindex.active {
+        opacity: 1; /* Rendre visible */
+        visibility: visible; /* S'assurer que le menuindex est affiché */
+        transform: translateX(0); /* menuindex reste à sa position */
+    }
+
+    /* Disparition avec transition */
+    nav ul.menuindex.hidden {
+        opacity: 0; /* Rendre invisible */
+        visibility: hidden;
+        transform: translateX(100%); /* Disparaît en glissant à droite */
+    }
+}
+
