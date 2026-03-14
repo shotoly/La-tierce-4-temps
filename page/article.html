@@ -6,20 +6,102 @@
     <title>Article - Margault</title>
     <link rel="stylesheet" href="../style.css">
     <style>
-        /* Styles spécifiques pour que l'article soit beau à lire */
+        /* Styles généraux de la page */
         .article-container {
-            max-width: 800px; /* Largeur de lecture idéale */
+            max-width: 800px; /* Largeur de lecture idéale, comme sur Notion */
             margin: 120px auto 80px auto;
             padding: 0 20px;
             font-family: var(--police-texte);
         }
         .article-header { margin-bottom: 50px; text-align: center; }
-        .article-title { font-family: var(--police-titre); font-size: 3rem; color: var(--provence-violet); margin-bottom: 20px; }
+        .article-title { font-family: var(--police-titre); font-size: 3rem; color: var(--provence-violet); margin-bottom: 20px; line-height: 1.2; }
         .article-cover { width: 100%; height: 60vh; object-fit: cover; border-radius: 12px; margin-bottom: 40px;}
-        .article-body { font-size: 1.1rem; line-height: 1.8; color: var(--couleur-texte); }
-        .article-body h1, .article-body h2, .article-body h3 { font-family: var(--police-titre); margin-top: 40px; margin-bottom: 15px; color: var(--provence-sable); }
-        .article-body img { max-width: 100%; height: auto; border-radius: 8px; margin: 30px 0; }
-        .article-body p { margin-bottom: 20px; }
+        
+        /* ==========================================================
+           MAGIE NOTION : MISE EN FORME DU TEXTE DE L'ARTICLE
+           ========================================================== */
+        .article-body { 
+            font-size: 1.15rem; 
+            line-height: 1.8; 
+            color: var(--couleur-texte); 
+        }
+
+        /* Les Paragraphes */
+        .article-body p { 
+            margin-bottom: 1.5em; 
+        }
+
+        /* Les Titres (H1, H2, H3 de Notion) */
+        .article-body h1, 
+        .article-body h2, 
+        .article-body h3 { 
+            font-family: var(--police-titre); 
+            color: var(--provence-violet); /* Ou provence-sable si vous préférez */
+            margin-top: 2em; 
+            margin-bottom: 0.8em; 
+            line-height: 1.3;
+            font-weight: 600;
+        }
+        .article-body h1 { font-size: 2.2rem; }
+        .article-body h2 { font-size: 1.8rem; }
+        .article-body h3 { font-size: 1.4rem; }
+
+        /* Le texte en Gras et Italique */
+        .article-body strong { font-weight: 700; color: #000; }
+        .article-body em { font-style: italic; }
+
+        /* Les Listes à puces et numérotées */
+        .article-body ul, 
+        .article-body ol { 
+            margin-bottom: 1.5em; 
+            padding-left: 2em; 
+        }
+        .article-body li { 
+            margin-bottom: 0.5em; 
+        }
+
+        /* Les Citations (Bloc "Citation" dans Notion) */
+        .article-body blockquote {
+            border-left: 4px solid var(--provence-jaune);
+            background-color: rgba(246, 209, 10, 0.1); /* Fond jaune très clair */
+            padding: 1.5em;
+            margin: 2em 0;
+            font-style: italic;
+            border-radius: 0 12px 12px 0;
+            font-size: 1.25rem;
+            color: var(--provence-violet);
+        }
+        .article-body blockquote p { margin-bottom: 0; } /* Enlève la marge du bas dans une citation */
+
+        /* Les Images insérées dans le texte Notion */
+        .article-body img { 
+            max-width: 100%; 
+            height: auto; 
+            border-radius: 12px; 
+            margin: 2em auto; 
+            display: block;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+
+        /* Les Liens dans le texte */
+        .article-body a {
+            color: var(--provence-bleu);
+            text-decoration: none;
+            border-bottom: 2px solid rgba(136, 188, 236, 0.3);
+            transition: all 0.3s ease;
+        }
+        .article-body a:hover {
+            border-bottom-color: var(--provence-bleu);
+            background-color: rgba(136, 188, 236, 0.1);
+        }
+        
+        /* Lignes de séparation (Bloc "Diviseur" dans Notion) */
+        .article-body hr {
+            border: none;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            margin: 3em auto;
+            width: 50%;
+        }
     </style>
 </head>
 <body>
