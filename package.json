@@ -1,0 +1,11 @@
+{
+  "name": "portfolio-margault",
+  "version": "1.0.0",
+  "description": "Portfolio avec génération statique Notion",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.14"
+  }
+}
