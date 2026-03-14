@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../style/cardmain.css">
+    <link rel="stylesheet" href=";../style/pocast.css">
 
     <!-- Ajout Script (JS) de Locomotive Scroll -->
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
@@ -64,64 +65,15 @@
         </section>
 
         <section id="portfolio" data-scroll-section class="p60">
-            <div class="inner-wrap-cards flex">
-                <!-- Grande carte "À la une" -->
-                <a href="article.html" class="link-act FourC bigone event">
-                    <div class="cover">
-                        <picture>
-                            <img src="img/curtism.jpg" alt="Interview Curtis M">
-                        </picture>
-                        <div class="lespastilles">
-                            <div class="pastille interview">Interview</div>
-                            <div class="p-etat">Nouveau</div>
-                        </div>
-                    </div>
-                    <div class="flex-info">
-                        <h2 class="date-event">05 <span>―</span> mars 2026</h2>
-                        <h5 class="style">Culture</h5>
-                    </div>
-                    <h3 class="name-event">Rencontre avec Curtis M.</h3>
-                </a>
-
-                <!-- Colonne droite avec petites cartes (empilées) -->
-                <div class="FourC flex-col desktop">
-
-                    <!-- Petite carte 1 -->
-                    <a href="../article.html" class="link-act event">
-                        <div class="TwoC cover">
-                            <picture>
-                                <img src="../img/michel.jpg" alt="Podcast Michel">
-                            </picture>
-                            <div class="lespastilles">
-                                <div class="pastille podcast">Podcast</div>
-                            </div>
-                        </div>
-                        <div class="flex-info">
-                            <h2 class="date-event">28 <span>―</span> février 2026</h2>
-                            <h5 class="style">Société</h5>
-                        </div>
-                        <h3 class="name-event twoC-name-event">Michel : Décryptage</h3>
-                    </a>
-
-                    <!-- Petite carte 2 -->
-                    <a href="../article.html" class="link-act event">
-                        <div class="TwoC cover">
-                            <picture>
-                                <img src="../img/Loucas.jpg" alt="Enquête Loucas">
-                            </picture>
-                            <div class="lespastilles">
-                                <div class="pastille article">Reportage</div>
-                            </div>
-                        </div>
-                        <div class="flex-info">
-                            <h2 class="date-event">15 <span>―</span> janvier 2026</h2>
-                            <h5 class="style">Investigation</h5>
-                        </div>
-                        <h3 class="name-event twoC-name-event">Dans les coulisses avec Loucas</h3>
-                    </a>
-
-                </div>
+            
+            <div class="inner-wrap-cards podcast-grid" id="grille-aleatoire">
+                <p style="text-align: center; width: 100%;">Recherche des meilleurs articles...</p>
             </div>
+
+            <div style="text-align: center; margin-top: 60px;">
+                <a href="page/podcasts.html" class="btn-brutal">Voir tous les articles & podcasts</a>
+            </div>
+
         </section>
 
         <!-- Nouvelle Section DA Trabendo pour "Mais qui est la tierce à 4 temps" -->
@@ -236,7 +188,7 @@
 
     <footer>
     </footer>
-
+    <script src="render-accueil.js"></script>
     <script src="script.js"></script>
 </body>
 

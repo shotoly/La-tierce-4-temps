@@ -7,23 +7,6 @@ const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 const databaseId = process.env.NOTION_DATABASE_ID;
 
-// --- NOUVEAU : On apprend à l'outil à lire les colonnes Notion ---
-n2m.setCustomTransformer('column_list', async (block) => {
-    const { results } = await notion.blocks.children.list({ block_id: block.id });
-    const mdblocks = await n2m.blocksToMarkdown(results);
-    const mdString = n2m.toMarkdownString(mdblocks);
-    // Les sauts de ligne (\n\n) sont obligatoires pour que le texte dedans soit bien mis en forme (gras, titres...)
-    return `\n<div class="notion-row">\n\n${mdString.parent || mdString || ""}\n\n</div>\n`;
-});
-
-n2m.setCustomTransformer('column', async (block) => {
-    const { results } = await notion.blocks.children.list({ block_id: block.id });
-    const mdblocks = await n2m.blocksToMarkdown(results);
-    const mdString = n2m.toMarkdownString(mdblocks);
-    return `\n<div class="notion-col">\n\n${mdString.parent || mdString || ""}\n\n</div>\n`;
-});
-// -----------------------------------------------------------------
-
 async function fetchNotionData() {
     try {
         console.log("Connexion à Notion en cours...");
@@ -32,12 +15,14 @@ async function fetchNotionData() {
             sorts: [{ property: 'Date', direction: 'descending' }],
         });
 
+        // On utilise Promise.all car le script doit "entrer" dans chaque page une par une
         const articles = await Promise.all(response.results.map(async page => {
-            const id = page.id; 
+            const id = page.id; // Identifiant unique indispensable
             
             const titre = page.properties["Nom"]?.title?.[0]?.plain_text || "Sans titre";
             const date = page.properties["Date"]?.date?.start || "";
             
+            // Gère la catégorie selon votre réglage Notion
             const propCat = page.properties["Catégorie"] || page.properties["Categorie"];
             let categorie = "Article";
             if (propCat?.select) categorie = propCat.select.name;
@@ -51,17 +36,12 @@ async function fetchNotionData() {
                 image = imgFichier.type === 'file' ? imgFichier.file.url : imgFichier.external.url;
             }
 
-            // Récupération du fichier Audio
-            let audioUrl = ""; 
-            if (page.properties["Audio"]?.files?.length > 0) {
-                const audioFichier = page.properties["Audio"].files[0];
-                audioUrl = audioFichier.type === 'file' ? audioFichier.file.url : audioFichier.external.url;
-            }
-
             // --- LA MAGIE OPÈRE ICI ---
+            // On récupère le contenu écrit DANS la page Notion
             const mdblocks = await n2m.pageToMarkdown(page.id);
             const mdStringObj = n2m.toMarkdownString(mdblocks);
             
+            // On extrait le texte pur en toute sécurité, même si l'article est vide
             let texteMarkdown = "";
             if (typeof mdStringObj === 'string') {
                 texteMarkdown = mdStringObj;
@@ -69,13 +49,17 @@ async function fetchNotionData() {
                 texteMarkdown = mdStringObj.parent;
             }
 
+            // On convertit ce texte en vrai code HTML prêt pour le web !
             const contenuHtml = marked.parse(texteMarkdown);
 
-            return { id, titre, date, categorie, lien, image, audio: audioUrl, contenu: contenuHtml };
-        }));
+           // ... fin de la magie (ligne 46 environ)
+            return { id, titre, date, categorie, lien, image, contenu: contenuHtml };
+        })); // <-- Fin du Promise.all
 
+        // NOUVEAU : On supprime les articles qui n'ont pas de vrai titre (les lignes vides)
         const articlesPropres = articles.filter(article => article.titre !== "Sans titre");
 
+        // On sauvegarde la liste propre
         fs.writeFileSync('./page/donnees.json', JSON.stringify(articlesPropres, null, 2));
         console.log("Fichier donnees.json généré avec le CONTENU des articles !");
 
