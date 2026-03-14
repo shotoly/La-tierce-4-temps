@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Article - Margault</title>
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         /* Styles généraux de la page */
         .article-container {
@@ -122,11 +124,16 @@
 </head>
 <body>
     <header class="navbar">
-        <div class="logo"><a href="../index.html">MARGAULT</a></div>
+        <div class="logo">
+            <a href="../index.html">
+                <img src="../logo.svg" alt="Logo Margault, journaliste">
+            </a>
+        </div>
         <nav class="menu-droite">
             <ul>
-                <li><a href="../index.html">Accueil</a></li>
-                <li><a href="podcasts.html">Podcasts & Articles</a></li>
+                <li><a href="../index.html#a-propos"><i class="fa-solid fa-user-pen"></i> Bio</a></li>
+                <li><a href="podcasts.html"><i class="fa-solid fa-microphone-lines"></i> Les podcasts</a></li>
+                <li id="theme-toggle-li"><a href="#" id="theme-toggle"><i class="fa-solid fa-moon"></i></a></li>
             </ul>
         </nav>
     </header>
@@ -135,6 +142,49 @@
         <h2 style="text-align:center;">Chargement de l'article...</h2>
     </main>
 
+    <section class="footer section-dark" data-scroll-section>
+        <div class="footer-wrapper" data-scroll data-scroll-speed="1.5">
+            <div class="inner-wrap">
+                <div class="logo-footer">
+                    <span class="gTitre text-logo">MARGAULT</span>
+                </div>
+
+                <div class="menu-footer flex">
+                    <div class="left-menu-footer">
+                        <ul>
+                            <li><a class="link-act" href="../a-propos.html">À propos</a></li>
+                            <li><a class="link-act" href="../contact.html">Contact</a></li>
+                            <li><a href="#" class="link-act">Newsletter</a></li>
+                        </ul>
+                        <ul class="social flex">
+                            <li><a href="#" target="_blank" class="link-act"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                            <li><a href="#" target="_blank" class="link-act"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a></li>
+                            <li><a href="#" target="_blank" class="link-act"><i class="fa-brands fa-twitter"></i> Twitter</a></li>
+                        </ul>
+                    </div>
+                    <div class="right-menu-footer">
+                        <span>saint max, France<br>Journaliste Indépendante & Podcasts</span>
+                        <span>contact@margault.exemple</span>
+                        <div class="totop-wrapper">
+                            <a href="#" class="totop link-act" onclick="window.scrollTo(0,0); return false;">Retour en haut ↗</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="credit flex">
+                    <div class="left">
+                        <span class="copy">© 2026 Margault</span>
+                        <a href="#" class="link-act">Mentions légales</a>
+                    </div>
+                    <div class="right">
+                        <a href="#" class="link-act">Design inspiré du Trabendo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../script.js"></script>
     <script>
         // Ce petit script lit l'ID dans l'URL (ex: article.html?id=123) et cherche le bon article !
         const urlParams = new URLSearchParams(window.location.search);

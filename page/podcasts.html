@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../style/pocast.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
 
     <!-- Ajout Script (JS) de Locomotive Scroll -->
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
@@ -24,9 +26,9 @@
         </div>
         <nav class="menu-droite">
             <ul>
-                <li><a href="#bio">Bio</a></li>
-                <li><a href="../page/podcasts.html">Les podcasts</a></li>
-                <li><a href="#videos">Vidéos</a></li>
+                <li><a href="../index.html#a-propos"><i class="fa-solid fa-user-pen"></i> Bio</a></li>
+                <li><a href="podcasts.html"><i class="fa-solid fa-microphone-lines"></i> Les podcasts</a></li>
+                <li id="theme-toggle-li"><a href="#" id="theme-toggle"><i class="fa-solid fa-moon"></i></a></li>
             </ul>
         </nav>
     </header>
@@ -42,10 +44,8 @@
 
         <!-- Section Footer DA Trabendo (Noir Brutal) -->
         <section class="footer section-dark" data-scroll-section>
-            <!-- Wrapper pour créer un léger effet de remorquage/inertie -->
             <div class="footer-wrapper" data-scroll data-scroll-speed="1.5">
                 <div class="inner-wrap">
-                    <!-- Grand Titre / Logo -->
                     <div class="logo-footer">
                         <span class="gTitre text-logo">MARGAULT</span>
                     </div>
@@ -53,21 +53,20 @@
                     <div class="menu-footer flex">
                         <div class="left-menu-footer">
                             <ul>
-                                <li><a class="link-act" href="a-propos.html">À propos</a></li>
-                                <li><a class="link-act" href="contact.html">Contact</a></li>
+                                <li><a class="link-act" href="../a-propos.html">À propos</a></li>
+                                <li><a class="link-act" href="../contact.html">Contact</a></li>
                                 <li><a href="#" class="link-act">Newsletter</a></li>
                             </ul>
                             <ul class="social flex">
-                                <li><a href="#" target="_blank" class="link-act">Instagram</a></li>
-                                <li><a href="#" target="_blank" class="link-act">LinkedIn</a></li>
-                                <li><a href="#" target="_blank" class="link-act">Twitter</a></li>
+                                <li><a href="#" target="_blank" class="link-act"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                                <li><a href="#" target="_blank" class="link-act"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a></li>
+                                <li><a href="#" target="_blank" class="link-act"><i class="fa-brands fa-twitter"></i> Twitter</a></li>
                             </ul>
                         </div>
                         <div class="right-menu-footer">
                             <span>saint max, France<br>Journaliste Indépendante & Podcasts</span>
                             <span>contact@margault.exemple</span>
                             <div class="totop-wrapper">
-                                <!-- Lien pour Locomotive Scroll afin de remonter en haut -->
                                 <a href="#hero" class="totop link-act" data-scroll-to>Retour en haut ↗</a>
                             </div>
                         </div>

@@ -1,5 +1,37 @@
-// Attendre que la page HTML soit complètement chargée
+// Logique du Thème Sombre / Clair (Dark Mode)
+const themeToggleBtn = document.getElementById('theme-toggle');
+const rootElement = document.documentElement; // La balise <html>
+
+// Vérifie la préférence sauvegardée ou celle du système
+const currentTheme = localStorage.getItem('theme') || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+// Applique le thème initial au chargement (avant même le DOM ready pour éviter le clignotement)
+if (currentTheme === "dark") {
+    rootElement.setAttribute("data-theme", "dark");
+}
+
 document.addEventListener("DOMContentLoaded", function () {
+    // Met à jour l'icône du bouton initialement
+    if (themeToggleBtn) {
+        if (rootElement.getAttribute("data-theme") === "dark") {
+            themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        }
+
+        themeToggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); // Empêche de remonter en haut de la page
+            
+            // Bascule le thème
+            if (rootElement.getAttribute("data-theme") === "dark") {
+                rootElement.removeAttribute("data-theme");
+                localStorage.setItem("theme", "light");
+                this.innerHTML = '<i class="fa-solid fa-moon"></i>';
+            } else {
+                rootElement.setAttribute("data-theme", "dark");
+                localStorage.setItem("theme", "dark");
+                this.innerHTML = '<i class="fa-solid fa-sun"></i>';
+            }
+        });
+    }
 
     // Initialisation de Locomotive Scroll sur la balise <main data-scroll-container>
     const scrollContainer = document.querySelector('[data-scroll-container]');
