@@ -88,7 +88,7 @@ body {
    ========================================================================== */
 #hero {
     height: calc(100vh - 80px);
-    background-image: url('img/randonnee_sainte_victoire_74311b1c7a.jpg');
+    background-image: url('randonnee_sainte_victoire_74311b1c7a.jpg');
     background-size: cover;
     background-position: center;
     display: flex;
