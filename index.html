@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="style/cardmain.css">
+    <link rel="stylesheet" href="style/player.css">
     <link rel="stylesheet" href="style/pocast.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link
@@ -45,6 +46,48 @@
             <div class="hero-texte">
                 <h1>Margault</h1>
                 <p>Journaliste & Créatrice de podcasts</p>
+
+                <div id="player-container">
+                    <div id="player">
+                        <div id="player-track">
+                            <div id="album-name"></div>
+                            <div id="track-name"></div>
+                            <div id="track-time">
+                                <div id="current-time"></div>
+                                <div id="track-length"></div>
+                            </div>
+                            <div id="seek-bar-container">
+                                <div id="seek-time"></div>
+                                <div id="s-hover"></div>
+                                <div id="seek-bar"></div>
+                            </div>
+                        </div>
+                        <div id="player-content">
+                            <div id="album-art">
+                                <img src="img/vynile.png" class="active" id="_1" />
+                                <div id="buffer-box">Chargement</div>
+                            </div>
+                            <div id="player-controls">
+                                <div class="control">
+                                    <div class="button" id="play-previous">
+                                        <i class="fas fa-backward"></i>
+                                    </div>
+                                </div>
+                                <div class="control">
+                                    <div class="button" id="play-pause-button">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                </div>
+                                <div class="control">
+                                    <div class="button" id="play-next">
+                                        <i class="fas fa-forward"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -181,6 +224,7 @@
 
     <script src="render-accueil.js"></script>
     <script src="script.js"></script>
+    <script src="player.js"></script>
 </body>
 
 </html>
