@@ -39,9 +39,18 @@ async function fetchNotionData() {
             // --- LA MAGIE OPÈRE ICI ---
             // On récupère le contenu écrit DANS la page Notion
             const mdblocks = await n2m.pageToMarkdown(page.id);
-            const mdString = n2m.toMarkdownString(mdblocks);
+            const mdStringObj = n2m.toMarkdownString(mdblocks);
+            
+            // On extrait le texte pur en toute sécurité, même si l'article est vide
+            let texteMarkdown = "";
+            if (typeof mdStringObj === 'string') {
+                texteMarkdown = mdStringObj;
+            } else if (mdStringObj && mdStringObj.parent) {
+                texteMarkdown = mdStringObj.parent;
+            }
+
             // On convertit ce texte en vrai code HTML prêt pour le web !
-            const contenuHtml = marked.parse(mdString.parent || mdString || "");
+            const contenuHtml = marked.parse(texteMarkdown);
 
             // On ajoute 'id' et 'contenu' à la boîte
             return { id, titre, date, categorie, lien, image, contenu: contenuHtml };
