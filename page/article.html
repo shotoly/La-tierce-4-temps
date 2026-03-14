@@ -102,6 +102,22 @@
             margin: 3em auto;
             width: 50%;
         }
+
+        /* ==========================================================
+           MISE EN PAGE DES COLONNES NOTION
+           ========================================================== */
+        .article-body .notion-row {
+            display: flex;
+            gap: 40px; /* Espace entre les colonnes */
+            margin: 2em 0;
+            width: 100%;
+            flex-wrap: wrap; /* Permet de repasser en 1 colonne sur petit écran */
+        }
+        
+        .article-body .notion-col {
+            flex: 1; /* Chaque colonne prend la même largeur */
+            min-width: 250px; /* Si l'écran de téléphone est trop petit, ça force le passage à la ligne */
+        }
     </style>
 </head>
 <body>
