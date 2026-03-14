@@ -52,11 +52,15 @@ async function fetchNotionData() {
             // On convertit ce texte en vrai code HTML prêt pour le web !
             const contenuHtml = marked.parse(texteMarkdown);
 
-            // On ajoute 'id' et 'contenu' à la boîte
+           // ... fin de la magie (ligne 46 environ)
             return { id, titre, date, categorie, lien, image, contenu: contenuHtml };
-        }));
+        })); // <-- Fin du Promise.all
 
-        fs.writeFileSync('./page/donnees.json', JSON.stringify(articles, null, 2));
+        // NOUVEAU : On supprime les articles qui n'ont pas de vrai titre (les lignes vides)
+        const articlesPropres = articles.filter(article => article.titre !== "Sans titre");
+
+        // On sauvegarde la liste propre
+        fs.writeFileSync('./page/donnees.json', JSON.stringify(articlesPropres, null, 2));
         console.log("Fichier donnees.json généré avec le CONTENU des articles !");
 
     } catch (error) {
