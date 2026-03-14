@@ -1,8 +1,10 @@
 const { Client } = require('@notionhq/client');
+const { NotionToMarkdown } = require('notion-to-md');
+const { marked } = require('marked');
 const fs = require('fs');
 
-// Initialisation du client Notion avec votre clé secrète (qui sera fournie par Render)
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
+const n2m = new NotionToMarkdown({ notionClient: notion });
 const databaseId = process.env.NOTION_DATABASE_ID;
 
 async function fetchNotionData() {
@@ -10,36 +12,47 @@ async function fetchNotionData() {
         console.log("Connexion à Notion en cours...");
         const response = await notion.databases.query({
             database_id: databaseId,
-            // Optionnel : Trier par date de la plus récente à la plus ancienne
             sorts: [{ property: 'Date', direction: 'descending' }],
         });
 
-        // Transformer les données complexes de Notion en un tableau simple
-        const articles = response.results.map(page => {
-            // Ces lignes extraient les infos de vos colonnes Notion. 
-            // Attention : les noms entre guillemets ("Nom", "Date", "Catégorie"...) doivent correspondre EXACTEMENT aux noms de vos colonnes dans Notion.
-            const titre = page.properties.Nom.title[0]?.plain_text || "Sans titre";
-            const date = page.properties.Date.date?.start || "";
-            const categorie = page.properties.Catégorie.select?.name || "Article";
-            const lien = page.properties.Lien.url || "#";
+        // On utilise Promise.all car le script doit "entrer" dans chaque page une par une
+        const articles = await Promise.all(response.results.map(async page => {
+            const id = page.id; // Identifiant unique indispensable
             
-            // Gestion de l'image (fichier uploadé directement sur Notion ou lien externe)
-            let image = "../img/logo.svg"; // image par défaut si vide
-            if (page.properties.Image.files && page.properties.Image.files.length > 0) {
-                const imgFichier = page.properties.Image.files[0];
+            const titre = page.properties["Nom"]?.title?.[0]?.plain_text || "Sans titre";
+            const date = page.properties["Date"]?.date?.start || "";
+            
+            // Gère la catégorie selon votre réglage Notion
+            const propCat = page.properties["Catégorie"] || page.properties["Categorie"];
+            let categorie = "Article";
+            if (propCat?.select) categorie = propCat.select.name;
+            else if (propCat?.multi_select?.[0]) categorie = propCat.multi_select[0].name;
+
+            const lien = page.properties["Lien"]?.url || ""; 
+            
+            let image = "../img/logo.svg"; 
+            if (page.properties["Image"]?.files?.length > 0) {
+                const imgFichier = page.properties["Image"].files[0];
                 image = imgFichier.type === 'file' ? imgFichier.file.url : imgFichier.external.url;
             }
 
-            return { titre, date, categorie, lien, image };
-        });
+            // --- LA MAGIE OPÈRE ICI ---
+            // On récupère le contenu écrit DANS la page Notion
+            const mdblocks = await n2m.pageToMarkdown(page.id);
+            const mdString = n2m.toMarkdownString(mdblocks);
+            // On convertit ce texte en vrai code HTML prêt pour le web !
+            const contenuHtml = marked.parse(mdString.parent || mdString || "");
 
-        // Sauvegarder ce tableau dans le fichier donnees.json que votre page web lira
+            // On ajoute 'id' et 'contenu' à la boîte
+            return { id, titre, date, categorie, lien, image, contenu: contenuHtml };
+        }));
+
         fs.writeFileSync('./page/donnees.json', JSON.stringify(articles, null, 2));
-        console.log("Fichier donnees.json généré avec succès !");
+        console.log("Fichier donnees.json généré avec le CONTENU des articles !");
 
     } catch (error) {
-        console.error("Erreur lors de la récupération des données de Notion :", error);
-        process.exit(1); // Fait échouer le déploiement Render si Notion plante
+        console.error("Erreur lors de la récupération des données :", error);
+        process.exit(1);
     }
 }
 

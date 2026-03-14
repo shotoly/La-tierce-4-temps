@@ -26,8 +26,11 @@ fetch('donnees.json')
         conteneur.innerHTML = ''; // On vide le "Chargement..."
 
         articles.forEach(article => {
-            const carteHTML = `
-                <a href="${article.lien}" class="link-act event podcast-card" target="_blank">
+                const urlDestination = article.lien ? article.lien : `article.html?id = ${ article.id }`;
+                const target = article.lien ? `target = "_blank"` : ``;
+
+                const carteHTML = `
+                < a href = "${urlDestination}" class="link-act event podcast-card" ${ target }>
                     <div class="cover">
                         <picture>
                             <img src="${article.image}" alt="${article.titre}">
@@ -40,8 +43,8 @@ fetch('donnees.json')
                         <h2 class="date-event">${formaterDate(article.date)}</h2>
                     </div>
                     <h3 class="name-event">${article.titre}</h3>
-                </a>
-            `;
+                </a >
+                `;
             conteneur.innerHTML += carteHTML;
         });
     })

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article - Margault</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        /* Styles spécifiques pour que l'article soit beau à lire */
+        .article-container {
+            max-width: 800px; /* Largeur de lecture idéale */
+            margin: 120px auto 80px auto;
+            padding: 0 20px;
+            font-family: var(--police-texte);
+        }
+        .article-header { margin-bottom: 50px; text-align: center; }
+        .article-title { font-family: var(--police-titre); font-size: 3rem; color: var(--provence-violet); margin-bottom: 20px; }
+        .article-cover { width: 100%; height: 60vh; object-fit: cover; border-radius: 12px; margin-bottom: 40px;}
+        .article-body { font-size: 1.1rem; line-height: 1.8; color: var(--couleur-texte); }
+        .article-body h1, .article-body h2, .article-body h3 { font-family: var(--police-titre); margin-top: 40px; margin-bottom: 15px; color: var(--provence-sable); }
+        .article-body img { max-width: 100%; height: auto; border-radius: 8px; margin: 30px 0; }
+        .article-body p { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo"><a href="../index.html">MARGAULT</a></div>
+        <nav class="menu-droite">
+            <ul>
+                <li><a href="../index.html">Accueil</a></li>
+                <li><a href="podcasts.html">Podcasts & Articles</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="article-container" id="article-main">
+        <h2 style="text-align:center;">Chargement de l'article...</h2>
+    </main>
+
+    <script>
+        // Ce petit script lit l'ID dans l'URL (ex: article.html?id=123) et cherche le bon article !
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('id');
+
+        fetch('donnees.json')
+            .then(response => response.json())
+            .then(articles => {
+                const article = articles.find(a => a.id === articleId);
+                const main = document.getElementById('article-main');
+                
+                if (!article) {
+                    main.innerHTML = "<h2>Article introuvable.</h2>";
+                    return;
+                }
+
+                main.innerHTML = `
+                    <div class="article-header">
+                        <span class="pastille ${article.categorie.toLowerCase()}">${article.categorie}</span>
+                        <h1 class="article-title">${article.titre}</h1>
+                    </div>
+                    <img src="${article.image}" alt="Couverture" class="article-cover">
+                    <div class="article-body">
+                        ${article.contenu}
+                    </div>
+                `;
+            });
+    </script>
+</body>
+</html>
