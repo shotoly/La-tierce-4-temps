@@ -53,13 +53,28 @@
                     return;
                 }
 
+               // On prépare le lecteur audio (il sera vide s'il n'y a pas de son)
+                let lecteurAudio = "";
+                if (article.audio) {
+                    lecteurAudio = `
+                        <div style="margin: 30px 0;">
+                            <audio controls style="width: 100%; border-radius: 50px;">
+                                <source src="${article.audio}">
+                                Votre navigateur ne supporte pas la balise audio.
+                            </audio>
+                        </div>
+                    `;
+                }
+
+                // On affiche le tout !
                 main.innerHTML = `
                     <div class="article-header">
                         <span class="pastille ${article.categorie.toLowerCase()}">${article.categorie}</span>
                         <h1 class="article-title">${article.titre}</h1>
                     </div>
                     <img src="${article.image}" alt="Couverture" class="article-cover">
-                    <div class="article-body">
+                    
+                    ${lecteurAudio} <div class="article-body">
                         ${article.contenu}
                     </div>
                 `;
