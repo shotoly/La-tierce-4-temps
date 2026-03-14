@@ -1,71 +1,111 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Article - Margault</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;800&display=swap"
+        rel="stylesheet">
     <style>
         /* Styles généraux de la page */
         .article-container {
-            max-width: 800px; /* Largeur de lecture idéale, comme sur Notion */
+            max-width: 800px;
+            /* Largeur de lecture idéale, comme sur Notion */
             margin: 120px auto 80px auto;
             padding: 0 20px;
             font-family: var(--police-texte);
         }
-        .article-header { margin-bottom: 50px; text-align: center; }
-        .article-title { font-family: var(--police-titre); font-size: 3rem; color: var(--provence-violet); margin-bottom: 20px; line-height: 1.2; }
-        .article-cover { width: 100%; height: 60vh; object-fit: cover; border-radius: 12px; margin-bottom: 40px;}
-        
+
+        .article-header {
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .article-title {
+            font-family: var(--police-titre);
+            font-size: 3rem;
+            color: var(--provence-violet);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .article-cover {
+            width: 100%;
+            height: 60vh;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+
         /* ==========================================================
            MAGIE NOTION : MISE EN FORME DU TEXTE DE L'ARTICLE
            ========================================================== */
-        .article-body { 
-            font-size: 1.15rem; 
-            line-height: 1.8; 
-            color: var(--couleur-texte); 
+        .article-body {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--couleur-texte);
         }
 
         /* Les Paragraphes */
-        .article-body p { 
-            margin-bottom: 1.5em; 
+        .article-body p {
+            margin-bottom: 1.5em;
         }
 
         /* Les Titres (H1, H2, H3 de Notion) */
-        .article-body h1, 
-        .article-body h2, 
-        .article-body h3 { 
-            font-family: var(--police-titre); 
-            color: var(--provence-violet); /* Ou provence-sable si vous préférez */
-            margin-top: 2em; 
-            margin-bottom: 0.8em; 
+        .article-body h1,
+        .article-body h2,
+        .article-body h3 {
+            font-family: var(--police-titre);
+            color: var(--provence-violet);
+            /* Ou provence-sable si vous préférez */
+            margin-top: 2em;
+            margin-bottom: 0.8em;
             line-height: 1.3;
             font-weight: 600;
         }
-        .article-body h1 { font-size: 2.2rem; }
-        .article-body h2 { font-size: 1.8rem; }
-        .article-body h3 { font-size: 1.4rem; }
+
+        .article-body h1 {
+            font-size: 2.2rem;
+        }
+
+        .article-body h2 {
+            font-size: 1.8rem;
+        }
+
+        .article-body h3 {
+            font-size: 1.4rem;
+        }
 
         /* Le texte en Gras et Italique */
-        .article-body strong { font-weight: 700; color: #000; }
-        .article-body em { font-style: italic; }
+        .article-body strong {
+            font-weight: 700;
+            color: #000;
+        }
+
+        .article-body em {
+            font-style: italic;
+        }
 
         /* Les Listes à puces et numérotées */
-        .article-body ul, 
-        .article-body ol { 
-            margin-bottom: 1.5em; 
-            padding-left: 2em; 
+        .article-body ul,
+        .article-body ol {
+            margin-bottom: 1.5em;
+            padding-left: 2em;
         }
-        .article-body li { 
-            margin-bottom: 0.5em; 
+
+        .article-body li {
+            margin-bottom: 0.5em;
         }
 
         /* Les Citations (Bloc "Citation" dans Notion) */
         .article-body blockquote {
             border-left: 4px solid var(--provence-jaune);
-            background-color: rgba(246, 209, 10, 0.1); /* Fond jaune très clair */
+            background-color: rgba(246, 209, 10, 0.1);
+            /* Fond jaune très clair */
             padding: 1.5em;
             margin: 2em 0;
             font-style: italic;
@@ -73,16 +113,21 @@
             font-size: 1.25rem;
             color: var(--provence-violet);
         }
-        .article-body blockquote p { margin-bottom: 0; } /* Enlève la marge du bas dans une citation */
+
+        .article-body blockquote p {
+            margin-bottom: 0;
+        }
+
+        /* Enlève la marge du bas dans une citation */
 
         /* Les Images insérées dans le texte Notion */
-        .article-body img { 
-            max-width: 100%; 
-            height: auto; 
-            border-radius: 12px; 
-            margin: 2em auto; 
+        .article-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 2em auto;
             display: block;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
         }
 
         /* Les Liens dans le texte */
@@ -92,15 +137,16 @@
             border-bottom: 2px solid rgba(136, 188, 236, 0.3);
             transition: all 0.3s ease;
         }
+
         .article-body a:hover {
             border-bottom-color: var(--provence-bleu);
             background-color: rgba(136, 188, 236, 0.1);
         }
-        
+
         /* Lignes de séparation (Bloc "Diviseur" dans Notion) */
         .article-body hr {
             border: none;
-            border-top: 1px solid rgba(0,0,0,0.1);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
             margin: 3em auto;
             width: 50%;
         }
@@ -110,29 +156,38 @@
            ========================================================== */
         .article-body .notion-row {
             display: flex;
-            gap: 40px; /* Espace entre les colonnes */
+            gap: 40px;
+            /* Espace entre les colonnes */
             margin: 2em 0;
             width: 100%;
-            flex-wrap: wrap; /* Permet de repasser en 1 colonne sur petit écran */
+            flex-wrap: wrap;
+            /* Permet de repasser en 1 colonne sur petit écran */
         }
-        
+
         .article-body .notion-col {
-            flex: 1; /* Chaque colonne prend la même largeur */
-            min-width: 250px; /* Si l'écran de téléphone est trop petit, ça force le passage à la ligne */
+            flex: 1;
+            /* Chaque colonne prend la même largeur */
+            min-width: 250px;
+            /* Si l'écran de téléphone est trop petit, ça force le passage à la ligne */
         }
     </style>
 </head>
+
 <body>
     <header class="navbar">
         <div class="logo">
             <a href="../index.html">
-                <img src="../logo.svg" alt="Logo Margault, journaliste">
+                <img src="../logo_noir.svg" alt="Logo Margault, journaliste">
             </a>
+        </div>
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fa-solid fa-bars"></i>
         </div>
         <nav class="menu-droite">
             <ul>
-                <li><a href="../index.html#a-propos"><i class="fa-solid fa-user-pen"></i> Bio</a></li>
-                <li><a href="podcasts.html"><i class="fa-solid fa-microphone-lines"></i> Les podcasts</a></li>
+                <li><a href="../index.html"><i class="fa-solid fa-house"></i> Accueil</a></li>
+                <li><a href="../page/a-propos.html"><i class="fa-solid fa-user-pen"></i> Bio</a></li>
+                <li><a href="../page/podcasts.html"><i class="fa-solid fa-microphone-lines"></i> Les podcasts</a></li>
                 <li id="theme-toggle-li"><a href="#" id="theme-toggle"><i class="fa-solid fa-moon"></i></a></li>
             </ul>
         </nav>
@@ -142,43 +197,38 @@
         <h2 style="text-align:center;">Chargement de l'article...</h2>
     </main>
 
-    <section class="footer section-dark" data-scroll-section>
-        <div class="footer-wrapper" data-scroll data-scroll-speed="1.5">
-            <div class="inner-wrap">
-                <div class="logo-footer">
-                    <span class="gTitre text-logo">MARGAULT</span>
+    <section class="footer fancy-footer" id="footer" data-scroll-section>
+        <div class="footer-backdrop"></div>
+        <div class="footer-content" data-scroll data-scroll-speed="1.5">
+            <div class="col col1">
+                <h3 class="footer-logo">MARGAULT</h3>
+                <p class="footer-sub">Journaliste Indépendante & Podcasts</p>
+                <p>Saint max, France</p>
+                <p><a href="mailto:contact@margault.exemple" class="link-act">contact@margault.exemple</a></p>
+                <div class="social" style="margin-top: 20px;">
+                    <a href="#" target="_blank" class="link link-act"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" target="_blank" class="link link-act"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" target="_blank" class="link link-act"><i class="fa-brands fa-twitter"></i></a>
                 </div>
+            </div>
 
-                <div class="menu-footer flex">
-                    <div class="left-menu-footer">
-                        <ul>
-                            <li><a class="link-act" href="../a-propos.html">À propos</a></li>
-                            <li><a class="link-act" href="../contact.html">Contact</a></li>
-                            <li><a href="#" class="link-act">Newsletter</a></li>
-                        </ul>
-                        <ul class="social flex">
-                            <li><a href="#" target="_blank" class="link-act"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
-                            <li><a href="#" target="_blank" class="link-act"><i class="fa-brands fa-linkedin-in"></i> LinkedIn</a></li>
-                            <li><a href="#" target="_blank" class="link-act"><i class="fa-brands fa-twitter"></i> Twitter</a></li>
-                        </ul>
-                    </div>
-                    <div class="right-menu-footer">
-                        <span>saint max, France<br>Journaliste Indépendante & Podcasts</span>
-                        <span>contact@margault.exemple</span>
-                        <div class="totop-wrapper">
-                            <a href="#" class="totop link-act" onclick="window.scrollTo(0,0); return false;">Retour en haut ↗</a>
-                        </div>
-                    </div>
-                </div>
+            <div class="col col2">
+                <p style="margin-bottom: 25px;"><b style="color: #fff;">Navigation</b></p>
+                <p><a class="link-act" href="../a-propos.html">À propos</a></p>
+                <p><a class="link-act" href="podcasts.html">Podcasts</a></p>
+                <p><a class="link-act" href="../contact.html">Contact</a></p>
+                <p><a href="#" class="link-act">Newsletter</a></p>
+            </div>
 
-                <div class="credit flex">
-                    <div class="left">
-                        <span class="copy">© 2026 Margault</span>
-                        <a href="#" class="link-act">Mentions légales</a>
-                    </div>
-                    <div class="right">
-                        <a href="#" class="link-act">Design inspiré du Trabendo</a>
-                    </div>
+            <div class="col col3">
+                <p style="margin-bottom: 25px;"><b style="color: #fff;">Légal & Plus</b></p>
+                <p><a href="#" class="link-act">Mentions légales</a></p>
+                <p>Design inspiré du Trabendo</p>
+                <p style="color: #818181; font-size: 0.85rem; margin-top: auto;">© 2026 Margault. All Rights Reserved
+                </p>
+                <div class="totop-wrapper" style="margin-top: 20px;">
+                    <a href="#" class="totop link-act" onclick="window.scrollTo(0,0); return false;">Retour en haut <i
+                            class="fa-solid fa-arrow-up"></i></a>
                 </div>
             </div>
         </div>
@@ -195,13 +245,13 @@
             .then(articles => {
                 const article = articles.find(a => a.id === articleId);
                 const main = document.getElementById('article-main');
-                
+
                 if (!article) {
                     main.innerHTML = "<h2>Article introuvable.</h2>";
                     return;
                 }
 
-               // On prépare le lecteur audio (il sera vide s'il n'y a pas de son)
+                // On prépare le lecteur audio (il sera vide s'il n'y a pas de son)
                 let lecteurAudio = "";
                 if (article.audio) {
                     lecteurAudio = `
@@ -229,4 +279,5 @@
             });
     </script>
 </body>
+
 </html>

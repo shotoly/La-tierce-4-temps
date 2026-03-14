@@ -170,6 +170,65 @@ body {
 }
 
 /* ==========================================================================
+   2.5 RESPONSIVE MENU (Hamburger)
+   ========================================================================== */
+.menu-toggle {
+    display: none;
+    font-size: 1.8rem;
+    color: var(--couleur-texte);
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.menu-toggle:hover {
+    color: var(--provence-violet);
+}
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        padding: 0 20px;
+    }
+
+    .menu-toggle {
+        display: block; /* Affiche le burger sur petit écran */
+    }
+
+    .menu-droite {
+        position: fixed;
+        top: 85px; /* Juste sous la navbar */
+        right: -100%; /* Caché hors de l'écran par défaut */
+        width: 100%;
+        height: calc(100vh - 85px);
+        background-color: var(--couleur-navbar-bg);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Animation fluide slide */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-top: 1px solid var(--couleur-navbar-border);
+    }
+
+    .menu-droite.active {
+        right: 0; /* Menu apparaît */
+    }
+
+    .menu-droite ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .menu-droite a {
+        font-size: 1.5rem; /* Liens beaucoup plus gros sur mobile */
+    }
+
+    #theme-toggle {
+        font-size: 2rem; /* Bouton thème plus gros sur mobile */
+    }
+}
+
+/* ==========================================================================
    3. HERO SECTION (Accueil)
    ========================================================================== */
 #hero {
@@ -422,81 +481,378 @@ html.has-scroll-dragging {
 }
 
 /* ==========================================================================
-   7. FOOTER (Sable & Élégance)
+   7. PAGE BIO (A propos)
+   ========================================================================== */
+.bio-header {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 85px;
+    position: relative;
+    background-color: var(--couleur-fond);
+    overflow: hidden;
+}
+
+.bio-header-content {
+    text-align: center;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 5vw;
+}
+
+.bio-header h1 {
+    font-size: 5vw;
+    font-family: var(--police-titre);
+    font-weight: 800;
+    color: var(--provence-violet);
+    margin-bottom: 20px;
+    line-height: 1.1;
+}
+
+.bio-header p.subtitle {
+    font-size: 1.5rem;
+    color: var(--couleur-texte-secondaire);
+    font-family: var(--police-texte);
+    font-style: italic;
+}
+
+.bio-blob {
+    position: absolute;
+    background: radial-gradient(circle, var(--provence-jaune) 0%, transparent 70%);
+    width: 800px;
+    height: 800px;
+    border-radius: 50%;
+    opacity: 0.15;
+    top: -200px;
+    right: -200px;
+    z-index: 1;
+    filter: blur(60px);
+}
+
+.bio-content-section {
+    padding: 100px 0;
+    background-color: var(--couleur-fond);
+}
+
+.bio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5vw;
+    align-items: center;
+}
+
+.bio-text-large {
+    font-size: 1.25rem;
+    line-height: 1.8;
+    color: var(--couleur-texte);
+    margin-bottom: 30px;
+}
+
+.bio-text-large strong {
+    color: var(--provence-violet);
+}
+
+.bio-image-large {
+    width: 100%;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.bio-image-large img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 4/5;
+    object-fit: cover;
+}
+
+.bio-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(124, 58, 237, 0.4), transparent);
+    mix-blend-mode: overlay;
+}
+
+.expertise-section {
+    background-color: rgba(217, 181, 115, 0.1);
+    padding: 120px 5vw;
+}
+
+.expertise-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.expertise-title {
+    text-align: center;
+    font-size: 3rem;
+    font-family: var(--police-titre);
+    color: var(--provence-sable);
+    margin-bottom: 60px;
+}
+
+.expertise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.expertise-card {
+    background: var(--couleur-fond);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+[data-theme="dark"] .expertise-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.expertise-card:hover {
+    transform: translateY(-10px);
+}
+
+.expertise-icon {
+    font-size: 2.5rem;
+    color: var(--provence-vert);
+    margin-bottom: 20px;
+}
+
+.expertise-card h3 {
+    font-family: var(--police-titre);
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: var(--couleur-texte);
+}
+
+.expertise-card p {
+    color: var(--couleur-texte-secondaire);
+    line-height: 1.6;
+    font-size: 1rem;
+}
+
+.contact-cta {
+    text-align: center;
+    padding: 120px 5vw;
+    background-color: var(--couleur-fond);
+}
+
+.contact-cta h2 {
+    font-family: var(--police-titre);
+    font-size: 3rem;
+    color: var(--provence-violet);
+    margin-bottom: 30px;
+}
+
+@media screen and (max-width: 900px) {
+    .bio-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+    .bio-header h1 {
+        font-size: 3rem;
+    }
+}
+
+/* ==========================================================================
+   8. FOOTER FANCY FADING (Moderne)
    ========================================================================== */
 .section-dark {
     background-color: var(--provence-sable);
-    /* Retour de la belle couleur Sable ! */
     color: #fff;
     padding-top: 80px;
     padding-bottom: 40px;
 }
 
-.section-dark .link-act {
-    color: #fff;
-    text-decoration: none;
-    transition: opacity 0.3s ease;
+.fancy-footer {
+    position: relative;
+    width: 100%;
+    margin-top: -15rem;
+    padding-top: 15rem;
+    padding-bottom: 5rem;
+    color: var(--couleur-texte); /* Adaptatif */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
 }
 
-.section-dark .link-act:hover {
-    opacity: 0.7;
+/* On force certains textes internes au blanc par défaut SAUF si la variable color a changé en Light Mode */
+.fancy-footer .col2 b,
+.fancy-footer .col3 b {
+    color: var(--couleur-texte) !important;
 }
 
-.logo-footer {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    padding-bottom: 20px;
-    margin-bottom: 60px;
-    text-align: center;
+/* Backdrop du Footer - Adapte son dégradé au fond du site (Blanc ou Noir) */
+.fancy-footer::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* Dégradé calculé sur base blanche pour le Light Mode */
+    background: linear-gradient(
+        rgba(250, 250, 250, 0) 0%,
+        rgba(250, 250, 250, 0.3) 20%,
+        rgba(250, 250, 250, 0.6) 30%,
+        rgba(250, 250, 250, 0.8) 40%,
+        rgba(250, 250, 250, 1) 50%,
+        rgb(250, 250, 250)
+    );
+    z-index: -2;
+    pointer-events: none;
+    transition: background 0.3s ease;
 }
 
-.text-logo {
-    color: #fff;
-    font-size: 10vw;
+[data-theme="dark"] .fancy-footer::before {
+    /* Dégradé Dark Mode */
+    background: linear-gradient(
+        rgba(18, 18, 18, 0) 0%,
+        rgba(18, 18, 18, 0.3) 20%,
+        rgba(18, 18, 18, 0.6) 30%,
+        rgba(18, 18, 18, 0.8) 40%,
+        rgba(18, 18, 18, 1) 50%,
+        rgb(18, 18, 18)
+    );
+}
+
+.footer-backdrop {
+    z-index: -1;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    mask-image: linear-gradient(
+        transparent,
+        rgba(0, 0, 0, 0) 50%,
+        rgba(0, 0, 0, 0.5) 70%,
+        rgba(0, 0, 0, 0.8) 85%,
+        rgba(0, 0, 0, 1) 95%,
+        black
+    );
+    -webkit-mask-image: linear-gradient(
+        transparent,
+        rgba(0, 0, 0, 0) 50%,
+        rgba(0, 0, 0, 0.5) 70%,
+        rgba(0, 0, 0, 0.8) 85%,
+        rgba(0, 0, 0, 1) 95%,
+        black
+    );
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: stretch;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 2vw;
+    gap: 2rem;
+    position: relative;
+    z-index: 10;
+}
+
+.fancy-footer .col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 2.5rem;
+    flex: 1;
+}
+
+/* Boîtes des colonnes : verre clair en Light Mode, verre sombre en Dark */
+.fancy-footer .col2,
+.fancy-footer .col3 {
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.05); /* Apple Glass touch clair */
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+[data-theme="dark"] .fancy-footer .col2,
+[data-theme="dark"] .fancy-footer .col3 {
+    background-color: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Typographie Footer */
+.footer-logo {
+    font-size: 3rem;
     font-family: var(--police-titre);
     font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: var(--provence-violet);
     letter-spacing: 2px;
 }
 
-.menu-footer {
-    width: 90vw;
-    max-width: 1200px;
-    margin: 0 auto 80px auto;
-}
-
-.left-menu-footer ul {
-    list-style: none;
-    margin-bottom: 20px;
-}
-
-.left-menu-footer li {
-    margin-bottom: 12px;
-    font-family: var(--police-titre);
-    font-size: 1.1rem;
-    font-weight: 500;
-}
-
-.social {
-    gap: 20px;
-    margin-top: 30px;
-}
-
-.social li a {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.social li a i {
-    font-size: 1.3rem;
-}
-
-.right-menu-footer {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    text-align: right;
-    font-size: 1.1rem;
+.footer-sub {
     font-family: var(--police-texte);
+    font-size: 1.1rem;
+    color: var(--couleur-texte-secondaire);
+    margin-bottom: 2rem;
+}
+
+.fancy-footer p {
+    margin-bottom: 1rem;
+    font-family: var(--police-texte);
+    font-size: 1.05rem;
+}
+
+.fancy-footer .link-act {
+    color: var(--couleur-texte-secondaire);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.fancy-footer .link-act:hover {
+    color: var(--provence-jaune);
+}
+
+.fancy-footer .social {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
+/* Icônes de réseaux sociaux */
+.fancy-footer .link {
+    width: 45px;
+    height: 45px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    color: var(--couleur-texte-secondaire);
+}
+
+.fancy-footer .link:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+    color: var(--provence-violet);
+}
+
+[data-theme="dark"] .fancy-footer .link {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .fancy-footer .link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .totop {
@@ -505,38 +861,28 @@ html.has-scroll-dragging {
     text-transform: uppercase;
     font-size: 0.9rem;
     letter-spacing: 1px;
-}
-
-.credit {
-    width: 90vw;
-    max-width: 1200px;
-    margin: 0 auto;
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    padding-top: 30px;
-    font-size: 0.9rem;
+    display: inline-flex;
     align-items: center;
-    font-family: var(--police-titre);
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--provence-violet);
+    color: white !important;
+    border-radius: 50px;
+    transition: all 0.3s ease;
 }
 
-.credit .left {
-    display: flex;
-    gap: 40px;
+.totop:hover {
+    background: var(--provence-jaune);
+    color: black !important;
 }
 
-@media (max-width: 768px) {
-
-    .menu-footer,
-    .credit {
+@media screen and (max-width: 900px) {
+    .footer-content {
         flex-direction: column;
-        gap: 40px;
+        padding: 0 5vw;
     }
-
-    .right-menu-footer {
-        text-align: left;
-    }
-
-    .credit .left {
-        flex-direction: column;
-        gap: 15px;
+    .fancy-footer .col {
+        width: 100%;
+        margin-bottom: 1.5rem;
     }
 }
