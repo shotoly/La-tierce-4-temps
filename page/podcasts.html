@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Journaliste</title>
+
+    <!-- Ajout CSS de Locomotive Scroll -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style/pocast.css">
+
+    <!-- Ajout Script (JS) de Locomotive Scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <a href="../index.html">
+                <img src="../logo.svg" alt="Logo Margault, journaliste">
+            </a>
+        </div>
+        <nav class="menu-droite">
+            <ul>
+                <li><a href="#bio">Bio</a></li>
+                <li><a href="../page/podcasts.html">Les podcasts</a></li>
+                <li><a href="#videos">Vidéos</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+
+         <section id="portfolio" data-scroll-section class="p60">
+            <div class="inner-wrap-cards podcast-grid">
+                
+                <a href="article.html" class="link-act event podcast-card">
+                    <div class="cover">
+                        <picture>
+                            <img src="../img/curtism.jpg" alt="Interview Curtis M">
+                        </picture>
+                        <div class="lespastilles">
+                            <div class="pastille interview">Interview</div>
+                            <div class="p-etat">Nouveau</div>
+                        </div>
+                    </div>
+                    <div class="flex-info">
+                        <h2 class="date-event">05 <span>―</span> mars 2026</h2>
+                        <h5 class="style">Culture</h5>
+                    </div>
+                    <h3 class="name-event">Rencontre avec Curtis M.</h3>
+                </a>
+
+                <a href="../article.html" class="link-act event podcast-card">
+                    <div class="cover">
+                        <picture>
+                            <img src="../img/michel.jpg" alt="Podcast Michel">
+                        </picture>
+                        <div class="lespastilles">
+                            <div class="pastille podcast">Podcast</div>
+                        </div>
+                    </div>
+                    <div class="flex-info">
+                        <h2 class="date-event">28 <span>―</span> février 2026</h2>
+                        <h5 class="style">Société</h5>
+                    </div>
+                    <h3 class="name-event">Michel : Décryptage</h3>
+                </a>
+
+                <a href="../article.html" class="link-act event podcast-card">
+                    <div class="cover">
+                        <picture>
+                            <img src="../img/Loucas.jpg" alt="Enquête Loucas">
+                        </picture>
+                        <div class="lespastilles">
+                            <div class="pastille article">Reportage</div>
+                        </div>
+                    </div>
+                    <div class="flex-info">
+                        <h2 class="date-event">15 <span>―</span> janvier 2026</h2>
+                        <h5 class="style">Investigation</h5>
+                    </div>
+                    <h3 class="name-event">Dans les coulisses avec Loucas</h3>
+                </a>
+                
+                </div>
+        </section>
+
+
+
+        <!-- Section Footer DA Trabendo (Noir Brutal) -->
+        <section class="footer section-dark" data-scroll-section>
+            <!-- Wrapper pour créer un léger effet de remorquage/inertie -->
+            <div class="footer-wrapper" data-scroll data-scroll-speed="1.5">
+                <div class="inner-wrap">
+                    <!-- Grand Titre / Logo -->
+                    <div class="logo-footer">
+                        <span class="gTitre text-logo">MARGAULT</span>
+                    </div>
+
+                    <div class="menu-footer flex">
+                        <div class="left-menu-footer">
+                            <ul>
+                                <li><a class="link-act" href="a-propos.html">À propos</a></li>
+                                <li><a class="link-act" href="contact.html">Contact</a></li>
+                                <li><a href="#" class="link-act">Newsletter</a></li>
+                            </ul>
+                            <ul class="social flex">
+                                <li><a href="#" target="_blank" class="link-act">Instagram</a></li>
+                                <li><a href="#" target="_blank" class="link-act">LinkedIn</a></li>
+                                <li><a href="#" target="_blank" class="link-act">Twitter</a></li>
+                            </ul>
+                        </div>
+                        <div class="right-menu-footer">
+                            <span>saint max, France<br>Journaliste Indépendante & Podcasts</span>
+                            <span>contact@margault.exemple</span>
+                            <div class="totop-wrapper">
+                                <!-- Lien pour Locomotive Scroll afin de remonter en haut -->
+                                <a href="#hero" class="totop link-act" data-scroll-to>Retour en haut ↗</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="credit flex">
+                        <div class="left">
+                            <span class="copy">© 2026 Margault</span>
+                            <a href="#" class="link-act">Mentions légales</a>
+                        </div>
+                        <div class="right">
+                            <a href="#" class="link-act">Design inspiré du Trabendo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>

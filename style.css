@@ -1,0 +1,356 @@
+/* ==========================================================================
+   1. RESET CSS & VARIABLES (DA Provence Épurée)
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Votre Palette Provence */
+    --provence-jaune: #F6D10A;
+    --provence-vert: #B5C61E;
+    --provence-violet: #AF58B9;
+    --provence-bleu: #88BCEC;
+    --provence-sable: #D9B573;
+
+    /* Couleurs de base épurées */
+    --couleur-fond: #FDFCF8; /* Un blanc très légèrement chaud (coquille d'oeuf) */
+    --couleur-texte: #2D2A26; /* Gris/brun très foncé pour adoucir la lecture par rapport au noir pur */
+    --couleur-texte-secondaire: #5C5854;
+
+    /* Typographie */
+    --police-texte: 'Georgia', serif; /* Classique et parfait pour les longs articles */
+    --police-titre: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Moderne, sans empattements */
+}
+
+body {
+    background-color: var(--couleur-fond);
+    color: var(--couleur-texte);
+    font-family: var(--police-texte);
+    line-height: 1.7;
+}
+
+/* ==========================================================================
+   2. EN-TÊTE ET NAVIGATION
+   ========================================================================== */
+.navbar {
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    background-color: rgba(253, 252, 248, 0.95); /* Légèrement transparent */
+    backdrop-filter: blur(5px); /* Effet verre moderne */
+    border-bottom: 1px solid rgba(217, 181, 115, 0.3); /* Ligne subtile couleur sable */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+    display: block;
+}
+
+.logo a {
+    font-family: var(--police-titre);
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--provence-violet); /* Touche de couleur élégante sur le nom */
+    letter-spacing: 1px;
+}
+
+.menu-droite ul {
+    display: flex;
+    list-style: none;
+    gap: 40px;
+}
+
+.menu-droite a {
+    text-decoration: none;
+    color: var(--couleur-texte);
+    font-family: var(--police-titre);
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.menu-droite a:hover {
+    color: var(--provence-violet);
+}
+
+/* ==========================================================================
+   3. HERO SECTION (Accueil)
+   ========================================================================== */
+#hero {
+    height: calc(100vh - 80px);
+    background-image: url('img/randonnee_sainte_victoire_74311b1c7a.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Overlay doux sur l'image pour que ce soit épuré */
+#hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(253, 252, 248, 0.4);
+}
+
+.hero-texte {
+    background-color: rgba(253, 252, 248, 0.95);
+    padding: 50px 70px;
+    text-align: center;
+    border-radius: 16px; /* Bords arrondis modernes */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05); /* Ombre très douce */
+    position: relative;
+    z-index: 2;
+}
+
+.hero-texte h1 {
+    font-size: 3.5rem;
+    font-family: var(--police-titre);
+    font-weight: 700;
+    color: var(--provence-violet);
+    margin-bottom: 10px;
+    letter-spacing: -0.02em;
+}
+
+.hero-texte p {
+    font-size: 1.2rem;
+    color: var(--couleur-texte-secondaire);
+}
+
+/* ==========================================================================
+   4. TITRES GÉANTS (Adoucis)
+   ========================================================================== */
+.section-titre-geants {
+    padding: 8vw 0;
+    overflow: hidden;
+    background-color: #fff; /* Fait respirer la page */
+}
+
+.inner-wrap {
+    width: 100vw;
+    margin: 0;
+}
+
+.gTitre {
+    font-family: var(--police-titre);
+    font-size: 8vw; /* Un peu plus petit et raffiné */
+    font-weight: 300; /* Moins agressif */
+    line-height: 1.1;
+    color: var(--provence-sable); /* Couleur sable douce */
+    white-space: nowrap;
+}
+
+.line-flex {
+    display: flex;
+    overflow: hidden;
+}
+
+.split {
+    display: inline-block;
+    will-change: transform;
+}
+
+.gTitre.au {
+    margin-right: 2vw;
+    font-style: italic; /* Touche éditoriale */
+    color: var(--provence-bleu);
+}
+
+html.has-scroll-smooth { overflow: hidden; }
+html.has-scroll-dragging { user-select: none; }
+.has-scroll-smooth body { overflow: hidden; }
+
+
+
+/* ==========================================================================
+   6. SECTION A PROPOS (BIO)
+   ========================================================================== */
+.section-bio {
+    background-color: rgba(217, 181, 115, 0.1); /* Fond sable très clair */
+    padding-top: 120px;
+    padding-bottom: 120px;
+}
+
+.inner-bio {
+    width: 90vw;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: center; /* Centrage vertical */
+}
+
+.bio-image-col { width: 40%; position: relative; }
+.bio-text-col { width: 55%; padding-left: 5%; }
+
+@media (max-width: 768px) {
+    .bio-image-col, .bio-text-col { width: 100%; padding-left: 0; }
+    .bio-text-col { margin-top: 60px; }
+}
+
+/* Images Modernes et raffinées */
+.brutal-cover {
+    width: 100%;
+    border-radius: 200px 200px 0 0; /* Forme d'arche très tendance */
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(175, 88, 185, 0.1); /* Ombre violette douce */
+}
+
+.brutal-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    aspect-ratio: 3 / 4;
+}
+
+.small-bio-pic {
+    width: 50%;
+    margin-top: -20%;
+    margin-left: 60%;
+    border-radius: 50%; /* Image circulaire en superposition */
+    border: 8px solid var(--couleur-fond);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+.small-bio-pic img { aspect-ratio: 1 / 1; }
+
+/* Texte Bio */
+.bio-title {
+    font-size: 3.5rem;
+    font-family: var(--police-texte);
+    font-style: italic;
+    color: var(--provence-violet);
+    margin-bottom: 10px;
+}
+
+.multi-col {
+    column-count: 2;
+    column-gap: 40px;
+    margin-top: 30px;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--couleur-texte-secondaire);
+}
+
+.multi-col p { margin-bottom: 20px; break-inside: avoid; }
+
+@media (max-width: 768px) { .multi-col { column-count: 1; } }
+
+/* Bouton Moderne */
+.btn-brutal {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 16px 36px;
+    background-color: var(--provence-jaune);
+    color: var(--couleur-texte);
+    font-family: var(--police-titre);
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 50px; /* Bouton pilule */
+    box-shadow: 0 8px 20px rgba(246, 209, 10, 0.4);
+    transition: all 0.3s ease;
+}
+
+.btn-brutal:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(246, 209, 10, 0.6);
+}
+
+/* ==========================================================================
+   7. FOOTER (Sable & Élégance)
+   ========================================================================== */
+.section-dark {
+    background-color: var(--provence-sable);
+    color: #fff;
+    padding-top: 80px;
+    padding-bottom: 30px;
+}
+
+.section-dark .link-act {
+    color: #fff;
+    transition: opacity 0.3s ease;
+}
+.section-dark .link-act:hover { opacity: 0.7; }
+
+.logo-footer {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding-bottom: 20px;
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.text-logo {
+    color: #fff;
+    font-size: 10vw;
+    font-family: var(--police-titre);
+    font-weight: 300;
+    letter-spacing: 5px;
+}
+
+.menu-footer {
+    width: 90vw;
+    max-width: 1200px;
+    margin: 0 auto 80px auto;
+    justify-content: space-between;
+}
+
+.left-menu-footer ul { list-style: none; margin-bottom: 20px; }
+
+.left-menu-footer li {
+    margin-bottom: 12px;
+    font-family: var(--police-titre);
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.social.flex { gap: 20px; margin-top: 30px; }
+
+.right-menu-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: right;
+    font-size: 1.1rem;
+    font-family: var(--police-texte);
+}
+
+.totop {
+    font-family: var(--police-titre);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.credit {
+    width: 90vw;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    padding-top: 30px;
+    font-size: 0.9rem;
+    align-items: center;
+    font-family: var(--police-titre);
+}
+
+.credit .left { display: flex; gap: 40px; }
+
+@media (max-width: 768px) {
+    .menu-footer, .credit { flex-direction: column; gap: 40px; }
+    .right-menu-footer { text-align: left; }
+    .credit .left { flex-direction: column; gap: 15px; }
+}

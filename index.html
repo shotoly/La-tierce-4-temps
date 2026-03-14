@@ -4,171 +4,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏠 Accueil</title>
-    <link rel="stylesheet" href="style/styleindex.css">
-    <link rel="stylesheet" href="style/card.css">
-    <link rel="stylesheet" href="style/mainstyle.css">
-    <link rel="stylesheet" href="style/menu_index.css"> <!-- Inclure ton fichier CSS ici -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="style/footer.css">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <title>Portfolio - Journaliste</title>
 
-    <link rel="shortcut icon" href="photo/logo.svg">
+    <!-- Ajout CSS de Locomotive Scroll -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style/cardmain.css">
+
+    <!-- Ajout Script (JS) de Locomotive Scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
 </head>
 
 <body>
-    <div class="cardnav">
-        <header>
+    <header class="navbar">
+        <div class="logo">
+            <a href="../index.html">
+                <img src="../logo.svg" alt="Logo Margault, journaliste">
+            </a>
+        </div>
+        <nav class="menu-droite">
+            <ul>
+                <li><a href="#bio">Bio</a></li>
+                <li><a href="../page/podcasts.html">Les podcasts</a></li>
+                <li><a href="#videos">Vidéos</a></li>
+            </ul>
+        </nav>
+    </header>
 
-            <div class="lang-btncontaineindex">
-                <a href="index.html" class="logo-container">
-                    <img src="photo/logo.svg" alt="logo" class="logo" />
+    <!-- Locomotive Scroll nécessite un "Container" global -->
+    <main data-scroll-container>
+        <section id="hero" data-scroll-section>
+            <div class="hero-texte">
+                <h1>Margault</h1>
+                <p>Journaliste & Créatrice de podcasts</p>
+            </div>
+        </section>
+
+        <!-- Nouvelle Section DA Trabendo -->
+        <section class="section-titre-geants" data-scroll-section>
+            <div class="inner-wrap">
+                <div class="gTitre">
+                    <div class="line-flex">
+                        <!-- data-scroll-direction="horizontal" et speed font glisser les lettres ! -->
+                        <span class="gTitre split" data-scroll data-scroll-direction="horizontal"
+                            data-scroll-speed="-5">Mes Derniers</span>
+                    </div>
+                    <div class="line-flex">
+                        <span class="gTitre split" data-scroll data-scroll-direction="horizontal"
+                            data-scroll-speed="3">reportages et</span>
+                    </div>
+                    <div class="line-flex">
+                        <span class="gTitre split au" data-scroll data-scroll-direction="horizontal"
+                            data-scroll-speed="-8">articles</span>
+                        <span class="gTitre split" data-scroll data-scroll-direction="horizontal"
+                            data-scroll-speed="6">en ligne</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio" data-scroll-section class="p60">
+            <div class="inner-wrap-cards flex">
+                <!-- Grande carte "À la une" -->
+                <a href="article.html" class="link-act FourC bigone event">
+                    <div class="cover">
+                        <picture>
+                            <img src="img/curtism.jpg" alt="Interview Curtis M">
+                        </picture>
+                        <div class="lespastilles">
+                            <div class="pastille interview">Interview</div>
+                            <div class="p-etat">Nouveau</div>
+                        </div>
+                    </div>
+                    <div class="flex-info">
+                        <h2 class="date-event">05 <span>―</span> mars 2026</h2>
+                        <h5 class="style">Culture</h5>
+                    </div>
+                    <h3 class="name-event">Rencontre avec Curtis M.</h3>
                 </a>
 
-            </div>
-            <nav>
-                <ul class="menuindex">
-                    <li><a href="../index.html">Acceuil</a></li>
-                    <li><a href="../pages/Les_artistes.html">Les artistes</a></li>
-                    <li><a href="../pages/ClassEurock.html">Class'Eurock</a></li>
-                    <li><a href="../pages/Contact.html">Contact</a></li>
-                </ul>
-            </nav>
-            <button class="hamburger" id="hamburger">&#9776;</button>
+                <!-- Colonne droite avec petites cartes (empilées) -->
+                <div class="FourC flex-col desktop">
 
-        </header>
-    </div>
-    <main>
-        <h1> Bienvenue dans mon portfolio</h1>
-    </br>
-    </br>
-    </br>
+                    <!-- Petite carte 1 -->
+                    <a href="../article.html" class="link-act event">
+                        <div class="TwoC cover">
+                            <picture>
+                                <img src="../img/michel.jpg" alt="Podcast Michel">
+                            </picture>
+                            <div class="lespastilles">
+                                <div class="pastille podcast">Podcast</div>
+                            </div>
+                        </div>
+                        <div class="flex-info">
+                            <h2 class="date-event">28 <span>―</span> février 2026</h2>
+                            <h5 class="style">Société</h5>
+                        </div>
+                        <h3 class="name-event twoC-name-event">Michel : Décryptage</h3>
+                    </a>
 
-        <div class="page-content">
-            <div class="card">
-                <div class="content">
-                    <h2 class="title">Beatles</h2>
-                    <p class="copy">Découvrez l'incroyable retour des Beatles avec un ultime titre inédit,
-                        miraculeusement ressuscité par la magie de l'intelligence artificielle.</p>
-                    <button class="btn">Mon interview</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="content">
-                    <h2 class="title">To The Beach</h2>
-                    <p class="copy">Plan your next beach trip with these fabulous destinations</p>
-                    <button class="btn">View Trips</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="content">
-                    <h2 class="title">Desert Destinations</h2>
-                    <p class="copy">It's the desert you've always dreamed of</p>
-                    <button class="btn">Book Now</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="content">
-                    <h2 class="title">Explore The Galaxy</h2>
-                    <p class="copy">Seriously, straight up, just blast off into outer space today</p>
-                    <button class="btn">Book Now</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="content">
-                    <h2 class="title">Beatles</h2>
-                    <p class="copy">Découvrez l'incroyable retour des Beatles avec un ultime titre inédit,
-                        miraculeusement ressuscité par la magie de l'intelligence artificielle.</p>
-                    <button class="btn">Mon interview</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="content">
-                    <h2 class="title">To The Beach</h2>
-                    <p class="copy">Plan your next beach trip with these fabulous destinations</p>
-                    <button class="btn">View Trips</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="content">
-                    <h2 class="title">Desert Destinations</h2>
-                    <p class="copy">It's the desert you've always dreamed of</p>
-                    <button class="btn">Book Now</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="content">
-                    <h2 class="title">Explore The Galaxy</h2>
-                    <p class="copy">Seriously, straight up, just blast off into outer space today</p>
-                    <button class="btn">Book Now</button>
-                </div>
-            </div>
+                    <!-- Petite carte 2 -->
+                    <a href="../article.html" class="link-act event">
+                        <div class="TwoC cover">
+                            <picture>
+                                <img src="../img/Loucas.jpg" alt="Enquête Loucas">
+                            </picture>
+                            <div class="lespastilles">
+                                <div class="pastille article">Reportage</div>
+                            </div>
+                        </div>
+                        <div class="flex-info">
+                            <h2 class="date-event">15 <span>―</span> janvier 2026</h2>
+                            <h5 class="style">Investigation</h5>
+                        </div>
+                        <h3 class="name-event twoC-name-event">Dans les coulisses avec Loucas</h3>
+                    </a>
 
-        </div>
+                </div>
+            </div>
+        </section>
 
+        <!-- Nouvelle Section DA Trabendo pour "Mais qui est la tierce à 4 temps" -->
+        <section class="section-titre-geants" data-scroll-section>
+            <div class="inner-wrap">
+                <div class="gTitre">
+                    <div class="line-flex">
+                        <span class="gTitre split" data-scroll data-scroll-direction="horizontal"
+                            data-scroll-speed="-5">Mais qui</span>
+                    </div>
+                    <div class="line-flex">
+                        <span class="gTitre split" data-scroll data-scroll-direction="horizontal"
+                            data-scroll-speed="3">est la</span>
+                    </div>
+                    <div class="line-flex">
+                        <span class="gTitre split au" data-scroll data-scroll-direction="horizontal"
+                            data-scroll-speed="-8">tierce à 4</span>
+                        <span class="gTitre split" data-scroll data-scroll-direction="horizontal"
+                            data-scroll-speed="6">temps</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section A Propos (Bio) : DA Trabendo Brutaliste & Magazine -->
+        <section id="a-propos" data-scroll-section class="p60 section-bio">
+            <div class="inner-wrap inner-bio flex">
+
+                <!-- Colonne Gauche : Photo asymétrique -->
+                <div class="bio-image-col">
+                    <div class="brutal-cover" data-scroll data-scroll-speed="1.5">
+                        <img src="../img/Yelisa.jpg" alt="Portrait Générique 1">
+                        <div class="lespastilles">
+                            <div class="pastille article">LA BIO</div>
+                        </div>
+                    </div>
+                    <!-- Deuxième petite image asymétrique en dessous -->
+                    <div class="brutal-cover small-bio-pic" data-scroll data-scroll-speed="3">
+                        <img src="../img/charlyetmargault.jpg" alt="Portrait Générique 2">
+                    </div>
+                </div>
+
+                <!-- Colonne Droite : Texte / Prose Magazine -->
+                <div class="bio-text-col">
+                    <h2 class="name-event bio-title" data-scroll data-scroll-speed="0.5">La Prose & <br>L'Image</h2>
+                    <h5 class="style">Journaliste Indépendante</h5>
+
+                    <div class="bio-content multi-col">
+                        <p><strong>[Insérez votre présentation ici]</strong> Lorem ipsum dolor sit amet, consectetur
+                            adipiscing elit. Morbi tristique odio eu felis congue, at pretium lectus commodo.
+                            Pellentesque elementum nulla at tellus cursus, eu finibus nisi venenatis.</p>
+                        <p>Suspendisse potenti. Mauris vel tellus imperdiet, elementum turpis in, egestas ligula. Nam
+                            consequat fringilla dui, at dapibus est lacinia in. Aenean ullamcorper, eros sed tristique
+                            condimentum, nisl leo congue felis, vel sollicitudin est lorem congue sed.</p>
+                        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;
+                            Aliquam erat volutpat. Integer sit amet aliquet ipsum. Fusce commodo magna tellus, ac
+                            malesuada mauris auctor nec. Suspendisse eu turpis eget purus venenatis scelerisque in
+                            ullamcorper sed.</p>
+                    </div>
+
+                    <a href="mailto:contact@exemple.com" class="btn-brutal">Me Contacter</a>
+                </div>
+
+            </div>
+        </section>
+        <!-- Section Footer DA Trabendo (Noir Brutal) -->
+        <section class="footer section-dark" data-scroll-section>
+            <!-- Wrapper pour créer un léger effet de remorquage/inertie -->
+            <div class="footer-wrapper" data-scroll data-scroll-speed="1.5">
+                <div class="inner-wrap">
+                    <!-- Grand Titre / Logo -->
+                    <div class="logo-footer">
+                        <span class="gTitre text-logo">MARGAULT</span>
+                    </div>
+
+                    <div class="menu-footer flex">
+                        <div class="left-menu-footer">
+                            <ul>
+                                <li><a class="link-act" href="../a-propos.html">À propos</a></li>
+                                <li><a class="link-act" href="../contact.html">Contact</a></li>
+                                <li><a href="#" class="link-act">Newsletter</a></li>
+                            </ul>
+                            <ul class="social flex">
+                                <li><a href="#" target="_blank" class="link-act">Instagram</a></li>
+                                <li><a href="#" target="_blank" class="link-act">LinkedIn</a></li>
+                                <li><a href="#" target="_blank" class="link-act">Twitter</a></li>
+                            </ul>
+                        </div>
+                        <div class="right-menu-footer">
+                            <span>saint max, France<br>Journaliste Indépendante & Podcasts</span>
+                            <span>contact@margault.exemple</span>
+                            <div class="totop-wrapper">
+                                <!-- Lien pour Locomotive Scroll afin de remonter en haut -->
+                                <a href="#hero" class="totop link-act" data-scroll-to>Retour en haut ↗</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="credit flex">
+                        <div class="left">
+                            <span class="copy">© 2026 Margault</span>
+                            <a href="#" class="link-act">Mentions légales</a>
+                        </div>
+                        <div class="right">
+                            <a href="#" class="link-act">Design inspiré du Trabendo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
-    <footer class="site-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 col-md-6">
-                    <h6>About Me</h6>
-                    <p data-i18n="about-me" style="text-align: justify; color: #737373;">Étudiant en deuxième année de
-                        BUT GEII à Salon-de-Provence, je
-                        suis passionné
-                        par la
-                        conception d'objets techniques et la création de solutions innovantes. Mon portfolio présente
-                        mes projets
-                        académiques et personnels, illustrant mes compétences en électronique, automatisme et impression
-                        3D</p>
-                </div>
 
-                <div class="col-xs-6 col-md-3">
-                    <h6>Categories</h6>
-                    <ul class="footer-links">
-                        <li><a data-i18n="Mes-cours" href="pages/Educatif.html">Mes cours</a></li>
-                        <li><a data-i18n="Mes-projets" href="pages/personnel/personnel.html">Mes projets personnels</a>
-                        </li>
-                        <li><a data-i18n="guide-mersure" href="fichier/notice.pdf" target="_blank">Le guide de la
-                                mersure</a></li>
-                        <li><a data-i18n="Mon-CV" href="fichier/CV_JALLADE_Robin.pdf" target="_blank">Mon CV</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-xs-6 col-md-3">
-                    <h6>Quick Links</h6>
-                    <ul class="footer-links">
-                        <li><a href="pages/personnel/personnel.html">About Me</a></li>
-                        <li><a href="pages/Contact.html">Contact Me</a></li>
-                        <li><a data-i18n="ou-me-trouver" href="https://maps.app.goo.gl/DXBJZNzrCKRoQ6Eo9">Oû me
-                                trouver</a></li>
-                    </ul>
-                </div>
-            </div>
-            <hr>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 col-sm-6 col-xs-12">
-                    <p class="copyright-text">Copyright &copy; 2024 All Rights Reserved by
-                        <a href="#">Objex3D</a>.
-                    </p>
-                </div>
-
-                <div class="col-md-4 col-sm-6 col-xs-12">
-                    <ul class="social-icons">
-                        <li><a class="facebook" href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                        <li><a class="map" href="https://maps.app.goo.gl/1hW8uRM92qECqcfW9" target="_blank"><i
-                                    class="fa fa-map-o"></i></a></li>
-                        <li><a class="instagram"
-                                href="https://www.instagram.com/objex.3d/profilecard/?igsh=dXczbXB1MGtrZTJr"
-                                target="_blank"><i class="fa fa-instagram"></i></a></li>
-                        <li><a class="linkedin" href="https://www.linkedin.com/in/robin-jallade-6732392ba"
-                                target="_blank"><i class="fa fa-linkedin"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+    <footer>
     </footer>
 
+    <script src="script.js"></script>
 </body>
+
+</html>
