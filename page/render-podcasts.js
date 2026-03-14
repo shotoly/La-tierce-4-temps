@@ -1,9 +1,9 @@
-// Fonction pour formater la date (ex: 2026-03-05 -> 05 mars 2026)
+// Fonction pour formater la date
 function formaterDate(dateString) {
+    if (!dateString) return "";
     const options = { day: '2-digit', month: 'long', year: 'numeric' };
     const date = new Date(dateString);
     let formated = date.toLocaleDateString('fr-FR', options);
-    // Sépare le jour du reste pour faire le style avec le tiret
     let parts = formated.split(' ');
     if (parts.length === 3) {
         return `${parts[0]} <span>―</span> ${parts[1]} ${parts[2]}`;
@@ -13,9 +13,10 @@ function formaterDate(dateString) {
 
 // Fonction pour déterminer la couleur de la pastille
 function getClassePastille(categorie) {
+    if (!categorie) return 'pastille article';
     if (categorie.toLowerCase() === 'podcast') return 'pastille podcast';
     if (categorie.toLowerCase() === 'interview') return 'pastille interview';
-    return 'pastille article'; // Par défaut
+    return 'pastille article';
 }
 
 // Récupération des données et affichage
@@ -23,14 +24,16 @@ fetch('donnees.json')
     .then(response => response.json())
     .then(articles => {
         const conteneur = document.getElementById('grille-podcasts');
-        conteneur.innerHTML = ''; // On vide le "Chargement..."
+        conteneur.innerHTML = ''; // On vide le message de chargement
 
         articles.forEach(article => {
-                const urlDestination = article.lien ? article.lien : `article.html?id = ${ article.id }`;
-                const target = article.lien ? `target = "_blank"` : ``;
+            // Logique du lien (si Notion contient un lien, on l'utilise, sinon on ouvre la page article)
+            const urlDestination = article.lien ? article.lien : `article.html?id=${article.id}`;
+            const target = article.lien ? `target="_blank"` : ``;
 
-                const carteHTML = `
-                < a href = "${urlDestination}" class="link-act event podcast-card" ${ target }>
+            // Construction de la carte (Attention aux espaces autour des balises !)
+            const carteHTML = `
+                <a href="${urlDestination}" class="link-act event podcast-card" ${target}>
                     <div class="cover">
                         <picture>
                             <img src="${article.image}" alt="${article.titre}">
@@ -43,8 +46,8 @@ fetch('donnees.json')
                         <h2 class="date-event">${formaterDate(article.date)}</h2>
                     </div>
                     <h3 class="name-event">${article.titre}</h3>
-                </a >
-                `;
+                </a>
+            `;
             conteneur.innerHTML += carteHTML;
         });
     })
