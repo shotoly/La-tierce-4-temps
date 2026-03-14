@@ -35,6 +35,12 @@ async function fetchNotionData() {
                 const imgFichier = page.properties["Image"].files[0];
                 image = imgFichier.type === 'file' ? imgFichier.file.url : imgFichier.external.url;
             }
+            // Récupération du fichier Audio
+            let audioUrl = ""; 
+            if (page.properties["Audio"]?.files?.length > 0) {
+                const audioFichier = page.properties["Audio"].files[0];
+                audioUrl = audioFichier.type === 'file' ? audioFichier.file.url : audioFichier.external.url;
+            }
 
             // --- LA MAGIE OPÈRE ICI ---
             // On récupère le contenu écrit DANS la page Notion
@@ -53,7 +59,8 @@ async function fetchNotionData() {
             const contenuHtml = marked.parse(texteMarkdown);
 
            // ... fin de la magie (ligne 46 environ)
-            return { id, titre, date, categorie, lien, image, contenu: contenuHtml };
+            return { id, titre, date, categorie, lien, image, audio: audioUrl, contenu: contenuHtml };        
+        
         })); // <-- Fin du Promise.all
 
         // NOUVEAU : On supprime les articles qui n'ont pas de vrai titre (les lignes vides)
