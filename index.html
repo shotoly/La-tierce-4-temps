@@ -6,33 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - Journaliste</title>
 
-    <!-- Ajout CSS de Locomotive Scroll -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
-    <link rel="stylesheet" href="../style.css">
-    <link rel="stylesheet" href="../style/cardmain.css">
-    <link rel="stylesheet" href=";../style/pocast.css">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style/cardmain.css">
+    <link rel="stylesheet" href="style/pocast.css">
 
-    <!-- Ajout Script (JS) de Locomotive Scroll -->
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
 </head>
 
 <body>
     <header class="navbar">
         <div class="logo">
-            <a href="../index.html">
-                <img src="../logo.svg" alt="Logo Margault, journaliste">
+            <a href="index.html">
+                <img src="logo.svg" alt="Logo Margault, journaliste">
             </a>
         </div>
         <nav class="menu-droite">
             <ul>
-                <li><a href="#bio">Bio</a></li>
-                <li><a href="../page/podcasts.html">Les podcasts</a></li>
+                <li><a href="#a-propos">Bio</a></li>
+                <li><a href="page/podcasts.html">Les podcasts</a></li>
                 <li><a href="#videos">Vidéos</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Locomotive Scroll nécessite un "Container" global -->
     <main data-scroll-container>
         <section id="hero" data-scroll-section>
             <div class="hero-texte">
@@ -41,12 +39,10 @@
             </div>
         </section>
 
-        <!-- Nouvelle Section DA Trabendo -->
         <section class="section-titre-geants" data-scroll-section>
             <div class="inner-wrap">
                 <div class="gTitre">
                     <div class="line-flex">
-                        <!-- data-scroll-direction="horizontal" et speed font glisser les lettres ! -->
                         <span class="gTitre split" data-scroll data-scroll-direction="horizontal"
                             data-scroll-speed="-5">Mes Derniers</span>
                     </div>
@@ -76,7 +72,6 @@
 
         </section>
 
-        <!-- Nouvelle Section DA Trabendo pour "Mais qui est la tierce à 4 temps" -->
         <section class="section-titre-geants" data-scroll-section>
             <div class="inner-wrap">
                 <div class="gTitre">
@@ -98,25 +93,21 @@
             </div>
         </section>
 
-        <!-- Section A Propos (Bio) : DA Trabendo Brutaliste & Magazine -->
         <section id="a-propos" data-scroll-section class="p60 section-bio">
             <div class="inner-wrap inner-bio flex">
 
-                <!-- Colonne Gauche : Photo asymétrique -->
                 <div class="bio-image-col">
                     <div class="brutal-cover" data-scroll data-scroll-speed="1.5">
-                        <img src="../img/Yelisa.jpg" alt="Portrait Générique 1">
+                        <img src="img/Yelisa.jpg" alt="Portrait Générique 1">
                         <div class="lespastilles">
                             <div class="pastille article">LA BIO</div>
                         </div>
                     </div>
-                    <!-- Deuxième petite image asymétrique en dessous -->
                     <div class="brutal-cover small-bio-pic" data-scroll data-scroll-speed="3">
-                        <img src="../img/charlyetmargault.jpg" alt="Portrait Générique 2">
+                        <img src="img/charlyetmargault.jpg" alt="Portrait Générique 2">
                     </div>
                 </div>
 
-                <!-- Colonne Droite : Texte / Prose Magazine -->
                 <div class="bio-text-col">
                     <h2 class="name-event bio-title" data-scroll data-scroll-speed="0.5">La Prose & <br>L'Image</h2>
                     <h5 class="style">Journaliste Indépendante</h5>
@@ -139,12 +130,10 @@
 
             </div>
         </section>
-        <!-- Section Footer DA Trabendo (Noir Brutal) -->
+        
         <section class="footer section-dark" data-scroll-section>
-            <!-- Wrapper pour créer un léger effet de remorquage/inertie -->
             <div class="footer-wrapper" data-scroll data-scroll-speed="1.5">
                 <div class="inner-wrap">
-                    <!-- Grand Titre / Logo -->
                     <div class="logo-footer">
                         <span class="gTitre text-logo">MARGAULT</span>
                     </div>
@@ -152,8 +141,8 @@
                     <div class="menu-footer flex">
                         <div class="left-menu-footer">
                             <ul>
-                                <li><a class="link-act" href="../a-propos.html">À propos</a></li>
-                                <li><a class="link-act" href="../contact.html">Contact</a></li>
+                                <li><a class="link-act" href="a-propos.html">À propos</a></li>
+                                <li><a class="link-act" href="contact.html">Contact</a></li>
                                 <li><a href="#" class="link-act">Newsletter</a></li>
                             </ul>
                             <ul class="social flex">
@@ -166,7 +155,6 @@
                             <span>saint max, France<br>Journaliste Indépendante & Podcasts</span>
                             <span>contact@margault.exemple</span>
                             <div class="totop-wrapper">
-                                <!-- Lien pour Locomotive Scroll afin de remonter en haut -->
                                 <a href="#hero" class="totop link-act" data-scroll-to>Retour en haut ↗</a>
                             </div>
                         </div>
@@ -186,8 +174,6 @@
         </section>
     </main>
 
-    <footer>
-    </footer>
     <script src="render-accueil.js"></script>
     <script src="script.js"></script>
 </body>
