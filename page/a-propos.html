@@ -7,18 +7,28 @@
     <title>À propos - Margault</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
-    
+
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../style/cardmain.css">
     <link rel="stylesheet" href="../style/pocast.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=Outfit:wght@400;600;800&display=swap"
+        rel="stylesheet">
 
 
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
 </head>
 
 <body>
+    <!-- LOADING SCREEN INSPIRÉ DE TRABENDO -->
+    <div id="preload" class="screen">
+        <div class="pan pan1"></div>
+        <div class="pan pan2"></div>
+        <div class="pan pan3"></div>
+        <div class="pan pan4"></div>
+    </div>
+
     <header class="navbar">
         <div class="logo">
             <a href="../index.html">
@@ -31,7 +41,8 @@
         <nav class="menu-droite">
             <ul>
                 <li><a href="../index.html"><i class="fa-solid fa-house"></i> Accueil</a></li>
-                <li><a href="a-propos.html" style="color: var(--provence-violet);"><i class="fa-solid fa-user-pen"></i> Bio</a></li>
+                <li><a href="a-propos.html" style="color: var(--provence-violet);"><i class="fa-solid fa-user-pen"></i>
+                        Bio</a></li>
                 <li><a href="podcasts.html"><i class="fa-solid fa-microphone-lines"></i> Les podcasts</a></li>
                 <li id="theme-toggle-li"><a href="#" id="theme-toggle"><i class="fa-solid fa-moon"></i></a></li>
             </ul>
@@ -39,11 +50,11 @@
     </header>
 
     <main data-scroll-container>
-        
+
         <section class="bio-header" data-scroll-section>
             <div class="bio-blob"></div>
             <div class="bio-header-content" data-scroll data-scroll-speed="2">
-                <h1>À propos de <br/>Margault</h1>
+                <h1>À propos de <br />Margault</h1>
                 <p class="subtitle">La voix derrière les podcasts et la plume derrière les articles.</p>
             </div>
         </section>
@@ -56,37 +67,49 @@
                 </div>
                 <div class="bio-text-content" data-scroll data-scroll-speed="0.5">
                     <p class="bio-text-large">
-                        <strong>Passionnée par les récits authentiques</strong>, je parcours le monde pour dénicher des histoires qui méritent d'être racontées. Mon approche journalistique se veut à la fois rigoureuse et profondément humaine, plaçant toujours la parole des témoins au cœur du sujet.
+                        <strong>Passionnée par les récits authentiques</strong>, je parcours le monde pour dénicher des
+                        histoires qui méritent d'être racontées. Mon approche journalistique se veut à la fois
+                        rigoureuse et profondément humaine, plaçant toujours la parole des témoins au cœur du sujet.
                     </p>
                     <p class="bio-text-large">
-                        Après plusieurs années passées dans les rédactions parisiennes, j'ai choisi l'indépendance pour me consacrer pleinement à des <strong>enquêtes de fond</strong> et à la réalisation de documentaires sonores. Le podcast m'offre un espace de liberté inédit, où le silence et l'intonation en disent parfois aussi long qu'une page de texte.
+                        Après plusieurs années passées dans les rédactions parisiennes, j'ai choisi l'indépendance pour
+                        me consacrer pleinement à des <strong>enquêtes de fond</strong> et à la réalisation de
+                        documentaires sonores. Le podcast m'offre un espace de liberté inédit, où le silence et
+                        l'intonation en disent parfois aussi long qu'une page de texte.
                     </p>
                     <p class="bio-text-large">
-                        Basée dans le sud de la France, mon terrain de jeu n'a cependant pas de frontières. De l'article d'investigation au portrait intime en audio, mon but reste le même : <em>informer, nuancer et transmettre.</em>
+                        Basée dans le sud de la France, mon terrain de jeu n'a cependant pas de frontières. De l'article
+                        d'investigation au portrait intime en audio, mon but reste le même : <em>informer, nuancer et
+                            transmettre.</em>
                     </p>
-                    <a href="mailto:contact@margault.exemple" class="btn-brutal" style="margin-top: 20px;"><i class="fa-regular fa-paper-plane"></i> Collaborons ensemble</a>
+                    <a href="mailto:contact@margault.exemple" class="btn-brutal" style="margin-top: 20px;"><i
+                            class="fa-regular fa-paper-plane"></i> Collaborons ensemble</a>
                 </div>
             </div>
         </section>
 
         <section class="expertise-section" data-scroll-section>
             <div class="expertise-container">
-                <h2 class="expertise-title" data-scroll data-scroll-direction="horizontal" data-scroll-speed="2">Mes champs d'action</h2>
+                <h2 class="expertise-title" data-scroll data-scroll-direction="horizontal" data-scroll-speed="2">Mes
+                    champs d'action</h2>
                 <div class="expertise-grid">
                     <div class="expertise-card" data-scroll data-scroll-speed="1">
                         <i class="fa-solid fa-microphone-lines expertise-icon"></i>
                         <h3>Création de Podcasts</h3>
-                        <p>De l'écriture au montage final, je conçois des documentaires et des séries narratives en immersion sonore, soignant particulièrement le sound design.</p>
+                        <p>De l'écriture au montage final, je conçois des documentaires et des séries narratives en
+                            immersion sonore, soignant particulièrement le sound design.</p>
                     </div>
                     <div class="expertise-card" data-scroll data-scroll-speed="1.2">
                         <i class="fa-solid fa-feather-pointed expertise-icon"></i>
                         <h3>Grand Reportage</h3>
-                        <p>Enquêtes journalistiques, longs formats (long-reads) et portraits fouillés pour la presse magazine et web, avec un regard critique et nuancé.</p>
+                        <p>Enquêtes journalistiques, longs formats (long-reads) et portraits fouillés pour la presse
+                            magazine et web, avec un regard critique et nuancé.</p>
                     </div>
                     <div class="expertise-card" data-scroll data-scroll-speed="1.4">
                         <i class="fa-solid fa-camera expertise-icon"></i>
                         <h3>Photo-Journalisme</h3>
-                        <p>Illustrer mes écrits par mes propres clichés pour offrir une vision complète et immersive du sujet traité, directement depuis le terrain.</p>
+                        <p>Illustrer mes écrits par mes propres clichés pour offrir une vision complète et immersive du
+                            sujet traité, directement depuis le terrain.</p>
                     </div>
                 </div>
             </div>
@@ -95,7 +118,8 @@
         <section class="contact-cta" data-scroll-section>
             <div data-scroll data-scroll-speed="0.5">
                 <h2>Prêt(e) à raconter votre histoire ?</h2>
-                <p style="font-size: 1.2rem; margin-bottom: 40px; color: var(--couleur-texte-secondaire);">Je suis toujours à la recherche de nouveaux projets et de collaborations stimulantes.</p>
+                <p style="font-size: 1.2rem; margin-bottom: 40px; color: var(--couleur-texte-secondaire);">Je suis
+                    toujours à la recherche de nouveaux projets et de collaborations stimulantes.</p>
                 <a href="mailto:contact@margault.exemple" class="btn-brutal">Contactez-moi directement</a>
             </div>
         </section>
@@ -114,7 +138,7 @@
                         <a href="#" target="_blank" class="link link-act"><i class="fa-brands fa-twitter"></i></a>
                     </div>
                 </div>
-                
+
                 <div class="col col2">
                     <p style="margin-bottom: 25px;"><b style="color: #fff;">Navigation</b></p>
                     <p><a class="link-act" href="../index.html#a-propos">À propos</a></p>
@@ -127,9 +151,11 @@
                     <p style="margin-bottom: 25px;"><b style="color: #fff;">Légal & Plus</b></p>
                     <p><a href="#" class="link-act">Mentions légales</a></p>
                     <p>Design inspiré du Trabendo</p>
-                    <p style="color: #818181; font-size: 0.85rem; margin-top: auto;">© 2026 Margault. All Rights Reserved</p>
+                    <p style="color: #818181; font-size: 0.85rem; margin-top: auto;">© 2026 Margault. All Rights
+                        Reserved</p>
                     <div class="totop-wrapper" style="margin-top: 20px;">
-                        <a href="#hero" class="totop link-act" onclick="window.scrollTo(0,0); return false;">Retour en haut <i class="fa-solid fa-arrow-up"></i></a>
+                        <a href="#hero" class="totop link-act" onclick="window.scrollTo(0,0); return false;">Retour en
+                            haut <i class="fa-solid fa-arrow-up"></i></a>
                     </div>
                 </div>
             </div>
@@ -137,6 +163,47 @@
     </main>
 
     <script src="../script.js"></script>
+
+    <script>
+        // --- LOADING SCREEN LOGIC ---
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add('loading-active');
+            
+            const pans = [
+                document.querySelector('.pan1'),
+                document.querySelector('.pan2'),
+                document.querySelector('.pan3'),
+                document.querySelector('.pan4')
+            ];
+            
+            // Start the animation slightly after page load for effect
+            setTimeout(() => animatePanes(), 100);
+            
+            function animatePanes() {
+                // Slide panes down sequentially
+                pans.forEach((pan, index) => {
+                    setTimeout(() => {
+                        pan.style.transition = 'top 0.4s cubic-bezier(0.85, 0, 0.15, 1)';
+                        pan.style.top = '0%';
+                        
+                        // When the last pane finishes animating
+                        if (index === pans.length - 1) {
+                            setTimeout(() => {
+                                // Slide the whole loader container down to reveal site
+                                document.getElementById('preload').classList.add('is-loaded');
+                                document.body.classList.remove('loading-active');
+                                
+                                // Re-initialize Locomotive Scroll to fix sizing issues after uncovering
+                                if (window.locoScroll) {
+                                    setTimeout(() => window.locoScroll.update(), 500);
+                                }
+                            }, 400); // Wait a bit after last pane
+                        }
+                    }, index * 180); // Stagger delay (180ms)
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

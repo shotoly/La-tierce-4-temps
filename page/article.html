@@ -175,7 +175,15 @@
 </head>
 
 <body>
-    <header class="navbar">
+    <!-- LOADING SCREEN INSPIRÉ DE TRABENDO -->
+    <div id="preload" class="screen">
+        <div class="pan pan1"></div>
+        <div class="pan pan2"></div>
+        <div class="pan pan3"></div>
+        <div class="pan pan4"></div>
+    </div>
+
+    <header class="navbar navbar-article">
         <div class="logo">
             <a href="../index.html">
                 <img src="../logo_noir.svg" alt="Logo Margault, journaliste">
@@ -260,7 +268,7 @@
                 if (mediaSource) {
                     const isYouTube = mediaSource.includes('youtube.com') || mediaSource.includes('youtu.be');
                     const isAudio = mediaSource.includes('.mp3') || mediaSource.includes('wav') || mediaSource.includes('ogg') || mediaSource.includes('m4a');
-                    
+
                     if (isYouTube || isAudio || article.audio) {
                         lecteurAudio = `
                             <div id="player-container" style="margin: 60px auto; max-width: 500px; transform: scale(1); position: relative;">
@@ -304,7 +312,7 @@
                                 </div>
                             </div>
                         `;
-                        
+
                         // Initialisation asynchrone après injection
                         setTimeout(() => {
                             if (window.initVinylPlayer) {
@@ -332,6 +340,47 @@
                     </div>
                 `;
             });
+    </script>
+    
+    <script>
+        // --- LOADING SCREEN LOGIC ---
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add('loading-active');
+            
+            const pans = [
+                document.querySelector('.pan1'),
+                document.querySelector('.pan2'),
+                document.querySelector('.pan3'),
+                document.querySelector('.pan4')
+            ];
+            
+            // Start the animation slightly after page load for effect
+            setTimeout(() => animatePanes(), 100);
+            
+            function animatePanes() {
+                // Slide panes down sequentially
+                pans.forEach((pan, index) => {
+                    setTimeout(() => {
+                        pan.style.transition = 'top 0.4s cubic-bezier(0.85, 0, 0.15, 1)';
+                        pan.style.top = '0%';
+                        
+                        // When the last pane finishes animating
+                        if (index === pans.length - 1) {
+                            setTimeout(() => {
+                                // Slide the whole loader container down to reveal site
+                                document.getElementById('preload').classList.add('is-loaded');
+                                document.body.classList.remove('loading-active');
+                                
+                                // Re-initialize Locomotive Scroll to fix sizing issues after uncovering
+                                if (window.locoScroll) {
+                                    setTimeout(() => window.locoScroll.update(), 500);
+                                }
+                            }, 400); // Wait a bit after last pane
+                        }
+                    }, index * 180); // Stagger delay (180ms)
+                });
+            }
+        });
     </script>
 </body>
 

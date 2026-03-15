@@ -20,7 +20,7 @@ function getClassePastille(categorie) {
 }
 
 // Récupération des données depuis la racine
-fetch('page/donnees.json')
+fetch('donnees.json')
     .then(response => response.json())
     .then(articles => {
         const conteneur = document.getElementById('grille-aleatoire');

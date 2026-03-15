@@ -874,3 +874,41 @@ html.has-scroll-dragging {
         margin-bottom: 1.5rem;
     }
 }
+
+/* =========================================
+   LOADING SCREEN (Trabendo-style)
+   ========================================= */
+#preload {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 99999;
+    overflow: hidden;
+    background-color: var(--couleur-background);
+    transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+}
+
+#preload.is-loaded {
+    transform: translateY(100vh);
+}
+
+#preload .pan {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* Custom Colors for the pans */
+#preload .pan1 { background-color: var(--provence-violet); z-index: 10; }
+#preload .pan2 { background-color: var(--provence-lavande); z-index: 20; }
+#preload .pan3 { background-color: var(--provence-jaune); z-index: 30; }
+#preload .pan4 { background-color: var(--couleur-background); z-index: 40; }
+
+/* We prevent scroll while loading */
+body.loading-active {
+    overflow: hidden !important;
+}

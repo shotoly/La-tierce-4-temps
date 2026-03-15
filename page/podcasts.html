@@ -20,6 +20,14 @@
 </head>
 
 <body>
+    <!-- LOADING SCREEN INSPIRÉ DE TRABENDO -->
+    <div id="preload" class="screen">
+        <div class="pan pan1"></div>
+        <div class="pan pan2"></div>
+        <div class="pan pan3"></div>
+        <div class="pan pan4"></div>
+    </div>
+
     <header class="navbar">
         <div class="logo">
             <a href="../index.html">
@@ -33,7 +41,8 @@
             <ul>
                 <li><a href="../index.html"><i class="fa-solid fa-house"></i> Accueil</a></li>
                 <li><a href="../page/a-propos.html"><i class="fa-solid fa-user-pen"></i> Bio</a></li>
-                <li><a href="../page/podcasts.html" style="color: var(--provence-violet);"><i class="fa-solid fa-microphone-lines"></i> Les podcasts</a></li>
+                <li><a href="../page/podcasts.html" style="color: var(--provence-violet);"><i
+                            class="fa-solid fa-microphone-lines"></i> Les podcasts</a></li>
                 <li id="theme-toggle-li"><a href="#" id="theme-toggle"><i class="fa-solid fa-moon"></i></a></li>
             </ul>
         </nav>
@@ -42,22 +51,26 @@
 
         <section id="portfolio" data-scroll-section class="p60">
             <!-- Barre de Recherche et Filtres -->
-            <div class="filters-container inner-wrap" style="margin-bottom: 40px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between;">
+            <div class="filters-container inner-wrap"
+                style="margin-bottom: 40px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between;">
                 <div class="search-box" style="flex: 1; min-width: 250px;">
                     <div style="position: relative;">
-                        <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--couleur-texte-secondaire);"></i>
-                        <input type="text" id="search-input" placeholder="Rechercher un podcast, un article..." 
-                               style="width: 100%; padding: 12px 15px 12px 40px; border-radius: 50px; border: 1px solid var(--couleur-navbar-border); background-color: var(--couleur-navbar-bg); color: var(--couleur-texte); font-family: var(--police-texte); font-size: 1rem; outline: none;">
+                        <i class="fa-solid fa-magnifying-glass"
+                            style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--couleur-texte-secondaire);"></i>
+                        <input type="text" id="search-input" placeholder="Rechercher un podcast, un article..."
+                            style="width: 100%; padding: 12px 15px 12px 40px; border-radius: 50px; border: 1px solid var(--couleur-navbar-border); background-color: var(--couleur-navbar-bg); color: var(--couleur-texte); font-family: var(--police-texte); font-size: 1rem; outline: none;">
                     </div>
                 </div>
-                
+
                 <div class="filter-controls" style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <select id="filter-category" style="padding: 12px 20px; border-radius: 50px; border: 1px solid var(--couleur-navbar-border); background-color: var(--couleur-navbar-bg); color: var(--couleur-texte); font-family: var(--police-texte); font-size: 1rem; outline: none; cursor: pointer; appearance: none; -webkit-appearance: none;">
+                    <select id="filter-category"
+                        style="padding: 12px 20px; border-radius: 50px; border: 1px solid var(--couleur-navbar-border); background-color: var(--couleur-navbar-bg); color: var(--couleur-texte); font-family: var(--police-texte); font-size: 1rem; outline: none; cursor: pointer; appearance: none; -webkit-appearance: none;">
                         <option value="all">Toutes les catégories</option>
                         <!-- Les options seront générées dynamiquement -->
                     </select>
 
-                    <select id="sort-date" style="padding: 12px 20px; border-radius: 50px; border: 1px solid var(--couleur-navbar-border); background-color: var(--couleur-navbar-bg); color: var(--couleur-texte); font-family: var(--police-texte); font-size: 1rem; outline: none; cursor: pointer; appearance: none; -webkit-appearance: none;">
+                    <select id="sort-date"
+                        style="padding: 12px 20px; border-radius: 50px; border: 1px solid var(--couleur-navbar-border); background-color: var(--couleur-navbar-bg); color: var(--couleur-texte); font-family: var(--police-texte); font-size: 1rem; outline: none; cursor: pointer; appearance: none; -webkit-appearance: none;">
                         <option value="desc">Le plus récent d'abord</option>
                         <option value="asc">Le plus ancien d'abord</option>
                     </select>
@@ -111,4 +124,45 @@
 
     <script src="render-podcasts.js"></script>
     <script src="../script.js"></script>
+
+    <script>
+        // --- LOADING SCREEN LOGIC ---
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add('loading-active');
+            
+            const pans = [
+                document.querySelector('.pan1'),
+                document.querySelector('.pan2'),
+                document.querySelector('.pan3'),
+                document.querySelector('.pan4')
+            ];
+            
+            // Start the animation slightly after page load for effect
+            setTimeout(() => animatePanes(), 100);
+            
+            function animatePanes() {
+                // Slide panes down sequentially
+                pans.forEach((pan, index) => {
+                    setTimeout(() => {
+                        pan.style.transition = 'top 0.4s cubic-bezier(0.85, 0, 0.15, 1)';
+                        pan.style.top = '0%';
+                        
+                        // When the last pane finishes animating
+                        if (index === pans.length - 1) {
+                            setTimeout(() => {
+                                // Slide the whole loader container down to reveal site
+                                document.getElementById('preload').classList.add('is-loaded');
+                                document.body.classList.remove('loading-active');
+                                
+                                // Re-initialize Locomotive Scroll to fix sizing issues after uncovering
+                                if (window.locoScroll) {
+                                    setTimeout(() => window.locoScroll.update(), 500);
+                                }
+                            }, 400); // Wait a bit after last pane
+                        }
+                    }, index * 180); // Stagger delay (180ms)
+                });
+            }
+        });
+    </script>
 </body>
