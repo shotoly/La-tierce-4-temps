@@ -44,6 +44,8 @@
     /* Lecture optimale */
     --police-titre: 'Outfit', sans-serif;
     /* Titres géométriques et audacieux */
+    --police-animation: 'Bebas Neue', sans-serif;
+    /* Police audacieuse pour les animations géantes */
 }
 
 /* Variables du Thème Sombre */
@@ -263,37 +265,17 @@ body {
     background: transparent;
 }
 
-.hero-texte {
-    background-color: var(--couleur-hero-bg);
-    padding: 50px 70px;
-    text-align: center;
-    border-radius: 0px;
-    /* Arrondi légèrement plus grand, très iOS */
-    /* Ombre principale profonde + reflet blanc sur le contour intérieur propre aux vitres d'Apple */
-    box-shadow: 0 30px 60px var(--couleur-hero-shadow),
-        inset 0 0 0 1px var(--couleur-hero-border);
-    position: relative;
-    z-index: 2;
-    /* Flou beaucoup plus fort et saturation augmentée pour un vrai effet verre dépoli Apple */
-    backdrop-filter: blur(30px) saturate(180%);
-    -webkit-backdrop-filter: blur(30px) saturate(180%);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+.hero-logo-img {
+    height: auto;
+    width: 70vw;
+    max-width: 500px;
+    display: block;
+    content: url('logo_noir.svg');
+    transition: content 0.3s ease;
 }
 
-.hero-texte h1 {
-    font-size: 4rem;
-    font-family: var(--police-titre);
-    font-weight: 800;
-    color: var(--provence-violet);
-    margin-bottom: 10px;
-    letter-spacing: -0.02em;
-}
-
-.hero-texte p {
-    font-size: 1.3rem;
-    color: var(--couleur-texte-secondaire);
-    font-family: var(--police-texte);
-    font-style: italic;
+[data-theme="dark"] .hero-logo-img {
+    content: url('logo_blanc.svg');
 }
 
 /* ==========================================================================
@@ -311,8 +293,8 @@ body {
 }
 
 .gTitre {
-    font-family: var(--police-titre);
-    font-size: 7.5vw;
+    font-family: var(--police-animation);
+    font-size: 8.5vw;
     font-weight: 400;
     line-height: 1.1;
     color: var(--provence-sable);

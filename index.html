@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="style/pocast.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=Outfit:wght@400;600;800&display=swap"
         rel="stylesheet">
 
 
@@ -43,51 +43,9 @@
 
     <main data-scroll-container>
         <section id="hero" data-scroll-section>
-            <div class="hero-texte">
-                <h1>Margault</h1>
-                <p>Journaliste & Créatrice de podcasts</p>
-
-                <div id="player-container">
-                    <div id="player">
-                        <div id="player-track">
-                            <div id="album-name"></div>
-                            <div id="track-name"></div>
-                            <div id="track-time">
-                                <div id="current-time"></div>
-                                <div id="track-length"></div>
-                            </div>
-                            <div id="seek-bar-container">
-                                <div id="seek-time"></div>
-                                <div id="s-hover"></div>
-                                <div id="seek-bar"></div>
-                            </div>
-                        </div>
-                        <div id="player-content">
-                            <div id="album-art">
-                                <img src="img/vynile.png" class="active" id="_1" />
-                                <div id="buffer-box">Chargement</div>
-                            </div>
-                            <div id="player-controls">
-                                <div class="control">
-                                    <div class="button" id="play-previous">
-                                        <i class="fas fa-backward"></i>
-                                    </div>
-                                </div>
-                                <div class="control">
-                                    <div class="button" id="play-pause-button">
-                                        <i class="fas fa-play"></i>
-                                    </div>
-                                </div>
-                                <div class="control">
-                                    <div class="button" id="play-next">
-                                        <i class="fas fa-forward"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            <div style="z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                <img src="logo_noir.svg" alt="Margault" class="hero-logo-img">
+                <p style="font-family: var(--police-titre); font-size: 1.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 4px; color: var(--couleur-texte); margin-top: 10px;">Créatrice de contenu</p>
             </div>
         </section>
 
