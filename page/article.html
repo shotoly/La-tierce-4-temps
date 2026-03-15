@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Article - Margault</title>
     <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style/player.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;800&display=swap"
@@ -235,6 +236,7 @@
     </section>
 
     <script src="../script.js"></script>
+    <script src="../player.js"></script>
     <script>
         // Ce petit script lit l'ID dans l'URL (ex: article.html?id=123) et cherche le bon article !
         const urlParams = new URLSearchParams(window.location.search);
@@ -253,15 +255,68 @@
 
                 // On prépare le lecteur audio (il sera vide s'il n'y a pas de son)
                 let lecteurAudio = "";
-                if (article.audio) {
-                    lecteurAudio = `
-                        <div style="margin: 30px 0;">
-                            <audio controls style="width: 100%; border-radius: 50px;">
-                                <source src="${article.audio}">
-                                Votre navigateur ne supporte pas la balise audio.
-                            </audio>
-                        </div>
-                    `;
+                const mediaSource = article.audio || article.lien;
+
+                if (mediaSource) {
+                    const isYouTube = mediaSource.includes('youtube.com') || mediaSource.includes('youtu.be');
+                    const isAudio = mediaSource.includes('.mp3') || mediaSource.includes('wav') || mediaSource.includes('ogg') || mediaSource.includes('m4a');
+                    
+                    if (isYouTube || isAudio || article.audio) {
+                        lecteurAudio = `
+                            <div id="player-container" style="margin: 60px auto; max-width: 500px; transform: scale(1); position: relative;">
+                                <div id="player">
+                                    <div id="player-track">
+                                        <div id="album-name"></div>
+                                        <div id="track-name"></div>
+                                        <div id="track-time">
+                                            <div id="current-time">00:00</div>
+                                            <div id="track-length">00:00</div>
+                                        </div>
+                                        <div id="seek-bar-container">
+                                            <div id="seek-time">00:00</div>
+                                            <div id="s-hover"></div>
+                                            <div id="seek-bar"></div>
+                                        </div>
+                                    </div>
+                                    <div id="player-content">
+                                        <div id="album-art">
+                                            <img src="${article.image}" class="active" />
+                                            <div id="buffer-box">Chargement</div>
+                                        </div>
+                                        <div id="player-controls">
+                                            <div class="control" style="opacity: 0.5; pointer-events: none;">
+                                                <div class="button" id="play-previous">
+                                                    <i class="fas fa-backward"></i>
+                                                </div>
+                                            </div>
+                                            <div class="control">
+                                                <div class="button" id="play-pause-button">
+                                                    <i class="fas fa-play"></i>
+                                                </div>
+                                            </div>
+                                            <div class="control" style="opacity: 0.5; pointer-events: none;">
+                                                <div class="button" id="play-next">
+                                                    <i class="fas fa-forward"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        
+                        // Initialisation asynchrone après injection
+                        setTimeout(() => {
+                            if (window.initVinylPlayer) {
+                                window.initVinylPlayer({
+                                    title: article.titre,
+                                    album: article.categorie,
+                                    coverUrl: article.image,
+                                    audioUrl: mediaSource
+                                });
+                            }
+                        }, 200);
+                    }
                 }
 
                 // On affiche le tout !
