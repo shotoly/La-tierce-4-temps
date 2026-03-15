@@ -116,7 +116,20 @@ async function fetchNotionData() {
 
             const contenuHtml = marked.parse(texteMarkdown);
 
-            return { id, titre, date, categorie, lien, image, audio: audioUrl, contenu: contenuHtml };
+            // --- NOUVEAU : Récupérer la case à cocher "Accueil" ---
+            const estAfficheAccueil = page.properties["Accueil"]?.checkbox || false;
+
+            return { 
+                id, 
+                titre, 
+                date, 
+                categorie, 
+                lien, 
+                image, 
+                audio: audioUrl, 
+                contenu: contenuHtml,
+                accueil: estAfficheAccueil 
+            };
         }));
 
         const articlesPropres = articles.filter(article => article.titre !== "Sans titre");
