@@ -9,7 +9,8 @@
   height: 100px;
   margin: 60px auto 0 auto;
   z-index: 10;
-  text-align: left; /* Keep text formatting internal */
+  text-align: left;
+  /* Keep text formatting internal */
 }
 
 #player {
@@ -28,7 +29,7 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 15px 15px 0 0;
-  border: 1px solid var(--couleur-navbar-border);
+  border: 1px solid transparent;
   transition: 0.3s ease top, 0.3s ease opacity;
   z-index: 1;
   opacity: 0;
@@ -91,12 +92,12 @@
 }
 
 #seek-bar-container {
-  background-color: rgba(0,0,0,0.1);
+  background-color: rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 
 [data-theme="dark"] #seek-bar-container {
-  background-color: rgba(255,255,255,0.1);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 #seek-time {
@@ -136,17 +137,18 @@
 #player-content {
   position: relative;
   height: 100%;
-  background-color: var(--couleur-navbar-bg); /* Apple glass affect */
+  background-color: var(--couleur-navbar-bg);
+  /* Apple glass affect */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--couleur-navbar-border);
-  box-shadow: 0 30px 80px rgba(0,0,0,0.1);
+  border: 1px solid transparent;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
   z-index: 2;
 }
 
 [data-theme="dark"] #player-content {
-  box-shadow: 0 30px 80px rgba(0,0,0,0.3);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
 }
 
 #album-art {
@@ -164,7 +166,7 @@
 
 #album-art.active {
   top: -60px;
-  box-shadow: 0 0 0 4px var(--couleur-fond), 0 30px 50px -15px rgba(0,0,0,0.2);
+  box-shadow: 0 0 0 4px var(--couleur-fond), 0 30px 50px -15px rgba(0, 0, 0, 0.2);
 }
 
 #album-art:before {
@@ -205,8 +207,13 @@
 }
 
 @keyframes rotateAlbumArt {
-  0% { transform: rotateZ(0); }
-  100% { transform: rotateZ(360deg); }
+  0% {
+    transform: rotateZ(0);
+  }
+
+  100% {
+    transform: rotateZ(360deg);
+  }
 }
 
 #buffer-box {
@@ -297,8 +304,9 @@
 }
 
 @media screen and (max-width: 480px) {
-    #player-container {
-        width: 100%;
-        transform: scale(0.9); /* Slight scale down to fit tight mobiles */
-    }
+  #player-container {
+    width: 100%;
+    transform: scale(0.9);
+    /* Slight scale down to fit tight mobiles */
+  }
 }

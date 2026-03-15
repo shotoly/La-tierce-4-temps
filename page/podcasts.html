@@ -41,6 +41,29 @@
     <main data-scroll-container>
 
         <section id="portfolio" data-scroll-section class="p60">
+            <!-- Barre de Recherche et Filtres -->
+            <div class="filters-container inner-wrap" style="margin-bottom: 40px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between;">
+                <div class="search-box" style="flex: 1; min-width: 250px;">
+                    <div style="position: relative;">
+                        <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--couleur-texte-secondaire);"></i>
+                        <input type="text" id="search-input" placeholder="Rechercher un podcast, un article..." 
+                               style="width: 100%; padding: 12px 15px 12px 40px; border-radius: 50px; border: 1px solid var(--couleur-navbar-border); background-color: var(--couleur-navbar-bg); color: var(--couleur-texte); font-family: var(--police-texte); font-size: 1rem; outline: none;">
+                    </div>
+                </div>
+                
+                <div class="filter-controls" style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <select id="filter-category" style="padding: 12px 20px; border-radius: 50px; border: 1px solid var(--couleur-navbar-border); background-color: var(--couleur-navbar-bg); color: var(--couleur-texte); font-family: var(--police-texte); font-size: 1rem; outline: none; cursor: pointer; appearance: none; -webkit-appearance: none;">
+                        <option value="all">Toutes les catégories</option>
+                        <!-- Les options seront générées dynamiquement -->
+                    </select>
+
+                    <select id="sort-date" style="padding: 12px 20px; border-radius: 50px; border: 1px solid var(--couleur-navbar-border); background-color: var(--couleur-navbar-bg); color: var(--couleur-texte); font-family: var(--police-texte); font-size: 1rem; outline: none; cursor: pointer; appearance: none; -webkit-appearance: none;">
+                        <option value="desc">Le plus récent d'abord</option>
+                        <option value="asc">Le plus ancien d'abord</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="inner-wrap-cards podcast-grid" id="grille-podcasts">
                 <p style="text-align: center; width: 100%;">Chargement des articles...</p>
             </div>
