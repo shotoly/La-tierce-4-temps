@@ -96,6 +96,28 @@ async function fetchNotionData() {
                 }
             }
 
+            // --- NOUVEAU : Récupération de l'Image Vinyl Personnalisée ---
+            let imageVinyl = null;
+            if (page.properties["Image Vinyl"]?.files?.length > 0) {
+                const vinylFichier = page.properties["Image Vinyl"].files[0];
+                const originalVinylUrl = vinylFichier.type === 'file' ? vinylFichier.file.url : vinylFichier.external.url;
+                
+                try {
+                    const ext = originalVinylUrl.split('?')[0].split('.').pop() || 'png';
+                    const localFilename = `vinyl_${id}.${ext}`;
+                    const localFilepath = path.join(__dirname, 'img', localFilename);
+                    
+                    console.log(`Téléchargement de l'image vinyl pour ${titre}...`);
+                    await downloadImage(originalVinylUrl, localFilepath);
+                    
+                    // Lien relatif pour le site
+                    imageVinyl = `../img/${localFilename}`;
+                } catch (vinylError) {
+                    console.error(`Erreur de téléchargement pour l'image vinyl de ${titre}:`, vinylError.message);
+                    imageVinyl = originalVinylUrl; 
+                }
+            }
+
             // Récupération du fichier Audio (Ignoré pour le téléchargement local car hébergé sur YouTube)
             let audioUrl = ""; 
             if (page.properties["Audio"]?.files?.length > 0) {
@@ -126,6 +148,7 @@ async function fetchNotionData() {
                 categorie, 
                 lien, 
                 image, 
+                imageVinyl, // Nouvelle propriété pour l'album art !
                 audio: audioUrl, 
                 contenu: contenuHtml,
                 accueil: estAfficheAccueil 

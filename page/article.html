@@ -280,7 +280,7 @@
                                     </div>
                                     <div id="player-content">
                                         <div id="album-art">
-                                            <img src="${article.image}" class="active" />
+                                            <img src="${article.imageVinyl || article.image}" class="active" />
                                             <div id="buffer-box">Chargement</div>
                                         </div>
                                         <div id="player-controls">
@@ -311,7 +311,7 @@
                                 window.initVinylPlayer({
                                     title: article.titre,
                                     album: article.categorie,
-                                    coverUrl: article.image,
+                                    coverUrl: article.imageVinyl || article.image,
                                     audioUrl: mediaSource
                                 });
                             }
