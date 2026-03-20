@@ -337,7 +337,46 @@
             });
     </script>
 
-    
+    <script>
+        // --- LOADING SCREEN LOGIC ---
+        document.addEventListener("DOMContentLoaded", () => {
+            document.body.classList.add('loading-active');
+
+            const pans = [
+                document.querySelector('.pan1'),
+                document.querySelector('.pan2'),
+                document.querySelector('.pan3'),
+                document.querySelector('.pan4')
+            ];
+
+            // Start the animation slightly after page load for effect
+            setTimeout(() => animatePanes(), 100);
+
+            function animatePanes() {
+                // Slide panes down sequentially
+                pans.forEach((pan, index) => {
+                    setTimeout(() => {
+                        pan.style.transition = 'top 0.4s cubic-bezier(0.85, 0, 0.15, 1)';
+                        pan.style.top = '0%';
+
+                        // When the last pane finishes animating
+                        if (index === pans.length - 1) {
+                            setTimeout(() => {
+                                // Slide the whole loader container down to reveal site
+                                document.getElementById('preload').classList.add('is-loaded');
+                                document.body.classList.remove('loading-active');
+
+                                // Re-initialize Locomotive Scroll to fix sizing issues after uncovering
+                                if (window.locoScroll) {
+                                    setTimeout(() => window.locoScroll.update(), 500);
+                                }
+                            }, 400); // Wait a bit after last pane
+                        }
+                    }, index * 180); // Stagger delay (180ms)
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
