@@ -118,7 +118,7 @@
 
 .name-event {
     font-size: 1.8rem; /* J'ai légèrement réduit la taille pour que ça respire mieux dans les colonnes de la grille */
-    font-family: var(--police-texte);
+    font-family: var(--police-animation);
     font-weight: 400;
     line-height: 1.2;
     margin-top: 10px;
