@@ -25,11 +25,19 @@
     gap: 40px;
 }
 
-.FourC { width: calc(50% - 20px); }
-.TwoC { width: 100%; }
+.FourC {
+    width: calc(50% - 20px);
+}
+
+.TwoC {
+    width: 100%;
+}
 
 @media (max-width: 768px) {
-    .FourC { width: 100%; margin-bottom: 40px; }
+    .FourC {
+        width: 100%;
+        margin-bottom: 40px;
+    }
 }
 
 .link-act {
@@ -38,19 +46,29 @@
     color: var(--couleur-texte);
 }
 
-.event { position: relative; cursor: pointer; }
+.event {
+    position: relative;
+    cursor: pointer;
+}
 
 /* Adoucissement des cartes */
 .cover {
     position: relative;
     width: 100%;
     overflow: hidden;
-    border-radius: 12px; /* Coins arrondis */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.06); /* Ombre douce */
+    border-radius: 12px;
+    /* Coins arrondis */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    /* Ombre douce */
 }
 
-.bigone .cover { aspect-ratio: 4 / 4.4; }
-.TwoC.cover { aspect-ratio: 16 / 9; }
+.bigone .cover {
+    aspect-ratio: 4 / 4.4;
+}
+
+.TwoC.cover {
+    aspect-ratio: 16 / 9;
+}
 
 .cover img {
     width: 100%;
@@ -60,7 +78,8 @@
 }
 
 .link-act:hover .cover img {
-    transform: scale(1.03); /* Zoom plus subtil */
+    transform: scale(1.03);
+    /* Zoom plus subtil */
 }
 
 /* Pastilles aux couleurs de Provence */
@@ -74,7 +93,8 @@
     z-index: 10;
 }
 
-.pastille, .p-etat {
+.pastille,
+.p-etat {
     padding: 6px 16px;
     font-family: var(--police-titre);
     font-size: 13px;
@@ -85,11 +105,25 @@
     transition: all 0.3s ease;
 }
 
-.pastille.podcast { background: var(--provence-vert); color: #fff; }
-.pastille.interview { background: var(--provence-bleu); color: #fff; }
-.pastille.article { background: var(--provence-jaune); color: var(--couleur-texte); }
+.pastille.podcast {
+    background: var(--provence-vert);
+    color: #fff;
+}
 
-.p-etat { background: var(--provence-violet); color: #fff; }
+.pastille.interview {
+    background: var(--provence-bleu);
+    color: #fff;
+}
+
+.pastille.article {
+    background: var(--provence-jaune);
+    color: var(--couleur-texte);
+}
+
+.p-etat {
+    background: var(--provence-violet);
+    color: #fff;
+}
 
 .flex-info {
     display: flex;
@@ -106,7 +140,10 @@
     font-family: var(--police-titre);
 }
 
-.date-event span { color: var(--provence-jaune); font-weight: bold; }
+.date-event span {
+    color: var(--provence-jaune);
+    font-weight: bold;
+}
 
 .style {
     font-size: 0.85rem;
@@ -118,13 +155,17 @@
 
 .name-event {
     font-size: 2.2rem;
-    font-family: var(--police-texte);
+    font-family: var(--police-animation);
     font-weight: 400;
     line-height: 1.2;
     margin-top: 10px;
     transition: color 0.3s ease;
 }
 
-.link-act:hover .name-event { color: var(--provence-violet); }
+.link-act:hover .name-event {
+    color: var(--provence-violet);
+}
 
-.twoC-name-event { font-size: 1.6rem; }
+.twoC-name-event {
+    font-size: 1.6rem;
+}

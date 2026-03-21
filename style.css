@@ -42,7 +42,7 @@
     /* Typographie Moderne (Google Fonts) */
     --police-texte: 'Inter', sans-serif;
     /* Lecture optimale */
-    --police-titre: 'Bebas Neue', sans-serif;
+    --police-titre: 'Inter', sans-serif;
     /* Titres géométriques et audacieux */
     --police-animation: 'Bebas Neue', sans-serif;
     /* Police audacieuse pour les animations géantes */
@@ -903,10 +903,25 @@ html.has-scroll-dragging {
 }
 
 /* Custom Colors for the pans */
-#preload .pan1 { background-color: var(--provence-violet); z-index: 10; }
-#preload .pan2 { background-color: var(--provence-lavande); z-index: 20; }
-#preload .pan3 { background-color: var(--provence-jaune); z-index: 30; }
-#preload .pan4 { background-color: var(--couleur-background); z-index: 40; }
+#preload .pan1 {
+    background-color: var(--provence-violet);
+    z-index: 10;
+}
+
+#preload .pan2 {
+    background-color: var(--provence-lavande);
+    z-index: 20;
+}
+
+#preload .pan3 {
+    background-color: var(--provence-jaune);
+    z-index: 30;
+}
+
+#preload .pan4 {
+    background-color: var(--couleur-background);
+    z-index: 40;
+}
 
 /* We prevent scroll while loading */
 body.loading-active {
