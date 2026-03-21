@@ -171,6 +171,28 @@
             min-width: 250px;
             /* Si l'écran de téléphone est trop petit, ça force le passage à la ligne */
         }
+
+        /* Vidéos intégrées via Notion */
+        .article-body .notion-video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* Ratio 16:9 */
+            height: 0;
+            overflow: hidden;
+            margin: 2em 0;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-body .notion-video-wrapper iframe,
+        .article-body .notion-video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 12px;
+        }
     </style>
 </head>
 

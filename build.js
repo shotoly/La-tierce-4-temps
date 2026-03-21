@@ -24,6 +24,42 @@ n2m.setCustomTransformer('column', async (block) => {
     const mdString = n2m.toMarkdownString(mdblocks);
     return `\n<div class="notion-col">\n\n${mdString.parent || mdString || ""}\n\n</div>\n`;
 });
+n2m.setCustomTransformer('video', async (block) => {
+    const video = block.video;
+    if (!video) return '';
+    let url = '';
+    if (video.type === 'external') {
+        url = video.external.url;
+    } else if (video.type === 'file') {
+        url = video.file.url;
+    }
+
+    if (!url) return '';
+
+    // Transformation d'URL pour YouTube ou Vimeo afin d'utiliser les embeds
+    if (url.includes('youtube.com/watch') || url.includes('youtu.be/')) {
+        let videoId = '';
+        if (url.includes('youtube.com/watch')) {
+            const urlObj = new URL(url);
+            videoId = urlObj.searchParams.get('v');
+        } else if (url.includes('youtu.be/')) {
+            const urlObj = new URL(url);
+            videoId = urlObj.pathname.substring(1);
+        }
+        if (videoId) {
+            return `\n<div class="notion-video-wrapper"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>\n`;
+        }
+    } else if (url.includes('vimeo.com/')) {
+        const urlObj = new URL(url);
+        const videoId = urlObj.pathname.substring(1);
+        if (videoId) {
+            return `\n<div class="notion-video-wrapper"><iframe src="https://player.vimeo.com/video/${videoId}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
+        }
+    }
+
+    // Vidéo hébergée en direct
+    return `\n<div class="notion-video-wrapper"><video controls src="${url}"></video></div>\n`;
+});
 // -----------------------------------------------------------------
 
 // --- Fonction pour télécharger et sauvegarder une image localement ---
