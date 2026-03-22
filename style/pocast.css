@@ -56,12 +56,15 @@
     /* Coins arrondis */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
     /* Ombre douce */
+    aspect-ratio: 1 / 1;
+    /* Format carré, idéal pour uniformiser les pochettes de podcasts */
 }
 
 .cover img {
     width: 100%;
-    height: auto;
-    display: block;
+    height: 100%;
+    object-fit: cover;
+    /* Assure que l'image remplisse le carré sans être déformée */
     transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
