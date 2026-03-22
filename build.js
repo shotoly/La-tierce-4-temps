@@ -24,6 +24,30 @@ n2m.setCustomTransformer('column', async (block) => {
     const mdString = n2m.toMarkdownString(mdblocks);
     return `\n<div class="notion-col">\n\n${mdString.parent || mdString || ""}\n\n</div>\n`;
 });
+const parseYouTubeUrl = (url) => {
+    let videoId = '';
+    let isShort = false;
+    if (url.includes('youtube.com/watch')) {
+        try { videoId = new URL(url).searchParams.get('v'); } catch(e){}
+    } else if (url.includes('youtu.be/')) {
+        try { videoId = new URL(url).pathname.substring(1); } catch(e){}
+    } else if (url.includes('youtube.com/shorts/')) {
+        try { 
+            videoId = new URL(url).pathname.split('/shorts/')[1].split('?')[0]; 
+            isShort = true;
+        } catch(e){}
+    }
+    return { videoId, isShort };
+};
+
+const renderYouTubeEmbed = (videoId, isShort) => {
+    if (isShort) {
+        return `\n<div style="max-width: 350px; margin: 40px auto;"><div class="notion-short-wrapper" style="position: relative; width: 100%; padding-bottom: 177.77%; height: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06);"><iframe style="position: absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/${videoId}?loop=1&color=white&controls=1&modestbranding=1&playsinline=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></div>\n`;
+    } else {
+        return `\n<div class="notion-video-wrapper"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>\n`;
+    }
+};
+
 n2m.setCustomTransformer('video', async (block) => {
     const video = block.video;
     if (!video) return '';
@@ -36,29 +60,37 @@ n2m.setCustomTransformer('video', async (block) => {
 
     if (!url) return '';
 
-    // Transformation d'URL pour YouTube ou Vimeo afin d'utiliser les embeds
-    if (url.includes('youtube.com/watch') || url.includes('youtu.be/')) {
-        let videoId = '';
-        if (url.includes('youtube.com/watch')) {
-            const urlObj = new URL(url);
-            videoId = urlObj.searchParams.get('v');
-        } else if (url.includes('youtu.be/')) {
-            const urlObj = new URL(url);
-            videoId = urlObj.pathname.substring(1);
-        }
-        if (videoId) {
-            return `\n<div class="notion-video-wrapper"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>\n`;
-        }
+    // Transformation d'URL pour YouTube
+    if (url.includes('youtube.com/') || url.includes('youtu.be/')) {
+        const { videoId, isShort } = parseYouTubeUrl(url);
+        if (videoId) return renderYouTubeEmbed(videoId, isShort);
     } else if (url.includes('vimeo.com/')) {
-        const urlObj = new URL(url);
-        const videoId = urlObj.pathname.substring(1);
-        if (videoId) {
-            return `\n<div class="notion-video-wrapper"><iframe src="https://player.vimeo.com/video/${videoId}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
-        }
+        try {
+            const urlObj = new URL(url);
+            const videoId = urlObj.pathname.substring(1);
+            if (videoId) {
+                return `\n<div class="notion-video-wrapper"><iframe src="https://player.vimeo.com/video/${videoId}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
+            }
+        } catch(e){}
     }
 
     // Vidéo hébergée en direct
     return `\n<div class="notion-video-wrapper"><video controls src="${url}"></video></div>\n`;
+});
+
+// Ajouter aussi le transformer pour les embeds (quand l'URL est collée comme Intégration / Embed)
+n2m.setCustomTransformer('embed', async (block) => {
+    const embed = block.embed;
+    if (!embed || !embed.url) return '';
+    const url = embed.url;
+
+    if (url.includes('youtube.com/') || url.includes('youtu.be/')) {
+        const { videoId, isShort } = parseYouTubeUrl(url);
+        if (videoId) return renderYouTubeEmbed(videoId, isShort);
+    }
+
+    // Si on ne sait pas quoi en faire, on affiche au moins le lien
+    return `\n<a href="${url}" target="_blank" class="link-act" style="color: var(--provence-violet);">${url}</a>\n`;
 });
 // -----------------------------------------------------------------
 

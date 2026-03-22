@@ -360,13 +360,13 @@ html.has-scroll-dragging {
 }
 
 .bio-image-col {
-    width: 40%;
+    width: 100%;
     position: relative;
 }
 
 .bio-text-col {
-    width: 55%;
-    padding-left: 5%;
+    width: 48%;
+    padding-left: 2%;
 }
 
 @media (max-width: 768px) {
@@ -401,9 +401,9 @@ html.has-scroll-dragging {
 }
 
 .small-bio-pic {
-    width: 50%;
-    margin-top: -20%;
-    margin-left: 60%;
+    width: 60%;
+    margin-top: -25%;
+    margin-left: 50%;
     border-radius: 50%;
     border: 8px solid var(--couleur-fond);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
