@@ -220,10 +220,14 @@ async function fetchNotionData() {
             };
 
             for (const [networkPattern, iconHtml] of Object.entries(iconMappings)) {
-                // Regex : cherche le nom du réseau entier (insensible à la casse) suivi par un espace optionnel puis ':'
-                // Exemple: "Instagram:" ou "Instagram :"
-                const regex = new RegExp(`\\\\b${networkPattern}\\\\s*:`, 'gi');
-                contenuHtml = contenuHtml.replace(regex, iconHtml);
+                // Regex améliorée : on cherche le nom du réseau (avec \b) 
+                // suivi (éventuellement) par des balises de fermeture (comme </strong> ou </a>)
+                // puis suivi de ":"
+                // De cette façon "<strong>Instagram</strong>:" ou "[LinkTree](...):" fonctionne parfaitement !
+                const regex = new RegExp(`\\\\b(${networkPattern})\\\\b(\\\\s*(?:</[^>]+>\\\\s*)*):`, 'gi');
+                contenuHtml = contenuHtml.replace(regex, (match, p1, p2) => {
+                    return iconHtml + p2;
+                });
             }
 
             // --- NOUVEAU : Récupérer la case à cocher "Accueil" ---
