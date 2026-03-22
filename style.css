@@ -338,6 +338,14 @@ html.has-scroll-dragging {
 /* ==========================================================================
    6. SECTION A PROPOS (BIO)
    ========================================================================== */
+.titre_bio {
+    font-size: 5vw;
+    font-family: var(--police-animation);
+    font-weight: 800;
+    color: var(--provence-violet);
+    line-height: 1.1;
+}
+
 .section-bio {
     background-color: rgba(217, 181, 115, 0.1);
     padding-top: 120px;
