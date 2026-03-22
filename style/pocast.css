@@ -15,8 +15,10 @@
 /* La magie de CSS Grid se passe ici */
 .podcast-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Crée 3 colonnes de taille identique */
-    gap: 40px; /* Ajoute un espace de 40px entre chaque carte (verticalement et horizontalement) */
+    grid-template-columns: repeat(3, 1fr);
+    /* Crée 3 colonnes de taille identique */
+    gap: 40px;
+    /* Ajoute un espace de 40px entre chaque carte (verticalement et horizontalement) */
 }
 
 /* Adaptation pour les tablettes (2 colonnes) */
@@ -40,27 +42,35 @@
     color: var(--couleur-texte);
 }
 
-.event { position: relative; cursor: pointer; }
+.event {
+    position: relative;
+    cursor: pointer;
+}
 
 /* Adoucissement des cartes et format homogène */
 .cover {
     position: relative;
     width: 100%;
     overflow: hidden;
-    border-radius: 12px; /* Coins arrondis */
-    box-shadow: 0 10px 30px rgba(0,0,0,0.06); /* Ombre douce */
-    aspect-ratio: 1 / 1; /* Format carré, idéal pour uniformiser les pochettes de podcasts */
+    border-radius: 12px;
+    /* Coins arrondis */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    /* Ombre douce */
+    aspect-ratio: 1 / 1;
+    /* Format carré, idéal pour uniformiser les pochettes de podcasts */
 }
 
 .cover img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Assure que l'image remplisse le carré sans être déformée */
+    object-fit: cover;
+    /* Assure que l'image remplisse le carré sans être déformée */
     transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .link-act:hover .cover img {
-    transform: scale(1.03); /* Zoom très subtil au survol */
+    transform: scale(1.03);
+    /* Zoom très subtil au survol */
 }
 
 /* Pastilles aux couleurs de Provence */
@@ -74,7 +84,8 @@
     z-index: 10;
 }
 
-.pastille, .p-etat {
+.pastille,
+.p-etat {
     padding: 6px 16px;
     font-family: var(--police-titre);
     font-size: 13px;
@@ -85,10 +96,25 @@
     transition: all 0.3s ease;
 }
 
-.pastille.podcast { background: var(--provence-vert); color: #fff; }
-.pastille.interview { background: var(--provence-bleu); color: #fff; }
-.pastille.article { background: var(--provence-jaune); color: var(--couleur-texte); }
-.p-etat { background: var(--provence-violet); color: #fff; }
+.pastille.podcast {
+    background: var(--provence-vert);
+    color: #fff;
+}
+
+.pastille.interview {
+    background: var(--provence-bleu);
+    color: #fff;
+}
+
+.pastille.article {
+    background: var(--provence-jaune);
+    color: var(--couleur-texte);
+}
+
+.p-etat {
+    background: var(--provence-violet);
+    color: #fff;
+}
 
 /* Textes sous les images */
 .flex-info {
@@ -106,7 +132,10 @@
     font-family: var(--police-titre);
 }
 
-.date-event span { color: var(--provence-jaune); font-weight: bold; }
+.date-event span {
+    color: var(--provence-jaune);
+    font-weight: bold;
+}
 
 .style {
     font-size: 0.85rem;
@@ -117,7 +146,8 @@
 }
 
 .name-event {
-    font-size: 1.8rem; /* J'ai légèrement réduit la taille pour que ça respire mieux dans les colonnes de la grille */
+    font-size: 1.8rem;
+    /* J'ai légèrement réduit la taille pour que ça respire mieux dans les colonnes de la grille */
     font-family: var(--police-animation);
     font-weight: 400;
     line-height: 1.2;
@@ -125,4 +155,6 @@
     transition: color 0.3s ease;
 }
 
-.link-act:hover .name-event { color: var(--provence-violet); }
+.link-act:hover .name-event {
+    color: var(--provence-violet);
+}
