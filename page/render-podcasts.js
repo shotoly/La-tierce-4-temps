@@ -104,7 +104,8 @@ function initFilters() {
 fetch('donnees.json')
     .then(response => response.json())
     .then(articles => {
-        allArticles = articles;
+        // Exclure les articles de la catégorie "Short"
+        allArticles = articles.filter(article => !article.categorie || !article.categorie.toLowerCase().includes('short'));
         initFilters();
         renderGrid(allArticles);
     })

@@ -26,11 +26,14 @@ fetch('page/donnees.json')
         const conteneur = document.getElementById('grille-aleatoire');
         conteneur.innerHTML = ''; // On vide le message de chargement
 
+        // On exclut les Shorts des articles mis en avant
+        const articlesSansShorts = articles.filter(article => !article.categorie || !article.categorie.toLowerCase().includes('short'));
+
         // 1. Filtrer les articles pour ne garder QUE ceux où accueil: true
-        const articlesFavoris = articles.filter(article => article.accueil === true);
+        const articlesFavoris = articlesSansShorts.filter(article => article.accueil === true);
 
         // Si aucun article n'est coché (sécurité), on utilise tous les articles
-        const articlesDispo = articlesFavoris.length > 0 ? articlesFavoris : articles;
+        const articlesDispo = articlesFavoris.length > 0 ? articlesFavoris : articlesSansShorts;
 
         // 2. On mélange le tableau filtré au hasard (Shuffle)
         const articlesMelanges = articlesDispo.sort(() => 0.5 - Math.random());

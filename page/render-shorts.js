@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Générer le HTML pour chaque short
             shorts.forEach(short => {
                 let videoId = "";
-                const url = short.lien || "";
+                const url = short.lien || short.audio || "";
                 
                 // Extraction de l'ID YouTube
                 if (url.includes("/shorts/")) {

@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Générer le HTML
             randomShorts.forEach(short => {
                 let videoId = "";
-                const url = short.lien || "";
+                const url = short.lien || short.audio || "";
                 
                 if (url.includes("/shorts/")) {
                     videoId = url.split("/shorts/")[1].split("?")[0];
