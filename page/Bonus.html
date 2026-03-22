@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les Bonus - Margault</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style/pocast.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=Outfit:wght@400;600;800&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+    <style>
+        .shorts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            width: 100%;
+        }
+
+        .short-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 177.77%;
+            /* Ratio 16:9 (Portrait) = 16/9 * 100 */
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            background-color: var(--couleur-navbar-bg);
+        }
+
+        .short-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .shorts-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <a href="../index.html">
+                <img src="../logo_noir.svg" alt="Logo Margault, journaliste">
+            </a>
+        </div>
+        <div class="menu-toggle" id="mobile-menu">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <nav class="menu-droite">
+            <ul>
+                <li><a href="../index.html">Accueil</a></li>
+                <li><a href="a-propos.html">Bio</a></li>
+                <li><a href="podcasts.html">Les podcasts</a></li>
+                <li><a href="Bonus.html" style="color: var(--provence-violet);">Les Bonus</a></li>
+                <li id="theme-toggle-li"><a href="#" id="theme-toggle"><i class="fa-solid fa-moon"></i></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main data-scroll-container>
+        <section id="portfolio" data-scroll-section class="p60">
+            <div class="filters-container inner-wrap" style="margin-bottom: 40px; text-align: center;">
+                <h1
+                    style="font-family: var(--police-animation); font-size: 3rem; color: var(--provence-violet); margin-bottom: 10px;">
+                    Les Bonus</h1>
+                <p style="color: var(--couleur-texte-secondaire); font-size: 1.1rem;">Découvrez les coulisses et les
+                    derniers formats courts.</p>
+            </div>
+
+            <div class="inner-wrap-cards shorts-grid" id="grille-shorts">
+                <p style="text-align: center; width: 100%;">Chargement des Bonus...</p>
+            </div>
+        </section>
+
+        <section class="footer fancy-footer" id="footer" data-scroll-section>
+            <div class="footer-backdrop"></div>
+            <div class="footer-content" data-scroll data-scroll-speed="1.5">
+                <div class="col col1">
+                    <h3 class="footer-logo">Margault Giacalone</h3>
+                    <p class="footer-sub">Étudiante en Licence d'Histoire</p>
+                    <p> Aix en Provence, France</p>
+                    <p><a href="mailto:latierceaquatretemps@gmail.com"
+                            class="link-act">latierceaquatretemps@gmail.com</a></p>
+                    <div class="social" style="margin-top: 20px;">
+                        <a href="https://www.instagram.com/latiercea4temps?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                            target="_blank" class="link link-act"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://youtube.com/@latiercea4temps-vid?si=mjm7GO3KU63Uz9kS" target="_blank"
+                            class="link link-act"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://youtube.com/@latiercea4tempspod?si=5TfL5-C-UNUSONah" target="_blank"
+                            class="link link-act"><i class="fa-solid fa-microphone-lines"></i></a>
+                        <a href="#" target="_blank" class="link link-act"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#" target="_blank" class="link link-act"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <div class="col col2">
+                    <p style="margin-bottom: 25px;"><b style="color: #fff;">Navigation</b></p>
+                    <p><a class="link-act" href="a-propos.html">À propos</a></p>
+                    <p><a class="link-act" href="podcasts.html">Podcasts</a></p>
+                    <p><a class="link-act" href="Bonus.html">Les Bonus</a></p>
+                    <p><a href="#" class="link-act">Newsletter</a></p>
+                </div>
+
+                <div class="col col3">
+                    <p style="margin-bottom: 25px;"><b style="color: #fff;">Légal & Plus</b></p>
+                    <p><a href="#" class="link-act">Mentions légales</a></p>
+                    <p style="color: #818181; font-size: 0.85rem; margin-top: auto;">© 2026 Margault. All Rights
+                        Reserved</p>
+                    <div class="totop-wrapper" style="margin-top: 20px;">
+                        <a href="#" class="totop link-act" onclick="window.scrollTo(0,0); return false;">Retour en haut
+                            <i class="fa-solid fa-arrow-up"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="render-shorts.js"></script>
+    <script src="../script.js"></script>
+</body>
+
+</html>
