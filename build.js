@@ -204,7 +204,27 @@ async function fetchNotionData() {
                 texteMarkdown = mdStringObj.parent;
             }
 
-            const contenuHtml = marked.parse(texteMarkdown);
+            let contenuHtml = marked.parse(texteMarkdown);
+
+            // --- REMPLACEMENT DES NOMS DE RÉSEAUX PAR DES LOGOS ---
+            const iconMappings = {
+                'instagram': '<i class="fa-brands fa-instagram" style="color: #E1306C; font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
+                'youtube': '<i class="fa-brands fa-youtube" style="color: #FF0000; font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
+                'facebook': '<i class="fa-brands fa-facebook" style="color: #1877F2; font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
+                'tiktok': '<i class="fa-brands fa-tiktok" style="font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
+                'spotify': '<i class="fa-brands fa-spotify" style="color: #1DB954; font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
+                'link\\\\s*tree': '<i class="fa-solid fa-link" style="color: #43E660; font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
+                'deezer': '<i class="fa-brands fa-deezer" style="font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
+                'apple\\\\s*podcast': '<i class="fa-solid fa-podcast" style="color: #872EC4; font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
+                'soundcloud': '<i class="fa-brands fa-soundcloud" style="color: #FF5500; font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>'
+            };
+
+            for (const [networkPattern, iconHtml] of Object.entries(iconMappings)) {
+                // Regex : cherche le nom du réseau entier (insensible à la casse) suivi par un espace optionnel puis ':'
+                // Exemple: "Instagram:" ou "Instagram :"
+                const regex = new RegExp(`\\\\b${networkPattern}\\\\s*:`, 'gi');
+                contenuHtml = contenuHtml.replace(regex, iconHtml);
+            }
 
             // --- NOUVEAU : Récupérer la case à cocher "Accueil" ---
             const estAfficheAccueil = page.properties["Accueil"]?.checkbox || false;
