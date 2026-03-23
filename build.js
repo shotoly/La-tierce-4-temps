@@ -28,14 +28,14 @@ const parseYouTubeUrl = (url) => {
     let videoId = '';
     let isShort = false;
     if (url.includes('youtube.com/watch')) {
-        try { videoId = new URL(url).searchParams.get('v'); } catch(e){}
+        try { videoId = new URL(url).searchParams.get('v'); } catch (e) { }
     } else if (url.includes('youtu.be/')) {
-        try { videoId = new URL(url).pathname.substring(1); } catch(e){}
+        try { videoId = new URL(url).pathname.substring(1); } catch (e) { }
     } else if (url.includes('youtube.com/shorts/')) {
-        try { 
-            videoId = new URL(url).pathname.split('/shorts/')[1].split('?')[0]; 
+        try {
+            videoId = new URL(url).pathname.split('/shorts/')[1].split('?')[0];
             isShort = true;
-        } catch(e){}
+        } catch (e) { }
     }
     return { videoId, isShort };
 };
@@ -71,7 +71,7 @@ n2m.setCustomTransformer('video', async (block) => {
             if (videoId) {
                 return `\n<div class="notion-video-wrapper"><iframe src="https://player.vimeo.com/video/${videoId}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
             }
-        } catch(e){}
+        } catch (e) { }
     }
 
     // Vidéo hébergée en direct
@@ -129,33 +129,33 @@ async function fetchNotionData() {
         });
 
         const articles = await Promise.all(response.results.map(async page => {
-            const id = page.id; 
-            
+            const id = page.id;
+
             const titre = page.properties["Nom"]?.title?.[0]?.plain_text || "Sans titre";
             const date = page.properties["Date"]?.date?.start || "";
-            
+
             const propCat = page.properties["Catégorie"] || page.properties["Categorie"];
             let categorie = "Article";
             if (propCat?.select) categorie = propCat.select.name;
             else if (propCat?.multi_select?.[0]) categorie = propCat.multi_select[0].name;
 
-            const lien = page.properties["Lien"]?.url || ""; 
-            
-            let image = "../img/logo.svg"; 
+            const lien = page.properties["Lien"]?.url || "";
+
+            let image = "../img/logo.svg";
             if (page.properties["Image"]?.files?.length > 0) {
                 const imgFichier = page.properties["Image"].files[0];
                 const originalUrl = imgFichier.type === 'file' ? imgFichier.file.url : imgFichier.external.url;
-                
+
                 // Téléchargement physique de l'image
                 try {
                     const ext = originalUrl.split('?')[0].split('.').pop() || 'jpg';
                     // We save it to 'img/notion_[id].ext' to be available for the root index and 'page/' routes
                     const localFilename = `notion_${id}.${ext}`;
                     const localFilepath = path.join(__dirname, 'img', localFilename);
-                    
+
                     console.log(`Téléchargement de l'image pour ${titre}...`);
                     await downloadImage(originalUrl, localFilepath);
-                    
+
                     // On donne le lien relatif pour que le site la trouve
                     image = `../img/${localFilename}`;
                 } catch (imgError) {
@@ -169,25 +169,25 @@ async function fetchNotionData() {
             if (page.properties["Image Vinyl"]?.files?.length > 0) {
                 const vinylFichier = page.properties["Image Vinyl"].files[0];
                 const originalVinylUrl = vinylFichier.type === 'file' ? vinylFichier.file.url : vinylFichier.external.url;
-                
+
                 try {
                     const ext = originalVinylUrl.split('?')[0].split('.').pop() || 'png';
                     const localFilename = `vinyl_${id}.${ext}`;
                     const localFilepath = path.join(__dirname, 'img', localFilename);
-                    
+
                     console.log(`Téléchargement de l'image vinyl pour ${titre}...`);
                     await downloadImage(originalVinylUrl, localFilepath);
-                    
+
                     // Lien relatif pour le site
                     imageVinyl = `../img/${localFilename}`;
                 } catch (vinylError) {
                     console.error(`Erreur de téléchargement pour l'image vinyl de ${titre}:`, vinylError.message);
-                    imageVinyl = originalVinylUrl; 
+                    imageVinyl = originalVinylUrl;
                 }
             }
 
             // Récupération du fichier Audio (Ignoré pour le téléchargement local car hébergé sur YouTube)
-            let audioUrl = ""; 
+            let audioUrl = "";
             if (page.properties["Audio"]?.files?.length > 0) {
                 const audioFichier = page.properties["Audio"].files[0];
                 audioUrl = audioFichier.type === 'file' ? audioFichier.file.url : audioFichier.external.url;
@@ -196,7 +196,7 @@ async function fetchNotionData() {
             // --- LA MAGIE OPÈRE ICI ---
             const mdblocks = await n2m.pageToMarkdown(page.id);
             const mdStringObj = n2m.toMarkdownString(mdblocks);
-            
+
             let texteMarkdown = "";
             if (typeof mdStringObj === 'string') {
                 texteMarkdown = mdStringObj;
@@ -205,6 +205,42 @@ async function fetchNotionData() {
             }
 
             let contenuHtml = marked.parse(texteMarkdown);
+
+            // --- NOUVEAU : Aspirateur d'images internes Notion ---
+            // Recherche de toutes les images dans le contenu HTML généré
+            const imgRegex = /<img[^>]+src="([^">]+)"/gi;
+            const matches = [...contenuHtml.matchAll(imgRegex)];
+            let imgIndex = 0;
+            
+            for (const match of matches) {
+                const originalImgUrl = match[1];
+                
+                // Si l'URL de l'image pointe vers un serveur externe (Notion AWS s3, etc.)
+                if (originalImgUrl.startsWith('http')) {
+                    imgIndex++;
+                    try {
+                        const urlObj = new URL(originalImgUrl);
+                        let ext = urlObj.pathname.split('.').pop();
+                        // Nettoyage de l'extension pour s'assurer qu'elle est valide
+                        if (!ext || ext.length > 4 || !ext.match(/^[a-zA-Z0-9]+$/)) {
+                            ext = 'jpg';
+                        }
+                        
+                        // ID unique de l'image basé sur l'ID de l'article et l'index
+                        const filename = `interne_${id}_${imgIndex}.${ext}`;
+                        const filepath = path.join(__dirname, 'img', filename);
+                        
+                        console.log(`Téléchargement de l'image interne ${imgIndex} pour l'article ${titre}...`);
+                        await downloadImage(originalImgUrl, filepath);
+                        
+                        // Remplacement de l'URL AWS temporaire par le chemin local relatif
+                        const localUrl = `../img/${filename}`;
+                        contenuHtml = contenuHtml.split(originalImgUrl).join(localUrl);
+                    } catch (err) {
+                        console.error(`Erreur lors du téléchargement de l'image interne ${imgIndex} pour ${titre}:`, err.message);
+                    }
+                }
+            }
 
             // --- REMPLACEMENT DES NOMS DE RÉSEAUX PAR DES LOGOS ---
             const iconMappings = {
@@ -233,17 +269,17 @@ async function fetchNotionData() {
             // --- NOUVEAU : Récupérer la case à cocher "Accueil" ---
             const estAfficheAccueil = page.properties["Accueil"]?.checkbox || false;
 
-            return { 
-                id, 
-                titre, 
-                date, 
-                categorie, 
-                lien, 
-                image, 
+            return {
+                id,
+                titre,
+                date,
+                categorie,
+                lien,
+                image,
                 imageVinyl, // Nouvelle propriété pour l'album art !
-                audio: audioUrl, 
+                audio: audioUrl,
                 contenu: contenuHtml,
-                accueil: estAfficheAccueil 
+                accueil: estAfficheAccueil
             };
         }));
 

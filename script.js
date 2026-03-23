@@ -17,9 +17,9 @@ document.addEventListener("DOMContentLoaded", function () {
             themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
         }
 
-        themeToggleBtn.addEventListener('click', function(e) {
+        themeToggleBtn.addEventListener('click', function (e) {
             e.preventDefault(); // Empêche de remonter en haut de la page
-            
+
             // Bascule le thème
             if (rootElement.getAttribute("data-theme") === "dark") {
                 rootElement.removeAttribute("data-theme");
@@ -41,10 +41,10 @@ document.addEventListener("DOMContentLoaded", function () {
             el: scrollContainer,
             smooth: true,
             smartphone: {
-                smooth: true
+                smooth: false
             },
             tablet: {
-                smooth: true
+                smooth: false
             }
         });
 
@@ -60,9 +60,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const navMenu = document.querySelector('.menu-droite');
 
     if (mobileMenuBtn && navMenu) {
-        mobileMenuBtn.addEventListener('click', function() {
+        mobileMenuBtn.addEventListener('click', function () {
             navMenu.classList.toggle('active');
-            
+
             // Change l'icône du hamburger (bars <-> xmark)
             const icon = this.querySelector('i');
             if (navMenu.classList.contains('active')) {
