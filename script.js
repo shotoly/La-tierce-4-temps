@@ -40,11 +40,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const locoScroll = new LocomotiveScroll({
             el: scrollContainer,
             smooth: true,
+            multiplier: 1,         // Vitesse globale
+            touchMultiplier: 3,    // Sensibilité au doigt fortement accélérée
             smartphone: {
-                smooth: false
+                smooth: true       // Réactive les animations
             },
             tablet: {
-                smooth: false
+                smooth: true       // Réactive les animations
             }
         });
 
