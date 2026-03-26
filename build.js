@@ -211,10 +211,10 @@ async function fetchNotionData() {
             const imgRegex = /<img[^>]+src="([^">]+)"/gi;
             const matches = [...contenuHtml.matchAll(imgRegex)];
             let imgIndex = 0;
-
+            
             for (const match of matches) {
                 const originalImgUrl = match[1];
-
+                
                 // Si l'URL de l'image pointe vers un serveur externe (Notion AWS s3, etc.)
                 if (originalImgUrl.startsWith('http')) {
                     imgIndex++;
@@ -225,14 +225,14 @@ async function fetchNotionData() {
                         if (!ext || ext.length > 4 || !ext.match(/^[a-zA-Z0-9]+$/)) {
                             ext = 'jpg';
                         }
-
+                        
                         // ID unique de l'image basé sur l'ID de l'article et l'index
                         const filename = `interne_${id}_${imgIndex}.${ext}`;
                         const filepath = path.join(__dirname, 'img', filename);
-
+                        
                         console.log(`Téléchargement de l'image interne ${imgIndex} pour l'article ${titre}...`);
                         await downloadImage(originalImgUrl, filepath);
-
+                        
                         // Remplacement de l'URL AWS temporaire par le chemin local relatif
                         const localUrl = `../img/${filename}`;
                         contenuHtml = contenuHtml.split(originalImgUrl).join(localUrl);
@@ -249,28 +249,21 @@ async function fetchNotionData() {
                 'facebook': '<i class="fa-brands fa-facebook" style="color: #1877F2; font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
                 'tiktok': '<i class="fa-brands fa-tiktok" style="font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
                 'spotify': '<i class="fa-brands fa-spotify" style="color: #1DB954; font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
-                'link\\s*tree': '<i class="fa-solid fa-link" style="color: #43E660; font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
+                'link\\\\s*tree': '<i class="fa-solid fa-link" style="color: #43E660; font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
                 'deezer': '<i class="fa-brands fa-deezer" style="font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
-                'apple\\s*podcast': '<i class="fa-solid fa-podcast" style="color: #872EC4; font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
-                'soundcloud': '<i class="fa-brands fa-soundcloud" style="color: #FF5500; font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
-                'twitter': '<i class="fa-brands fa-x-twitter" style="font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
-                'snapchat': '<i class="fa-brands fa-snapchat" style="color: #FFFC00; font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>'
+                'apple\\\\s*podcast': '<i class="fa-solid fa-podcast" style="color: #872EC4; font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>',
+                'soundcloud': '<i class="fa-brands fa-soundcloud" style="color: #FF5500; font-size: 1.25em; vertical-align: text-bottom; margin-right: 5px;"></i>'
             };
 
             for (const [networkPattern, iconHtml] of Object.entries(iconMappings)) {
-                // Regex : cherche le nom du réseau (word boundary)
-                // suivi éventuellement par des balises de fermeture (</strong>, </a>...)
+                // Regex améliorée : on cherche le nom du réseau (avec \b) 
+                // suivi (éventuellement) par des balises de fermeture (comme </strong> ou </a>)
                 // puis suivi de ":"
-                const regex = new RegExp(`\\b(${networkPattern})\\b(\\s*(?:<\\/[^>]+>\\s*)*):?`, 'gi');
-                const before = contenuHtml;
+                // De cette façon "<strong>Instagram</strong>:" ou "[LinkTree](...):" fonctionne parfaitement !
+                const regex = new RegExp(`\\b(${networkPattern})\\b(\\s*(?:<\\/[^>]+>\\s*)*):\\s*`, 'gi');
                 contenuHtml = contenuHtml.replace(regex, (match, p1, p2) => {
-                    console.log(`  🔗 [RENDER] Réseau reconnu : "${p1}" dans l'article "${titre}" — remplacement par icône ✅`);
                     return iconHtml + p2;
                 });
-                // Debug : si aucun remplacement n'a eu lieu mais le mot est présent dans le contenu
-                if (before === contenuHtml && new RegExp(networkPattern, 'gi').test(contenuHtml)) {
-                    console.log(`  ⚠️ [RENDER] "${networkPattern}" trouvé dans "${titre}" mais PAS suivi de ":" — aucun remplacement`);
-                }
             }
 
             // --- NOUVEAU : Récupérer la case à cocher "Accueil" ---
