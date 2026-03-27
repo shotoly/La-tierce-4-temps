@@ -253,7 +253,8 @@ async function fetchNotionData() {
                 'deezer': '<i class="fa-brands fa-deezer" style="font-size: 1.5em; vertical-align: middle;"></i>',
                 'apple[-\\s]*podcast': '<i class="fa-solid fa-podcast" style="color: #872EC4; font-size: 1.5em; vertical-align: middle;"></i>',
                 'soundcloud': '<i class="fa-brands fa-soundcloud" style="color: #FF5500; font-size: 1.5em; vertical-align: middle;"></i>',
-                'siteinternet': '<i class="fa-solid fa-globe" style="color: #0099ffff; font-size: 1.5em; vertical-align: middle;"></i>'
+                'siteinternet': '<i class="fa-solid fa-globe" style="color: #0099ffff; font-size: 1.5em; vertical-align: middle;"></i>',
+                'bandcamp': '<i class="fa-brands fa-bandcamp" style="color: #007C9E; font-size: 1.5em; vertical-align: middle;"></i>'
             };
 
             for (const [networkPattern, iconHtml] of Object.entries(iconMappings)) {
