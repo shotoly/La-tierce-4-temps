@@ -211,10 +211,10 @@ async function fetchNotionData() {
             const imgRegex = /<img[^>]+src="([^">]+)"/gi;
             const matches = [...contenuHtml.matchAll(imgRegex)];
             let imgIndex = 0;
-            
+
             for (const match of matches) {
                 const originalImgUrl = match[1];
-                
+
                 // Si l'URL de l'image pointe vers un serveur externe (Notion AWS s3, etc.)
                 if (originalImgUrl.startsWith('http')) {
                     imgIndex++;
@@ -225,14 +225,14 @@ async function fetchNotionData() {
                         if (!ext || ext.length > 4 || !ext.match(/^[a-zA-Z0-9]+$/)) {
                             ext = 'jpg';
                         }
-                        
+
                         // ID unique de l'image basé sur l'ID de l'article et l'index
                         const filename = `interne_${id}_${imgIndex}.${ext}`;
                         const filepath = path.join(__dirname, 'img', filename);
-                        
+
                         console.log(`Téléchargement de l'image interne ${imgIndex} pour l'article ${titre}...`);
                         await downloadImage(originalImgUrl, filepath);
-                        
+
                         // Remplacement de l'URL AWS temporaire par le chemin local relatif
                         const localUrl = `../img/${filename}`;
                         contenuHtml = contenuHtml.split(originalImgUrl).join(localUrl);
@@ -249,7 +249,7 @@ async function fetchNotionData() {
                 'facebook': '<i class="fa-brands fa-facebook" style="color: #1877F2; font-size: 1.5em; vertical-align: middle;"></i>',
                 'tiktok': '<i class="fa-brands fa-tiktok" style="font-size: 1.5em; vertical-align: middle;"></i>',
                 'spotify': '<i class="fa-brands fa-spotify" style="color: #1DB954; font-size: 1.5em; vertical-align: middle;"></i>',
-                'link\\\\s*tree': '<i class="fa-solid fa-link" style="color: #43E660; font-size: 1.5em; vertical-align: middle;"></i>',
+                'linkstree': '<i class="fa-solid fa-link" style="color: #43E660; font-size: 1.5em; vertical-align: middle;"></i>',
                 'deezer': '<i class="fa-brands fa-deezer" style="font-size: 1.5em; vertical-align: middle;"></i>',
                 'apple[-\\s]*podcast': '<i class="fa-solid fa-podcast" style="color: #872EC4; font-size: 1.5em; vertical-align: middle;"></i>',
                 'soundcloud': '<i class="fa-brands fa-soundcloud" style="color: #FF5500; font-size: 1.5em; vertical-align: middle;"></i>'
@@ -259,7 +259,7 @@ async function fetchNotionData() {
                 // On cherche "NomRéseau: <a href="URL">...</a>" incluant potentiellement des balises (strong, em, etc.) 
                 // et on extrait l'URL pour la placer uniquement dans l'icône cliquable.
                 const regex = new RegExp(`(?:<[^>]+>)*\\b(${networkPattern})\\b(?:<\\/[^>]+>)*\\s*:\\s*(?:<[^>]+>)*<a\\s+href="([^"]+)"[^>]*>.*?<\\/a>`, 'gi');
-                
+
                 contenuHtml = contenuHtml.replace(regex, (match, p1, href) => {
                     return `<!--SOCIAL_LINK_START--><a href="${href}" target="_blank" class="social-icon-link" style="display:flex; align-items:center; justify-content:center; width: 44px; height: 44px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; text-decoration:none; transition: all 0.2s ease; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">${iconHtml}</a><!--SOCIAL_LINK_END-->`;
                 });
@@ -268,7 +268,7 @@ async function fetchNotionData() {
             // Regrouper tous les liens sociaux consécutifs (séparés ou non par des <p>, <br>, <li>, etc.) 
             // dans un seul conteneur flex horizontal.
             const cleanRe = /((?:<\/?(?:p|ul|li|br|strong|em)[^>]*>|\s*)*<!--SOCIAL_LINK_START-->(?:.*?)<!--SOCIAL_LINK_END-->(?:<\/?(?:p|ul|li|br|strong|em)[^>]*>|\s*)*)+/gi;
-            
+
             contenuHtml = contenuHtml.replace(cleanRe, (match) => {
                 const links = [];
                 const linkRe = /<!--SOCIAL_LINK_START-->(.*?)<!--SOCIAL_LINK_END-->/g;
