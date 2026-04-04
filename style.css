@@ -484,7 +484,7 @@ html.has-scroll-dragging {
    7. PAGE BIO (A propos)
    ========================================================================== */
 .bio-header {
-    min-height: 60vh;
+    min-height: 40vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -531,7 +531,7 @@ html.has-scroll-dragging {
 }
 
 .bio-content-section {
-    padding: 100px 0;
+    padding: 10px 0;
     background-color: var(--couleur-fond);
 }
 
@@ -539,7 +539,7 @@ html.has-scroll-dragging {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 80px;
-    max-width: 1200px;
+    max-width: 1500px;
     margin: 0 auto;
     padding: 0 5vw;
     align-items: center;
@@ -565,7 +565,7 @@ html.has-scroll-dragging {
 }
 
 .bio-image-large img {
-    width: 100%;
+    width: 120%;
     height: auto;
     display: block;
     aspect-ratio: 4/5;
