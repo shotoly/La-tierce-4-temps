@@ -55,6 +55,7 @@ function renderGrid(articlesToDisplay) {
 
     // Optionnel: dire à locomotive scroll qu'on a mis à jour la taille du conteneur
     if (window.locoScroll && typeof window.locoScroll.update === "function") {
+        setTimeout(() => window.locoScroll.update(), 50);
         setTimeout(() => window.locoScroll.update(), 500);
     }
 }
