@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 if (window.locoScroll) {
                     window.locoScroll.update();
+                    window.dispatchEvent(new Event('resize'));
                 }
             }, 1000);
         })

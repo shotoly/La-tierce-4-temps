@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const scrollContainer = document.querySelector('[data-scroll-container]');
 
     if (scrollContainer) {
-        const locoScroll = new LocomotiveScroll({
+        window.locoScroll = new LocomotiveScroll({
             el: scrollContainer,
             smooth: true,
             multiplier: 1,         // Vitesse globale
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Mettre à jour les calculs de Locomotive après un court délai
         // pour s'assurer que les polices immenses ont eu le temps d'être dessinées
         setTimeout(() => {
-            locoScroll.update();
+            if (window.locoScroll) window.locoScroll.update();
         }, 500);
     }
 
