@@ -21,6 +21,7 @@ n2m.setCustomTransformer('column_list', async (block) => {
 n2m.setCustomTransformer('column', async (block) => {
     const { results } = await notion.blocks.children.list({ block_id: block.id });
     const mdblocks = await n2m.blocksToMarkdown(results);
+    const mdString = n2m.toMarkdownString(mdblocks);
     const content = typeof mdString === 'string' ? mdString : (mdString?.parent || "");
     return `\n<div class="notion-col">\n\n${content}\n\n</div>\n`;
 });
