@@ -245,14 +245,28 @@ body {
    ========================================================================== */
 #hero {
     height: 100vh;
-    background-image: var(--hero-bg-image);
     background-size: cover;
     background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
+    overflow: hidden;
 }
+
+.hero-video-mobile {
+    display: none !important;
+}
+
+@media screen and (max-width: 768px) {
+    .hero-video-desktop {
+        display: none !important;
+    }
+    .hero-video-mobile {
+        display: block !important;
+    }
+}
+
 
 /* Un filtre plus chaleureux pour rappeler le sud */
 #hero::before {

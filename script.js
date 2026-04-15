@@ -3,17 +3,17 @@ const themeToggleBtn = document.getElementById('theme-toggle');
 const rootElement = document.documentElement; // La balise <html>
 
 // Vérifie la préférence sauvegardée ou celle du système
-const currentTheme = localStorage.getItem('theme') || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+const currentTheme = localStorage.getItem('theme') || (globalThis.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
 
 // Applique le thème initial au chargement (avant même le DOM ready pour éviter le clignotement)
 if (currentTheme === "dark") {
-    rootElement.setAttribute("data-theme", "dark");
+    rootElement.dataset.theme = "dark";
 }
 
 document.addEventListener("DOMContentLoaded", function () {
     // Met à jour l'icône du bouton initialement
     if (themeToggleBtn) {
-        if (rootElement.getAttribute("data-theme") === "dark") {
+        if (rootElement.dataset.theme === "dark") {
             themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
         }
 
@@ -21,12 +21,12 @@ document.addEventListener("DOMContentLoaded", function () {
             e.preventDefault(); // Empêche de remonter en haut de la page
 
             // Bascule le thème
-            if (rootElement.getAttribute("data-theme") === "dark") {
-                rootElement.removeAttribute("data-theme");
+            if (rootElement.dataset.theme === "dark") {
+                delete rootElement.dataset.theme;
                 localStorage.setItem("theme", "light");
                 this.innerHTML = '<i class="fa-solid fa-moon"></i>';
             } else {
-                rootElement.setAttribute("data-theme", "dark");
+                rootElement.dataset.theme = "dark";
                 localStorage.setItem("theme", "dark");
                 this.innerHTML = '<i class="fa-solid fa-sun"></i>';
             }
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const scrollContainer = document.querySelector('[data-scroll-container]');
 
     if (scrollContainer) {
-        window.locoScroll = new LocomotiveScroll({
+        globalThis.locoScroll = new LocomotiveScroll({
             el: scrollContainer,
             smooth: true,
             multiplier: 1,         // Vitesse globale
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Mettre à jour les calculs de Locomotive après un court délai
         // pour s'assurer que les polices immenses ont eu le temps d'être dessinées
         setTimeout(() => {
-            if (window.locoScroll) window.locoScroll.update();
+            if (globalThis.locoScroll) globalThis.locoScroll.update();
         }, 500);
     }
 

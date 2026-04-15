@@ -215,7 +215,7 @@
                 <li><a href="../page/a-propos.html">Bio</a></li>
                 <li><a href="../page/podcasts.html">Les podcasts</a></li>
                 <li><a href="../page/Bonus.html">Les Bonus</a></li>
-                <li id="theme-toggle-li"><a href="#" id="theme-toggle"></a></li>
+                <li id="theme-toggle-li"><a href="#" id="theme-toggle" aria-label="Activer le thème"></a></li>
             </ul>
         </nav>
     </header>
@@ -260,8 +260,8 @@
                 <p style="color: #818181; font-size: 0.85rem; margin-top: auto;">© 2026 Margault. All Rights Reserved
                 </p>
                 <div class="totop-wrapper" style="margin-top: 20px;">
-                    <a href="#" class="totop link-act" onclick="window.scrollTo(0,0); return false;">Retour en haut <i
-                            class="fa-solid fa-arrow-up"></i></a>
+                    <button class="totop link-act" onclick="globalThis.scrollTo(0,0); return false;" style="background:none; border:none; padding:0; font:inherit; color:inherit; cursor:pointer;">Retour en haut <i
+                            class="fa-solid fa-arrow-up"></i></button>
                 </div>
             </div>
         </div>
@@ -274,7 +274,7 @@
     <script src="../player.js"></script>
     <script>
         // Ce petit script lit l'ID dans l'URL (ex: article.html?id=123) et cherche le bon article !
-        const urlParams = new URLSearchParams(window.location.search);
+        const urlParams = new URLSearchParams(globalThis.location.search);
         const articleId = urlParams.get('id');
 
         fetch('donnees.json')
@@ -342,8 +342,8 @@
 
                         // Initialisation asynchrone après injection
                         setTimeout(() => {
-                            if (window.initVinylPlayer) {
-                                window.initVinylPlayer({
+                            if (globalThis.initVinylPlayer) {
+                                globalThis.initVinylPlayer({
                                     title: article.titre,
                                     album: article.categorie,
                                     coverUrl: article.imageVinyl || article.image,

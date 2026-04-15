@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Filtrer tous les éléments ayant la catégorie "Short" ou assimilé
             const shorts = articles.filter(article => 
-                article.categorie && article.categorie.toLowerCase().includes('short')
+                article.categorie?.toLowerCase().includes('short')
             );
 
             if (shorts.length === 0) {
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (url.includes("watch?v=")) {
                     try {
                         videoId = new URL(url).searchParams.get("v");
-                    } catch (e) {}
+                    } catch { /* ignore */ }
                 }
 
                 if (!videoId) return; // Ignorer si pas d'ID valide
@@ -54,9 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Re-update Locomotive Scroll after images/iframes load
             setTimeout(() => {
-                if (window.locoScroll) {
-                    window.locoScroll.update();
-                    window.dispatchEvent(new Event('resize'));
+                if (globalThis.locoScroll) {
+                    globalThis.locoScroll.update();
+                    globalThis.dispatchEvent(new Event('resize'));
                 }
             }, 1000);
         })
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
-window.playShort = function(videoId, wrapper) {
+globalThis.playShort = function(videoId, wrapper) {
     wrapper.innerHTML = `
         <iframe 
             src="https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&color=white&controls=1&modestbranding=1&playsinline=1&rel=0" 

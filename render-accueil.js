@@ -27,7 +27,7 @@ fetch('page/donnees.json')
         conteneur.innerHTML = ''; // On vide le message de chargement
 
         // On exclut les Shorts des articles mis en avant
-        const articlesSansShorts = articles.filter(article => !article.categorie || !article.categorie.toLowerCase().includes('short'));
+        const articlesSansShorts = articles.filter(article => !article.categorie?.toLowerCase().includes('short'));
 
         // 1. Filtrer les articles pour ne garder QUE ceux où accueil: true
         const articlesFavoris = articlesSansShorts.filter(article => article.accueil === true);
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ];
         
         // On mélange la liste pour garantir l'aléatoire à chaque rechargement
-        const imagesMelangees = imagesDisponibles.sort(() => 0.5 - Math.random());
+        const imagesMelangees = imagesDisponibles.toSorted(() => 0.5 - Math.random());
         
         dynBgImages.forEach((imgElement, index) => {
             // On applique une image aléatoire à chaque balise de fond

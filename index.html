@@ -51,13 +51,15 @@
 
     <main data-scroll-container>
         <section id="hero" data-scroll-section>
-            <video autoplay loop muted playsinline class="hero-video-desktop"
+            <video autoplay loop muted playsinline class="hero-video-desktop" aria-hidden="true" title="Background Video"
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none;">
                 <source src="site_paysage.webm" type="video/webm">
+                <track kind="captions" />
             </video>
-            <video autoplay loop muted playsinline class="hero-video-mobile"
+            <video autoplay loop muted playsinline class="hero-video-mobile" aria-hidden="true" title="Background Video Mobile"
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none;">
                 <source src="site_portrait.mp4" type="video/mp4">
+                <track kind="captions" />
             </video>
             <div style="z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center;">
                 <img src="logo_noir.svg" alt="Margault" class="hero-logo-img">
@@ -193,32 +195,27 @@
                 document.querySelector('.pan4')
             ];
 
-            // Start the animation slightly after page load for effect
-            setTimeout(() => animatePanes(), 100);
+            const finishLoadingScreen = () => {
+                document.getElementById('preload').classList.add('is-loaded');
+                document.body.classList.remove('loading-active');
+                if (globalThis.locoScroll) {
+                    setTimeout(() => globalThis.locoScroll.update(), 500);
+                }
+            };
 
-            function animatePanes() {
-                // Slide panes down sequentially
+            const animatePanes = () => {
                 pans.forEach((pan, index) => {
                     setTimeout(() => {
                         pan.style.transition = 'top 0.4s cubic-bezier(0.85, 0, 0.15, 1)';
                         pan.style.top = '0%';
-
-                        // When the last pane finishes animating
                         if (index === pans.length - 1) {
-                            setTimeout(() => {
-                                // Slide the whole loader container down to reveal site
-                                document.getElementById('preload').classList.add('is-loaded');
-                                document.body.classList.remove('loading-active');
-
-                                // Re-initialize Locomotive Scroll to fix sizing issues after uncovering
-                                if (window.locoScroll) {
-                                    setTimeout(() => window.locoScroll.update(), 500);
-                                }
-                            }, 400); // Wait a bit after last pane
+                            setTimeout(finishLoadingScreen, 400);
                         }
-                    }, index * 180); // Stagger delay (180ms)
+                    }, index * 180);
                 });
-            }
+            };
+
+            setTimeout(animatePanes, 100);
         });
     </script>
 </body>

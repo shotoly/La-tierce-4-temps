@@ -111,8 +111,8 @@
                     <p style="color: #818181; font-size: 0.85rem; margin-top: auto;">© 2026 Margault. All Rights
                         Reserved</p>
                     <div class="totop-wrapper" style="margin-top: 20px;">
-                        <a href="#" class="totop link-act" onclick="window.scrollTo(0,0); return false;">Retour en haut
-                            <i class="fa-solid fa-arrow-up"></i></a>
+                        <button class="totop link-act" onclick="globalThis.scrollTo(0,0); return false;" style="background:none; border:none; padding:0; font:inherit; color:inherit; cursor:pointer;">Retour en haut
+                            <i class="fa-solid fa-arrow-up"></i></button>
                     </div>
                 </div>
             </div>
@@ -134,31 +134,32 @@
                 document.querySelector('.pan4')
             ];
 
-            // Start the animation slightly after page load for effect
-            setTimeout(() => animatePanes(), 100);
+            const finishLoadingScreen = () => {
+                const preload = document.getElementById('preload');
+                if (preload) preload.classList.add('is-loaded');
+                document.body.classList.remove('loading-active');
+                if (globalThis.locoScroll) {
+                    setTimeout(() => globalThis.locoScroll.update(), 500);
+                }
+            };
 
-            function animatePanes() {
-                // Slide panes down sequentially
+            const animatePanes = () => {
                 pans.forEach((pan, index) => {
+                    if(!pan) return;
                     setTimeout(() => {
                         pan.style.transition = 'top 0.4s cubic-bezier(0.85, 0, 0.15, 1)';
                         pan.style.top = '0%';
-
-                        // When the last pane finishes animating
                         if (index === pans.length - 1) {
-                            setTimeout(() => {
-                                // Slide the whole loader container down to reveal site
-                                document.getElementById('preload').classList.add('is-loaded');
-                                document.body.classList.remove('loading-active');
-
-                                // Re-initialize Locomotive Scroll to fix sizing issues after uncovering
-                                if (window.locoScroll) {
-                                    setTimeout(() => window.locoScroll.update(), 500);
-                                }
-                            }, 400); // Wait a bit after last pane
+                            setTimeout(finishLoadingScreen, 400);
                         }
-                    }, index * 180); // Stagger delay (180ms)
+                    }, index * 180);
                 });
+            };
+
+            if (pans[0]) {
+                setTimeout(animatePanes, 100);
+            } else {
+                finishLoadingScreen();
             }
         });
     </script>

@@ -54,14 +54,14 @@ function renderGrid(articlesToDisplay) {
     });
 
     // Optionnel: dire à locomotive scroll qu'on a mis à jour la taille du conteneur
-    if (window.locoScroll && typeof window.locoScroll.update === "function") {
+    if (globalThis.locoScroll && typeof globalThis.locoScroll.update === "function") {
         setTimeout(() => {
-            window.locoScroll.update();
-            window.dispatchEvent(new Event('resize'));
+            globalThis.locoScroll.update();
+            globalThis.dispatchEvent(new Event('resize'));
         }, 50);
         setTimeout(() => {
-            window.locoScroll.update();
-            window.dispatchEvent(new Event('resize'));
+            globalThis.locoScroll.update();
+            globalThis.dispatchEvent(new Event('resize'));
         }, 500);
     }
 }
@@ -87,7 +87,7 @@ function initFilters() {
 
         // Filtrage
         let filtered = allArticles.filter(article => {
-            const matchSearch = article.titre.toLowerCase().includes(searchText) || (article.categorie && article.categorie.toLowerCase().includes(searchText));
+            const matchSearch = article.titre.toLowerCase().includes(searchText) || (article.categorie?.toLowerCase().includes(searchText));
             const matchCategory = category === 'all' || article.categorie === category;
             return matchSearch && matchCategory;
         });
@@ -112,7 +112,7 @@ fetch('donnees.json')
     .then(response => response.json())
     .then(articles => {
         // Exclure les articles de la catégorie "Short"
-        allArticles = articles.filter(article => !article.categorie || !article.categorie.toLowerCase().includes('short'));
+        allArticles = articles.filter(article => !article.categorie?.toLowerCase().includes('short'));
         initFilters();
         renderGrid(allArticles);
     })

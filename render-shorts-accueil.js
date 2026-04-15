@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Filtrer tous les éléments ayant la catégorie "Short"
             const shorts = articles.filter(article => 
-                article.categorie && article.categorie.toLowerCase().includes('short')
+                article.categorie?.toLowerCase().includes('short')
             );
 
             if (shorts.length === 0) {
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (url.includes("watch?v=")) {
                     try {
                         videoId = new URL(url).searchParams.get("v");
-                    } catch (e) {}
+                    } catch { /* ignore */ }
                 }
 
                 if (!videoId) return; 
@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Re-update Locomotive Scroll after changes
             setTimeout(() => {
-                if (window.locoScroll) {
-                    window.locoScroll.update();
+                if (globalThis.locoScroll) {
+                    globalThis.locoScroll.update();
                 }
             }, 1000);
         })
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
-window.playShortAccueil = function(videoId, wrapper) {
+globalThis.playShortAccueil = function(videoId, wrapper) {
     wrapper.innerHTML = `
         <iframe 
             src="https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&color=white&controls=1&modestbranding=1&playsinline=1&rel=0" 
