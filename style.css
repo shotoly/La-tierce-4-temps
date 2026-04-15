@@ -700,6 +700,7 @@ html.has-scroll-dragging {
     display: flex;
     justify-content: center;
     align-items: flex-end;
+    pointer-events: none;
 }
 
 /* On force certains textes internes au blanc par défaut SAUF si la variable color a changé en Light Mode */
@@ -767,6 +768,7 @@ html.has-scroll-dragging {
     gap: 2rem;
     position: relative;
     z-index: 10;
+    pointer-events: auto;
 }
 
 .fancy-footer .col {
