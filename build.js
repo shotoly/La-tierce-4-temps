@@ -88,6 +88,14 @@ n2m.setCustomTransformer('embed', async (block) => {
     if (url.includes('youtube.com/') || url.includes('youtu.be/')) {
         const { videoId, isShort } = parseYouTubeUrl(url);
         if (videoId) return renderYouTubeEmbed(videoId, isShort);
+    } else if (url.includes('vimeo.com/')) {
+        try {
+            const urlObj = new URL(url);
+            const videoId = urlObj.pathname.substring(1).split('/')[0];
+            if (videoId) {
+                return `\n<div class="notion-video-wrapper"><iframe src="https://player.vimeo.com/video/${videoId}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
+            }
+        } catch { /* ignore parse error */ }
     }
 
     // Si on ne sait pas quoi en faire, on affiche au moins le lien
