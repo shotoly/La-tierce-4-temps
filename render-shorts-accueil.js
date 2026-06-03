@@ -35,10 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         videoId = new URL(url).searchParams.get("v");
                     } catch { /* ignore */ }
                 } else if (url.includes("vimeo.com/")) {
-                    try {
-                        videoId = new URL(url).pathname.substring(1).split('/')[0];
+                    const match = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+                    if (match) {
+                        videoId = match[1];
                         isVimeo = true;
-                    } catch { /* ignore */ }
+                    }
                 }
 
                 if (!videoId) return; 
