@@ -102,7 +102,7 @@
                     <p><a class="link-act" href="a-propos.html">À propos</a></p>
                     <p><a class="link-act" href="podcasts.html">Podcasts</a></p>
                     <p><a class="link-act" href="Bonus.html">Les Bonus</a></p>
-                    <p><a href="#" class="link-act">Newsletter</a></p>
+                    <p><a href="#" class="link-act open-newsletter-btn">Newsletter</a></p>
                 </div>
 
                 <div class="col col3">
@@ -163,4 +163,16 @@
             }
         });
     </script>
+
+    <!-- Newsletter Modal -->
+    <div class="newsletter-modal" id="newsletter-modal">
+        <div class="newsletter-modal-content">
+            <button class="newsletter-modal-close" id="close-newsletter-btn">&times;</button>
+            <h2 style="font-family: var(--police-titre); font-size: 2rem; margin-bottom: 20px; color: #fff; text-align: center;">Abonnez-vous à ma newsletter</h2>
+            <div class="newsletter-container" style="border-radius: 12px; overflow: hidden;">
+                <iframe src="https://margaultgiacalone83.substack.com/embed?transparent=1&light=1" width="100%" height="320" style="border: 0; background: transparent" title="Inscription Newsletter Substack" style="border: 0; background: transparent; overflow: hidden;"></iframe>
+            </div>
+        </div>
+    </div>
+
 </body>

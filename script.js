@@ -91,3 +91,31 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+
+// Newsletter Modal Logic
+document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('newsletter-modal');
+    const openBtns = document.querySelectorAll('.open-newsletter-btn');
+    const closeBtn = document.getElementById('close-newsletter-btn');
+
+    if (modal) {
+        openBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                modal.classList.add('active');
+            });
+        });
+
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                modal.classList.remove('active');
+            });
+        }
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+    }
+});

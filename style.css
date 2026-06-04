@@ -474,7 +474,7 @@ html.has-scroll-dragging {
     margin-top: 30px;
     padding: 16px 36px;
     background-color: var(--provence-jaune);
-    color: #000;
+    color: #fff;
     /* Contraste fort assumé */
     font-family: var(--police-titre);
     font-weight: 700;
@@ -950,4 +950,50 @@ html.has-scroll-dragging {
 /* We prevent scroll while loading */
 body.loading-active {
     overflow: hidden !important;
+}
+/* Newsletter Modal */
+.newsletter-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+.newsletter-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+.newsletter-modal-content {
+    background: #111;
+    padding: 40px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.newsletter-modal.active .newsletter-modal-content {
+    transform: translateY(0);
+}
+.newsletter-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 32px;
+    cursor: pointer;
+    color: #fff;
+    padding: 0;
+    line-height: 1;
 }
