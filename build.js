@@ -71,6 +71,12 @@ n2m.setCustomTransformer('video', async (block) => {
             const videoId = match[1];
             return `\n<div class="notion-video-wrapper"><iframe src="https://player.vimeo.com/video/${videoId}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
         }
+    } else if (url.includes('drive.google.com/file/d/')) {
+        const match = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/.exec(url);
+        if (match) {
+            const fileId = match[1];
+            return `\n<div class="notion-video-wrapper"><iframe src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
+        }
     }
 
     // Vidéo hébergée en direct
@@ -91,6 +97,12 @@ n2m.setCustomTransformer('embed', async (block) => {
         if (match) {
             const videoId = match[1];
             return `\n<div class="notion-video-wrapper"><iframe src="https://player.vimeo.com/video/${videoId}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
+        }
+    } else if (url.includes('drive.google.com/file/d/')) {
+        const match = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/.exec(url);
+        if (match) {
+            const fileId = match[1];
+            return `\n<div class="notion-video-wrapper"><iframe src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
         }
     }
 
