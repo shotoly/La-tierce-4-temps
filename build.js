@@ -225,6 +225,29 @@ function processGoogleDriveLinks(contenuHtml) {
     });
 }
 
+function checkFailedIntegrations(contenuHtml, titre) {
+    const mediaDomains = [
+        'youtube.com', 'youtu.be', 'vimeo.com', 'drive.google.com', 
+        'spotify.com', 'deezer.com', 'soundcloud.com', 'apple.com'
+    ];
+    
+    const regex = /<a\s+([^>]*\s+)?href="([^"]+)"/gi;
+    let match;
+    while ((match = regex.exec(contenuHtml)) !== null) {
+        const fullTag = match[0];
+        const url = match[2];
+        
+        if (fullTag.includes('social-icon-link')) continue;
+        
+        for (const domain of mediaDomains) {
+            if (url.includes(domain)) {
+                console.warn(`\x1b[33m⚠️ Attention : Le lien ${domain} ("${url}") dans l'article "${titre}" n'a pas été intégré comme lecteur multimédia/bonus. Il apparaîtra comme un simple lien texte.\x1b[0m`);
+                break;
+            }
+        }
+    }
+}
+
 function groupSocialLinks(contenuHtml) {
     const iconMappings = {
         'instagram': '<i class="fa-brands fa-instagram" style="color: #E1306C; font-size: 1.5em; vertical-align: middle;"></i>',
@@ -306,6 +329,9 @@ async function pageToArticle(page) {
     contenuHtml = await processInternalImages(contenuHtml, id, titre);
     contenuHtml = groupSocialLinks(contenuHtml);
     contenuHtml = processGoogleDriveLinks(contenuHtml);
+
+    // --- NOUVEAU : Vérification des liens non intégrés ---
+    checkFailedIntegrations(contenuHtml, titre);
 
     // --- NOUVEAU : Récupérer la case à cocher "Accueil" ---
     const estAfficheAccueil = page.properties["Accueil"]?.checkbox || false;
