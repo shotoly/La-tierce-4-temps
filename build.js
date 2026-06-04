@@ -109,6 +109,40 @@ n2m.setCustomTransformer('embed', async (block) => {
     // Si on ne sait pas quoi en faire, on affiche au moins le lien
     return `\n<a href="${url}" target="_blank" class="link-act" style="color: var(--provence-violet);">${url}</a>\n`;
 });
+
+// Ajouter un transformer pour les bookmarks (favoris web)
+n2m.setCustomTransformer('bookmark', async (block) => {
+    const bookmark = block.bookmark;
+    if (!bookmark?.url) return '';
+    const url = bookmark.url;
+
+    if (url.includes('drive.google.com/file/d/')) {
+        const match = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/.exec(url);
+        if (match) {
+            const fileId = match[1];
+            return `\n<div class="notion-video-wrapper"><iframe src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
+        }
+    }
+    
+    return `\n<a href="${url}" target="_blank" class="link-act" style="color: var(--provence-violet);">${url}</a>\n`;
+});
+
+// Ajouter un transformer pour les aperçus de liens
+n2m.setCustomTransformer('link_preview', async (block) => {
+    const link_preview = block.link_preview;
+    if (!link_preview?.url) return '';
+    const url = link_preview.url;
+
+    if (url.includes('drive.google.com/file/d/')) {
+        const match = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/.exec(url);
+        if (match) {
+            const fileId = match[1];
+            return `\n<div class="notion-video-wrapper"><iframe src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
+        }
+    }
+    
+    return `\n<a href="${url}" target="_blank" class="link-act" style="color: var(--provence-violet);">${url}</a>\n`;
+});
 // -----------------------------------------------------------------
 
 // --- Fonction pour télécharger et sauvegarder une image localement ---
@@ -182,6 +216,13 @@ async function processInternalImages(contenuHtml, id, titre) {
         }
     }
     return contenuHtml;
+}
+
+function processGoogleDriveLinks(contenuHtml) {
+    const regex = /<a[^>]*href="(https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)[^"]*)"[^>]*>.*?<\/a>/g;
+    return contenuHtml.replaceAll(regex, (match, url, fileId) => {
+        return `\n<div class="notion-video-wrapper"><iframe src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
+    });
 }
 
 function groupSocialLinks(contenuHtml) {
@@ -264,6 +305,7 @@ async function pageToArticle(page) {
 
     contenuHtml = await processInternalImages(contenuHtml, id, titre);
     contenuHtml = groupSocialLinks(contenuHtml);
+    contenuHtml = processGoogleDriveLinks(contenuHtml);
 
     // --- NOUVEAU : Récupérer la case à cocher "Accueil" ---
     const estAfficheAccueil = page.properties["Accueil"]?.checkbox || false;
