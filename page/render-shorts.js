@@ -80,30 +80,41 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 globalThis.playShort = function(videoId, wrapper, videoType = 'youtube') {
-    let iframeSrc = '';
-    let extraStyle = 'width:100%; height:100%;';
+    let iframeHtml = '';
     
     if (videoType === 'vimeo') {
-        iframeSrc = `https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&autopause=0`;
+        iframeHtml = `
+            <iframe 
+                src="https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&autopause=0" 
+                title="Video" 
+                width="100%" height="100%" frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" 
+                allowfullscreen
+                style="position: absolute; top:0; left:0; border:none; width:100%; height:100%;">
+            </iframe>`;
     } else if (videoType === 'drive') {
-        iframeSrc = `https://drive.google.com/file/d/${videoId}/preview?autoplay=1&embedded=true`;
-        extraStyle = 'width: 100%; height: 100%;';
+        // Format brut fourni par Google Drive, avec uniquement les styles CSS pour remplir la case
+        iframeHtml = `
+            <iframe 
+                src="https://drive.google.com/file/d/${videoId}/preview" 
+                width="640" 
+                height="480" 
+                allow="autoplay"
+                style="position: absolute; top:0; left:0; width:100%; height:100%; border:none;">
+            </iframe>`;
     } else {
-        iframeSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&color=white&controls=1&modestbranding=1&playsinline=1&rel=0`;
+        iframeHtml = `
+            <iframe 
+                src="https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&color=white&controls=1&modestbranding=1&playsinline=1&rel=0" 
+                title="Video" 
+                width="100%" height="100%" frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" 
+                allowfullscreen
+                style="position: absolute; top:0; left:0; border:none; width:100%; height:100%;">
+            </iframe>`;
     }
 
-    wrapper.innerHTML = `
-        <iframe 
-            src="${iframeSrc}" 
-            title="Video" 
-            width="100%" 
-            height="100%"
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" 
-            allowfullscreen
-            style="position: absolute; top:0; left:0; border:none; ${extraStyle}">
-        </iframe>
-    `;
+    wrapper.innerHTML = iframeHtml;
     wrapper.style.cursor = 'default';
     wrapper.onclick = null;
 };
