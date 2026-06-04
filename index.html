@@ -7,7 +7,7 @@
     <title>La tierce à 4 temps</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css" integrity="sha384-8DE/Lk4d6Oc/WO04f3lv9vQCSrM28sDYyEmrs9hx4+b+oOrgm4txW7cOxPWlTHEd" crossorigin="anonymous">
-    <link rel="shortcut icon" href="img/Logo_petit.svg" />
+    <link rel="shortcut icon" href="img/icon_petit.svg" />
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="style/cardmain.css">
     <link rel="stylesheet" href="style/player.css">
@@ -19,6 +19,30 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js" integrity="sha384-OCi7pis5Dzyb6liFSmJPTTJCogFKCIyxEx0jyPpmpqv3GyDGCIG3AiXjev/vqpGF" crossorigin="anonymous"></script>
+
+    <style>
+        /* Ajout d'une transition douce pour le changement de couleur */
+        .menu-droite a, .menu-toggle, #theme-toggle, .logo img {
+            transition: color 0.3s ease, filter 0.3s ease;
+        }
+
+        /* Force logo et menu en blanc UNIQUEMENT quand on est tout en haut (pas de scroll) */
+        body:not(.is-scrolled) .logo img, 
+        body:not(.is-scrolled) .hero-logo-img {
+            content: url('logo_blanc.svg') !important;
+        }
+        
+        body:not(.is-scrolled) .menu-droite a, 
+        body:not(.is-scrolled) .menu-toggle, 
+        body:not(.is-scrolled) #theme-toggle {
+            color: #FAFAFA !important;
+        }
+
+        body:not(.is-scrolled) .menu-droite a:hover, 
+        body:not(.is-scrolled) #theme-toggle:hover {
+            color: var(--provence-jaune) !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -64,7 +88,7 @@
             <div style="z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center;">
                 <img src="logo_noir.svg" alt="Margault" class="hero-logo-img">
                 <p
-                    style="font-family: var(--police-titre); font-size: 1.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 4px; color: var(--couleur-texte); margin-top: 10px;">
+                    style="font-family: var(--police-titre); font-size: 1.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 4px; color: #fff; margin-top: 10px;">
                     Média musical</p>
             </div>
         </section>

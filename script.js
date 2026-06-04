@@ -55,6 +55,29 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => {
             if (globalThis.locoScroll) globalThis.locoScroll.update();
         }, 500);
+
+        // --- GESTION DU SCROLL POUR LA COULEUR DE LA NAVBAR ---
+        // On vérifie que locoScroll existe bien
+        if (window.locoScroll) {
+            window.locoScroll.on('scroll', (args) => {
+                // Si on a scrollé au-delà de 90% de la hauteur de l'écran (fin de la vidéo)
+                if (args.scroll.y > window.innerHeight * 0.9) {
+                    document.body.classList.add('is-scrolled');
+                } else {
+                    document.body.classList.remove('is-scrolled');
+                }
+            });
+        } else {
+            // Sécurité au cas où Locomotive Scroll n'est pas utilisé (ex: sur mobile)
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > window.innerHeight * 0.9) {
+                    document.body.classList.add('is-scrolled');
+                } else {
+                    document.body.classList.remove('is-scrolled');
+                }
+            });
+        }
+        // -------------------------------------------------------
     }
 
     // Initialisation du Menu Hamburger Responsive

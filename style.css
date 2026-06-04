@@ -26,7 +26,7 @@
     --couleur-texte: #171717;
     /* Gris presque noir profond */
     --couleur-texte-secondaire: #525252;
-    --couleur-navbar-bg: rgba(250, 250, 250, 0.7);
+    --couleur-navbar-bg: rgba(250, 250, 250, 0.4);
     --couleur-navbar-border: rgba(124, 58, 237, 0.1);
     --couleur-transparent: transparent;
 
@@ -55,7 +55,7 @@
     --couleur-texte: #FAFAFA;
     /* Blanc cassé */
     --couleur-texte-secondaire: #A3A3A3;
-    --couleur-navbar-bg: rgba(18, 18, 18, 0.75);
+    --couleur-navbar-bg: rgba(18, 18, 18, 0.4);
     --couleur-transparent: transparent;
     --couleur-navbar-border: rgba(255, 255, 255, 0.795);
     /* Ligne translucide */
@@ -225,7 +225,10 @@ body {
 
     .menu-droite ul {
         flex-direction: column;
-        align-items: center;
+        align-items: flex-end;
+        /* Aligner à droite */
+        width: 100%;
+        padding-right: 40px;
         gap: 40px;
     }
 
@@ -262,6 +265,7 @@ body {
     .hero-video-desktop {
         display: none !important;
     }
+
     .hero-video-mobile {
         display: block !important;
     }
@@ -951,6 +955,7 @@ html.has-scroll-dragging {
 body.loading-active {
     overflow: hidden !important;
 }
+
 /* Newsletter Modal */
 .newsletter-modal {
     position: fixed;
@@ -967,24 +972,32 @@ body.loading-active {
     pointer-events: none;
     transition: opacity 0.3s ease;
 }
+
 .newsletter-modal.active {
     opacity: 1;
     pointer-events: auto;
 }
+
 .newsletter-modal-content {
     background: #111;
-    padding: 40px;
+    padding: 5px 40px 40px 40px;
     border-radius: 12px;
     width: 90%;
     max-width: 600px;
     position: relative;
     transform: translateY(20px);
     transition: transform 0.3s ease;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
+
 .newsletter-modal.active .newsletter-modal-content {
     transform: translateY(0);
 }
+
+.newsletter-modal-content h2 {
+    margin-top: 0 !important;
+}
+
 .newsletter-modal-close {
     position: absolute;
     top: 10px;
