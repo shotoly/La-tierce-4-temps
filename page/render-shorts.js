@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
             conteneur.innerHTML = ''; // Vider le texte de chargement
 
             // Filtrer tous les éléments ayant la catégorie "Short" ou assimilé
-            const shorts = articles.filter(article => 
+            const shorts = articles.filter(article =>
                 article.categorie?.toLowerCase().includes('short')
             );
 
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let videoId = "";
                 let videoType = "youtube";
                 const url = short.lien || short.audio || "";
-                
+
                 // Extraction de l'ID YouTube ou Vimeo
                 if (url.includes("/shorts/")) {
                     videoId = url.split("/shorts/")[1].split("?")[0];
@@ -42,14 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         videoId = match[1];
                         videoType = 'drive';
                     }
-                } else if (url.includes(".mp4") || url.includes(".webm") || url.includes("amazonaws.com")) {
-                    videoId = url;
-                    videoType = 'native';
                 }
 
                 if (!videoId) return; // Ignorer si pas d'ID valide
 
-                let imageUrl = (videoType === 'vimeo' || videoType === 'drive' || videoType === 'native') ? "" : `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+                let imageUrl = (videoType === 'vimeo' || videoType === 'drive') ? "" : `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
                 if (short.image && !short.image.includes('default-thumbnail')) {
                     imageUrl = short.image.startsWith('img/') ? '../' + short.image : short.image;
                 }
@@ -67,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 conteneur.innerHTML += iframeHtml;
             });
-            
+
             // Re-update Locomotive Scroll after images/iframes load
             setTimeout(() => {
                 if (globalThis.locoScroll) {
@@ -96,14 +93,14 @@ globalThis.playShort = function(videoId, wrapper, videoType = 'youtube') {
                 style="position: absolute; top:0; left:0; border:none; width:100%; height:100%;">
             </iframe>`;
     } else if (videoType === 'drive') {
-        // Format brut fourni par Google Drive, avec uniquement les styles CSS pour remplir la case
+        // Un dézoom modéré pour garder l'UI cliquable sur mobile tout en évitant la barre noire
         iframeHtml = `
             <iframe 
-                src="https://drive.google.com/file/d/${videoId}/preview" 
-                width="640" 
-                height="480" 
-                allow="autoplay"
-                style="position: absolute; top:0; left:0; width:100%; height:100%; border:none;">
+                src="https://drive.google.com/file/d/${videoId}/preview?autoplay=1" 
+                width="100%" height="100%" frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" 
+                allowfullscreen
+                style="position: absolute; top:0; left:0; border:none; width:200%; height:200%; transform: scale(0.5); transform-origin: top left;">
             </iframe>`;
     } else if (videoType === 'native') {
         iframeHtml = `
