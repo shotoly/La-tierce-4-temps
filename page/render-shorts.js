@@ -86,8 +86,8 @@ globalThis.playShort = function(videoId, wrapper, videoType = 'youtube') {
     if (videoType === 'vimeo') {
         iframeSrc = `https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&autopause=0`;
     } else if (videoType === 'drive') {
-        iframeSrc = `https://drive.google.com/file/d/${videoId}/preview?autoplay=1`;
-        extraStyle = 'width: max(100%, 450px); height: 100%; left: 50%; transform: translateX(-50%);';
+        iframeSrc = `https://drive.google.com/file/d/${videoId}/preview?autoplay=1&embedded=true`;
+        extraStyle = 'width: 100%; height: 100%;';
     } else {
         iframeSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&color=white&controls=1&modestbranding=1&playsinline=1&rel=0`;
     }
