@@ -96,8 +96,10 @@ globalThis.playShort = function(videoId, wrapper, videoType = 'youtube') {
         <iframe 
             src="${iframeSrc}" 
             title="Video" 
+            width="100%" 
+            height="100%"
             frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen" 
             allowfullscreen
             style="position: absolute; top:0; left:0; border:none; ${extraStyle}">
         </iframe>
