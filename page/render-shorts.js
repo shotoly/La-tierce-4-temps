@@ -81,10 +81,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 globalThis.playShort = function(videoId, wrapper, videoType = 'youtube') {
     let iframeSrc = '';
+    let extraStyle = 'width:100%; height:100%;';
+    
     if (videoType === 'vimeo') {
         iframeSrc = `https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&autopause=0`;
     } else if (videoType === 'drive') {
         iframeSrc = `https://drive.google.com/file/d/${videoId}/preview?autoplay=1`;
+        extraStyle = 'width: 300%; height: 300%; transform: scale(0.333333); transform-origin: top left;';
     } else {
         iframeSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&color=white&controls=1&modestbranding=1&playsinline=1&rel=0`;
     }
@@ -96,7 +99,7 @@ globalThis.playShort = function(videoId, wrapper, videoType = 'youtube') {
             frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
             allowfullscreen
-            style="position: absolute; top:0; left:0; width:100%; height:100%; border:none;">
+            style="position: absolute; top:0; left:0; border:none; ${extraStyle}">
         </iframe>
     `;
     wrapper.style.cursor = 'default';
