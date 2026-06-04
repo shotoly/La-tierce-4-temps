@@ -42,11 +42,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         videoId = match[1];
                         videoType = 'drive';
                     }
+                } else if (url.includes(".mp4") || url.includes(".webm") || url.includes("amazonaws.com")) {
+                    videoId = url;
+                    videoType = 'native';
                 }
 
                 if (!videoId) return; // Ignorer si pas d'ID valide
 
-                let imageUrl = (videoType === 'vimeo' || videoType === 'drive') ? "" : `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+                let imageUrl = (videoType === 'vimeo' || videoType === 'drive' || videoType === 'native') ? "" : `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
                 if (short.image && !short.image.includes('default-thumbnail')) {
                     imageUrl = short.image.startsWith('img/') ? '../' + short.image : short.image;
                 }
@@ -102,6 +105,15 @@ globalThis.playShort = function(videoId, wrapper, videoType = 'youtube') {
                 allow="autoplay"
                 style="position: absolute; top:0; left:0; width:100%; height:100%; border:none;">
             </iframe>`;
+    } else if (videoType === 'native') {
+        iframeHtml = `
+            <video 
+                src="${videoId}" 
+                controls 
+                autoplay 
+                playsinline
+                style="position: absolute; top:0; left:0; width:100%; height:100%; border:none; object-fit: cover; background: #000;">
+            </video>`;
     } else {
         iframeHtml = `
             <iframe 
