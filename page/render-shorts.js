@@ -42,11 +42,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         videoId = match[1];
                         videoType = 'drive';
                     }
+                } else {
+                    try {
+                        const parsed = new URL(url);
+                        const isGithubHost = parsed.hostname.endsWith('githubusercontent.com') || parsed.hostname === 'github.com';
+                        const isVideoExt = /\.(mp4|webm|mov)$/i.test(parsed.pathname);
+                        if (isGithubHost && isVideoExt) {
+                            videoId = url;
+                            videoType = 'native';
+                        } else if (isVideoExt) {
+                            videoId = url;
+                            videoType = 'native';
+                        }
+                    } catch { /* ignore */ }
                 }
 
                 if (!videoId) return; // Ignorer si pas d'ID valide
 
-                let imageUrl = (videoType === 'vimeo' || videoType === 'drive') ? "" : `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+                let imageUrl = (videoType === 'vimeo' || videoType === 'drive' || videoType === 'native') ? "../img/logo.svg" : `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
                 if (short.image && !short.image.includes('default-thumbnail')) {
                     imageUrl = short.image.startsWith('img/') ? '../' + short.image : short.image;
                 }

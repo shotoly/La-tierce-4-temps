@@ -49,6 +49,17 @@ const renderYouTubeEmbed = (videoId, isShort) => {
     }
 };
 
+const isGithubVideoUrl = (url) => {
+    try {
+        const parsed = new URL(url);
+        const isGithubHost = parsed.hostname.endsWith('githubusercontent.com') || parsed.hostname === 'github.com';
+        const isVideoExt = /\.(mp4|webm|mov)$/i.test(parsed.pathname);
+        return isGithubHost && isVideoExt;
+    } catch {
+        return false;
+    }
+};
+
 n2m.setCustomTransformer('video', async (block) => {
     const video = block.video;
     if (!video) return '';
@@ -104,6 +115,8 @@ n2m.setCustomTransformer('embed', async (block) => {
             const fileId = match[1];
             return `\n<div class="notion-video-wrapper"><iframe src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
         }
+    } else if (isGithubVideoUrl(url)) {
+        return `\n<div class="notion-video-wrapper"><video controls src="${url}"></video></div>\n`;
     }
 
     // Si on ne sait pas quoi en faire, on affiche au moins le lien
@@ -122,6 +135,8 @@ n2m.setCustomTransformer('bookmark', async (block) => {
             const fileId = match[1];
             return `\n<div class="notion-video-wrapper"><iframe src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
         }
+    } else if (isGithubVideoUrl(url)) {
+        return `\n<div class="notion-video-wrapper"><video controls src="${url}"></video></div>\n`;
     }
     
     return `\n<a href="${url}" target="_blank" class="link-act" style="color: var(--provence-violet);">${url}</a>\n`;
@@ -139,6 +154,8 @@ n2m.setCustomTransformer('link_preview', async (block) => {
             const fileId = match[1];
             return `\n<div class="notion-video-wrapper"><iframe src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
         }
+    } else if (isGithubVideoUrl(url)) {
+        return `\n<div class="notion-video-wrapper"><video controls src="${url}"></video></div>\n`;
     }
     
     return `\n<a href="${url}" target="_blank" class="link-act" style="color: var(--provence-violet);">${url}</a>\n`;
@@ -225,6 +242,17 @@ function processGoogleDriveLinks(contenuHtml) {
     });
 }
 
+function processGithubVideoLinks(contenuHtml) {
+    const regex = /<a[^>]*href="([^"]+)"[^>]*>.*?<\/a>/g;
+    return contenuHtml.replaceAll(regex, (match, url) => {
+        const decodedUrl = url.replaceAll('&amp;', '&');
+        if (isGithubVideoUrl(decodedUrl)) {
+            return `\n<div class="notion-video-wrapper"><video controls src="${url}"></video></div>\n`;
+        }
+        return match;
+    });
+}
+
 function checkFailedIntegrations(contenuHtml, titre) {
     const mediaDomains = [
         'youtube.com', 'youtu.be', 'vimeo.com', 'drive.google.com', 
@@ -239,11 +267,21 @@ function checkFailedIntegrations(contenuHtml, titre) {
         
         if (fullTag.includes('social-icon-link')) continue;
         
+        let isFailed = false;
         for (const domain of mediaDomains) {
             if (url.includes(domain)) {
-                console.warn(`\x1b[33m⚠️ Attention : Le lien ${domain} ("${url}") dans l'article "${titre}" n'a pas été intégré comme lecteur multimédia/bonus. Il apparaîtra comme un simple lien texte.\x1b[0m`);
+                isFailed = true;
                 break;
             }
+        }
+
+        const decodedUrl = url.replaceAll('&amp;', '&');
+        if (!isFailed && isGithubVideoUrl(decodedUrl)) {
+            isFailed = true;
+        }
+
+        if (isFailed) {
+            console.warn(`\x1b[33m⚠️ Attention : Le lien "${url}" dans l'article "${titre}" n'a pas été intégré comme lecteur multimédia/bonus. Il apparaîtra comme un simple lien texte.\x1b[0m`);
         }
     }
 }
@@ -329,6 +367,7 @@ async function pageToArticle(page) {
     contenuHtml = await processInternalImages(contenuHtml, id, titre);
     contenuHtml = groupSocialLinks(contenuHtml);
     contenuHtml = processGoogleDriveLinks(contenuHtml);
+    contenuHtml = processGithubVideoLinks(contenuHtml);
 
     // --- NOUVEAU : Vérification des liens non intégrés ---
     checkFailedIntegrations(contenuHtml, titre);
