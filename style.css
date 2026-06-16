@@ -980,7 +980,7 @@ body.loading-active {
 
 .newsletter-modal-content {
     background: #111;
-    padding: 5px 40px 40px 40px;
+    padding: 25px 40px 40px 40px;
     border-radius: 12px;
     width: 90%;
     max-width: 600px;
@@ -992,10 +992,6 @@ body.loading-active {
 
 .newsletter-modal.active .newsletter-modal-content {
     transform: translateY(0);
-}
-
-.newsletter-modal-content h2 {
-    margin-top: 0 !important;
 }
 
 .newsletter-modal-close {

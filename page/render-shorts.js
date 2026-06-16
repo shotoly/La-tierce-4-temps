@@ -45,12 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     try {
                         const parsed = new URL(url);
-                        const isGithubHost = parsed.hostname.endsWith('githubusercontent.com') || parsed.hostname === 'github.com';
+                        const isCloudflareR2 = parsed.hostname.endsWith('.r2.dev');
                         const isVideoExt = /\.(mp4|webm|mov)$/i.test(parsed.pathname);
-                        if (isGithubHost && isVideoExt) {
-                            videoId = url;
-                            videoType = 'native';
-                        } else if (isVideoExt) {
+                        if (isCloudflareR2 || isVideoExt) {
                             videoId = url;
                             videoType = 'native';
                         }
@@ -119,9 +116,11 @@ globalThis.playShort = function(videoId, wrapper, videoType = 'youtube') {
         iframeHtml = `
             <video 
                 src="${videoId}" 
-                controls
                 autoplay 
+                muted
+                loop
                 playsinline
+                preload="metadata"
                 style="position: absolute; top:0; left:0; width:100%; height:100%; border:none; object-fit: contain; background: #000;">
             </video>`;
     } else {

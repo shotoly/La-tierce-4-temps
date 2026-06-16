@@ -49,12 +49,12 @@ const renderYouTubeEmbed = (videoId, isShort) => {
     }
 };
 
-const isGithubVideoUrl = (url) => {
+const isNativeVideoUrl = (url) => {
     try {
         const parsed = new URL(url);
-        const isGithubHost = parsed.hostname.endsWith('githubusercontent.com') || parsed.hostname === 'github.com';
+        const isCloudflareR2 = parsed.hostname.endsWith('.r2.dev');
         const isVideoExt = /\.(mp4|webm|mov)$/i.test(parsed.pathname);
-        return isGithubHost && isVideoExt;
+        return isCloudflareR2 || isVideoExt;
     } catch {
         return false;
     }
@@ -115,7 +115,7 @@ n2m.setCustomTransformer('embed', async (block) => {
             const fileId = match[1];
             return `\n<div class="notion-video-wrapper"><iframe src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
         }
-    } else if (isGithubVideoUrl(url)) {
+    } else if (isNativeVideoUrl(url)) {
         return `\n<div class="notion-video-wrapper"><video controls src="${url}"></video></div>\n`;
     }
 
@@ -135,7 +135,7 @@ n2m.setCustomTransformer('bookmark', async (block) => {
             const fileId = match[1];
             return `\n<div class="notion-video-wrapper"><iframe src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
         }
-    } else if (isGithubVideoUrl(url)) {
+    } else if (isNativeVideoUrl(url)) {
         return `\n<div class="notion-video-wrapper"><video controls src="${url}"></video></div>\n`;
     }
     
@@ -154,7 +154,7 @@ n2m.setCustomTransformer('link_preview', async (block) => {
             const fileId = match[1];
             return `\n<div class="notion-video-wrapper"><iframe src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
         }
-    } else if (isGithubVideoUrl(url)) {
+    } else if (isNativeVideoUrl(url)) {
         return `\n<div class="notion-video-wrapper"><video controls src="${url}"></video></div>\n`;
     }
     
@@ -242,11 +242,11 @@ function processGoogleDriveLinks(contenuHtml) {
     });
 }
 
-function processGithubVideoLinks(contenuHtml) {
+function processNativeVideoLinks(contenuHtml) {
     const regex = /<a[^>]*href="([^"]+)"[^>]*>.*?<\/a>/g;
     return contenuHtml.replaceAll(regex, (match, url) => {
         const decodedUrl = url.replaceAll('&amp;', '&');
-        if (isGithubVideoUrl(decodedUrl)) {
+        if (isNativeVideoUrl(decodedUrl)) {
             return `\n<div class="notion-video-wrapper"><video controls src="${url}"></video></div>\n`;
         }
         return match;
@@ -276,7 +276,7 @@ function checkFailedIntegrations(contenuHtml, titre) {
         }
 
         const decodedUrl = url.replaceAll('&amp;', '&');
-        if (!isFailed && isGithubVideoUrl(decodedUrl)) {
+        if (!isFailed && isNativeVideoUrl(decodedUrl)) {
             isFailed = true;
         }
 
@@ -367,7 +367,7 @@ async function pageToArticle(page) {
     contenuHtml = await processInternalImages(contenuHtml, id, titre);
     contenuHtml = groupSocialLinks(contenuHtml);
     contenuHtml = processGoogleDriveLinks(contenuHtml);
-    contenuHtml = processGithubVideoLinks(contenuHtml);
+    contenuHtml = processNativeVideoLinks(contenuHtml);
 
     // --- NOUVEAU : Vérification des liens non intégrés ---
     checkFailedIntegrations(contenuHtml, titre);
