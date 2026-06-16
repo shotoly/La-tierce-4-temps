@@ -116,6 +116,7 @@ globalThis.playShort = function(videoId, wrapper, videoType = 'youtube') {
         iframeHtml = `
             <video 
                 src="${videoId}" 
+                controls
                 autoplay 
                 muted
                 loop
