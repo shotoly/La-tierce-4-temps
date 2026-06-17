@@ -303,16 +303,26 @@ window.initVinylPlayer = function(config) {
         const newPrev = playPreviousTrackButton.cloneNode(true);
         playPreviousTrackButton.parentNode.replaceChild(newPrev, playPreviousTrackButton);
         newPrev.addEventListener("click", () => {
-             currentTime = 0;
-             if(mode === 'native') audio.currentTime = 0;
-             else if(mode === 'youtube') ytPlayer.seekTo(0, true);
+             if (config.prevUrl) {
+                 window.location.href = config.prevUrl;
+             } else {
+                 currentTime = 0;
+                 if(mode === 'native') audio.currentTime = 0;
+                 else if(mode === 'youtube') ytPlayer.seekTo(0, true);
+             }
         });
     }
 
     if (playNextTrackButton) {
         const newNext = playNextTrackButton.cloneNode(true);
         playNextTrackButton.parentNode.replaceChild(newNext, playNextTrackButton);
-        newNext.addEventListener("click", onEnded);
+        newNext.addEventListener("click", () => {
+             if (config.nextUrl) {
+                 window.location.href = config.nextUrl;
+             } else {
+                 onEnded();
+             }
+        });
     }
 }
 

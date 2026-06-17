@@ -281,13 +281,17 @@
         fetch('donnees.json')
             .then(response => response.json())
             .then(articles => {
-                const article = articles.find(a => a.id === articleId);
+                const currentIndex = articles.findIndex(a => a.id === articleId);
+                const article = currentIndex !== -1 ? articles[currentIndex] : null;
                 const main = document.getElementById('article-main');
 
                 if (!article) {
                     main.innerHTML = "<h2>Article introuvable.</h2>";
                     return;
                 }
+
+                const prevArticle = currentIndex > 0 ? articles[currentIndex - 1] : null;
+                const nextArticle = currentIndex < articles.length - 1 ? articles[currentIndex + 1] : null;
 
                 // On prépare le lecteur audio (il sera vide s'il n'y a pas de son)
                 let lecteurAudio = "";
@@ -320,8 +324,8 @@
                                             <div id="buffer-box">Chargement</div>
                                         </div>
                                         <div id="player-controls">
-                                            <div class="control" style="opacity: 0.5; pointer-events: none;">
-                                                <div class="button" id="play-previous">
+                                            <div class="control" ${prevArticle ? '' : 'style="opacity: 0.5; pointer-events: none;"'}>
+                                                <div class="button" id="play-previous" ${prevArticle ? 'style="cursor: pointer;"' : ''}>
                                                     <i class="fas fa-backward"></i>
                                                 </div>
                                             </div>
@@ -330,8 +334,8 @@
                                                     <i class="fas fa-play"></i>
                                                 </div>
                                             </div>
-                                            <div class="control" style="opacity: 0.5; pointer-events: none;">
-                                                <div class="button" id="play-next">
+                                            <div class="control" ${nextArticle ? '' : 'style="opacity: 0.5; pointer-events: none;"'}>
+                                                <div class="button" id="play-next" ${nextArticle ? 'style="cursor: pointer;"' : ''}>
                                                     <i class="fas fa-forward"></i>
                                                 </div>
                                             </div>
@@ -348,7 +352,9 @@
                                     title: article.titre,
                                     album: article.categorie,
                                     coverUrl: article.imageVinyl || article.image,
-                                    audioUrl: mediaSource
+                                    audioUrl: mediaSource,
+                                    prevUrl: prevArticle ? 'article.html?id=' + prevArticle.id : null,
+                                    nextUrl: nextArticle ? 'article.html?id=' + nextArticle.id : null
                                 });
                             }
                         }, 200);
