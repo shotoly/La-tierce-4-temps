@@ -55,8 +55,8 @@
 }
 
 #track-time {
-  height: 12px;
-  margin-bottom: 3px;
+  height: 14px;
+  margin-top: 8px;
   overflow: hidden;
   font-family: var(--police-texte);
 }
