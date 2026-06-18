@@ -979,11 +979,12 @@ body.loading-active {
 }
 
 .newsletter-modal-content {
-    background: #111;
-    padding: 25px 40px 40px 40px;
+    background: #000000;
+    padding: 40px 0 0 0;
     border-radius: 12px;
-    width: 90%;
-    max-width: 600px;
+    overflow: hidden;
+    width: auto;
+    max-width: 90%;
     position: relative;
     transform: translateY(20px);
     transition: transform 0.3s ease;
@@ -1005,4 +1006,14 @@ body.loading-active {
     color: #fff;
     padding: 0;
     line-height: 1;
+}
+
+.newsletter-container iframe {
+    height: 470px !important;
+}
+
+@media screen and (max-width: 768px) {
+    .newsletter-container iframe {
+        height: 615px !important;
+    }
 }

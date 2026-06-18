@@ -6,39 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La tierce à 4 temps</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css" integrity="sha384-8DE/Lk4d6Oc/WO04f3lv9vQCSrM28sDYyEmrs9hx4+b+oOrgm4txW7cOxPWlTHEd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css"
+        integrity="sha384-8DE/Lk4d6Oc/WO04f3lv9vQCSrM28sDYyEmrs9hx4+b+oOrgm4txW7cOxPWlTHEd" crossorigin="anonymous">
     <link rel="shortcut icon" href="img/icon_petit.svg" />
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="style/cardmain.css">
     <link rel="stylesheet" href="style/player.css">
     <link rel="stylesheet" href="style/pocast.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
     <link
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=Outfit:wght@400;600;800&display=swap"
         rel="stylesheet">
 
 
-    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js" integrity="sha384-OCi7pis5Dzyb6liFSmJPTTJCogFKCIyxEx0jyPpmpqv3GyDGCIG3AiXjev/vqpGF" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"
+        integrity="sha384-OCi7pis5Dzyb6liFSmJPTTJCogFKCIyxEx0jyPpmpqv3GyDGCIG3AiXjev/vqpGF"
+        crossorigin="anonymous"></script>
 
     <style>
         /* Ajout d'une transition douce pour le changement de couleur */
-        .menu-droite a, .menu-toggle, #theme-toggle, .logo img {
+        .menu-droite a,
+        .menu-toggle,
+        #theme-toggle,
+        .logo img {
             transition: color 0.3s ease, filter 0.3s ease;
         }
 
         /* Force logo et menu en blanc UNIQUEMENT quand on est tout en haut (pas de scroll) */
-        body:not(.is-scrolled) .logo img, 
+        body:not(.is-scrolled) .logo img,
         body:not(.is-scrolled) .hero-logo-img {
             content: url('logo_blanc.svg') !important;
         }
-        
-        body:not(.is-scrolled) .menu-droite a, 
-        body:not(.is-scrolled) .menu-toggle, 
+
+        body:not(.is-scrolled) .menu-droite a,
+        body:not(.is-scrolled) .menu-toggle,
         body:not(.is-scrolled) #theme-toggle {
             color: #FAFAFA !important;
         }
 
-        body:not(.is-scrolled) .menu-droite a:hover, 
+        body:not(.is-scrolled) .menu-droite a:hover,
         body:not(.is-scrolled) #theme-toggle:hover {
             color: var(--provence-jaune) !important;
         }
@@ -80,7 +87,8 @@
                 <source src="site_paysage.webm" type="video/webm">
                 <track kind="captions" />
             </video>
-            <video autoplay loop muted playsinline class="hero-video-mobile" tabindex="-1" title="Background Video Mobile"
+            <video autoplay loop muted playsinline class="hero-video-mobile" tabindex="-1"
+                title="Background Video Mobile"
                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; pointer-events: none;">
                 <source src="site_portrait.mp4" type="video/mp4">
                 <track kind="captions" />
@@ -247,9 +255,11 @@
     <div class="newsletter-modal" id="newsletter-modal">
         <div class="newsletter-modal-content">
             <button class="newsletter-modal-close" id="close-newsletter-btn">&times;</button>
-            <h2 style="font-family: var(--police-titre); font-size: 2rem; margin-bottom: 20px; color: #fff; text-align: center;">Abonnez-vous à ma newsletter</h2>
-            <div class="newsletter-container" style="border-radius: 12px; overflow: hidden;">
-                <iframe src="https://margaultgiacalone83.substack.com/embed?transparent=1&light=1" width="100%" height="320" style="border: 0; background: transparent" title="Inscription Newsletter Substack" style="border: 0; background: transparent; overflow: hidden;"></iframe>
+            <div class="newsletter-container">
+                <iframe width="540" height="470"
+                    src="https://4a8d3212.sibforms.com/v2/serve/MUIFAMasxBgNJMxwo8ig3hM5IWTOMR2bQDoSA0zKH3c96bVUU6G_2llA-hDDYebnryHRP-BMm4mqSdyxGvUzj0BHzh-fqqE0WXHs5UGSUhv7vQpP_NX2C890rSNtyB2bdbHFcaREaN9wCc4pffUD-wUMd2cmygnOQALJG3SEKYJvkqemzdY0zRZKlkKKMssTtVtaQ6V7IcfNuj3y6A=="
+                    frameborder="0" scrolling="auto" allowfullscreen
+                    style="display: block;margin-left: auto;margin-right: auto;max-width: 100%;"></iframe>
             </div>
         </div>
     </div>
