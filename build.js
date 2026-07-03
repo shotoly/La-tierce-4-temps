@@ -390,6 +390,8 @@ async function pageToArticle(page) {
 }
 
 async function fetchNotionData() {
+    console.log("\x1b[36m🚀 Démarrage du build Notion...\x1b[0m");
+    const startTime = Date.now();
     try {
         console.log("Connexion à Notion en cours...");
         const response = await notion.databases.query({
@@ -397,15 +399,53 @@ async function fetchNotionData() {
             sorts: [{ property: 'Date', direction: 'descending' }],
         });
 
-        const articles = await Promise.all(response.results.map(page => pageToArticle(page)));
+        const totalArticles = response.results.length;
+        console.log(`\x1b[36m📥 ${totalArticles} articles trouvés. Début du traitement séquentiel...\x1b[0m`);
+
+        const articles = [];
+        let successCount = 0;
+        let errorCount = 0;
+
+        for (let i = 0; i < totalArticles; i++) {
+            const page = response.results[i];
+            const currentIndex = i + 1;
+            const tempTitre = page.properties["Nom"]?.title?.[0]?.plain_text || "Sans titre";
+            
+            console.log(`\n\x1b[34m[${currentIndex}/${totalArticles}] Traitement de : "${tempTitre}"\x1b[0m`);
+            
+            try {
+                const article = await pageToArticle(page);
+                articles.push(article);
+                successCount++;
+                console.log(`\x1b[32m✅ Succès : "${tempTitre}" traité sans erreur majeure.\x1b[0m`);
+            } catch (err) {
+                errorCount++;
+                console.error(`\x1b[31m❌ Erreur critique sur "${tempTitre}" : ${err.message}\x1b[0m`);
+                // L'article est ignoré, mais on continue la boucle !
+            }
+        }
 
         const articlesPropres = articles.filter(article => article.titre !== "Sans titre");
 
         fs.writeFileSync(path.join(__dirname, 'page', 'donnees.json'), JSON.stringify(articlesPropres, null, 2));
-        console.log("Fichier donnees.json généré avec le CONTENU des articles et les images locales !");
+        console.log(`\n\x1b[32m💾 Fichier donnees.json généré avec succès avec ${articlesPropres.length} articles valides !\x1b[0m`);
+
+        // --- Bilan de fin ---
+        const executionTime = ((Date.now() - startTime) / 1000).toFixed(2);
+        console.log(`\n\x1b[35m=========================================\x1b[0m`);
+        console.log(`\x1b[32m🎉 Build terminé en ${executionTime}s !\x1b[0m`);
+        console.log(`\x1b[36m📊 RÉSUMÉ DU BUILD :\x1b[0m`);
+        console.log(`   - Total articles trouvés : ${totalArticles}`);
+        console.log(`   - Traités avec succès    : \x1b[32m${successCount}\x1b[0m`);
+        if (errorCount > 0) {
+            console.log(`   - Échecs (ignorés)       : \x1b[31m${errorCount}\x1b[0m`);
+        } else {
+            console.log(`   - Échecs (ignorés)       : 0`);
+        }
+        console.log(`\x1b[35m=========================================\x1b[0m\n`);
 
     } catch (error) {
-        console.error("Erreur lors de la récupération des données :", error);
+        console.error("\x1b[31m❌ ERREUR FATALE GLOBALE (Le build s'est arrêté) :\x1b[0m", error);
         process.exit(1);
     }
 }
