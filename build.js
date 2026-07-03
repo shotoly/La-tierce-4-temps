@@ -302,7 +302,8 @@ function groupSocialLinks(contenuHtml) {
     };
 
     for (const [networkPattern, iconHtml] of Object.entries(iconMappings)) {
-        const regex = new RegExp(String.raw`(?:<[^>]+>)*\\b(${networkPattern})\\b(?:<\/[^>]+>)*\\s*:\\s*(?:<[^>]+>)*<a\\s+href="([^"]+)"[^>]*>.*?<\/a>`, 'gi');
+        // La nouvelle regex autorise n'importe quelle balise (ou retour à la ligne) entre le nom, les deux points, et le lien
+        const regex = new RegExp(String.raw`(?:<[^>]+>|\s)*\b(${networkPattern})\b(?:<[^>]+>|\s)*:(?:<[^>]+>|\s)*<a\s+href="([^"]+)"[^>]*>.*?<\/a>`, 'gi');
         contenuHtml = contenuHtml.replaceAll(regex, (match, p1, href) => {
             return `<!--SOCIAL_LINK_START--><a href="${href}" target="_blank" class="social-icon-link" style="display:flex; align-items:center; justify-content:center; width: 44px; height: 44px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; text-decoration:none; transition: all 0.2s ease; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">${iconHtml}</a><!--SOCIAL_LINK_END-->`;
         });
