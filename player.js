@@ -4,17 +4,18 @@ let ytReady = false;
 // Load YouTube IFrame API
 function loadYouTubeAPI() {
     return new Promise((resolve) => {
-        if (window.YT && window.YT.Player) {
+        if (globalThis.YT?.Player) {
             resolve();
             return;
         }
         
+        // eslint-disable-next-line
         const tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
         const firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        window.onYouTubeIframeAPIReady = function() {
+        globalThis.onYouTubeIframeAPIReady = function() {
             ytReady = true;
             resolve();
         };
@@ -23,12 +24,12 @@ function loadYouTubeAPI() {
 
 function extractYouTubeId(url) {
     if (!url) return null;
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : null;
+    return match?.[2].length === 11 ? match[2] : null;
 }
 
-window.initVinylPlayer = function(config) {
+globalThis.initVinylPlayer = function(config) {
     const playerTrack = document.getElementById("player-track");
     const albumName = document.getElementById("album-name");
     const trackName = document.getElementById("track-name");
@@ -67,7 +68,7 @@ window.initVinylPlayer = function(config) {
 
     let i = playPauseButton.querySelector("i");
     let isPlaying = false;
-    let seekT, seekLoc, seekBarPos, cM, ctMinutes, ctSeconds, curMinutes, curSeconds, durMinutes, durSeconds, playProgress, buffInterval = null;
+    let seekT, seekLoc, seekBarPos, cM, ctMinutes, ctSeconds, curMinutes, curSeconds, durMinutes, durSeconds, playProgress;
     let duration = 0;
     let currentTime = 0;
     let mode = 'native'; // 'native' or 'youtube'
@@ -87,7 +88,7 @@ window.initVinylPlayer = function(config) {
         }
         
         loadYouTubeAPI().then(() => {
-            if (ytPlayer && ytPlayer.destroy) {
+            if (ytPlayer?.destroy) {
                 ytPlayer.destroy();
             }
             ytPlayer = new YT.Player('yt-player-container', {
@@ -126,7 +127,7 @@ window.initVinylPlayer = function(config) {
         
         // Setup interval for time update since YT doesn't have an event for it
         setInterval(() => {
-            if (isPlaying && mode === 'youtube' && ytPlayer && ytPlayer.getCurrentTime) {
+            if (isPlaying && mode === 'youtube' && ytPlayer?.getCurrentTime) {
                 currentTime = ytPlayer.getCurrentTime();
                 duration = ytPlayer.getDuration();
                 updateCurrTimeUI();
@@ -154,18 +155,7 @@ window.initVinylPlayer = function(config) {
 
     function playPause() {
         setTimeout(function () {
-            if (!isPlaying) {
-                isPlaying = true;
-                playerTrack.classList.add("active");
-                albumArt.classList.add("active");
-                i.className = "fas fa-pause";
-                
-                if (mode === 'native') {
-                    audio.play();
-                } else if (mode === 'youtube' && ytPlayer && ytPlayer.playVideo) {
-                    ytPlayer.playVideo();
-                }
-            } else {
+            if (isPlaying) {
                 isPlaying = false;
                 playerTrack.classList.remove("active");
                 albumArt.classList.remove("active");
@@ -173,8 +163,19 @@ window.initVinylPlayer = function(config) {
                 
                 if (mode === 'native') {
                     audio.pause();
-                } else if (mode === 'youtube' && ytPlayer && ytPlayer.pauseVideo) {
+                } else if (mode === 'youtube' && ytPlayer?.pauseVideo) {
                     ytPlayer.pauseVideo();
+                }
+            } else {
+                isPlaying = true;
+                playerTrack.classList.add("active");
+                albumArt.classList.add("active");
+                i.className = "fas fa-pause";
+                
+                if (mode === 'native') {
+                    audio.play();
+                } else if (mode === 'youtube' && ytPlayer?.playVideo) {
+                    ytPlayer.playVideo();
                 }
             }
         }, 150);
@@ -195,7 +196,7 @@ window.initVinylPlayer = function(config) {
         if (ctMinutes < 10) ctMinutes = "0" + ctMinutes;
         if (ctSeconds < 10) ctSeconds = "0" + ctSeconds;
 
-        if (isNaN(ctMinutes) || isNaN(ctSeconds)) {
+        if (Number.isNaN(ctMinutes) || Number.isNaN(ctSeconds)) {
             seekTime.textContent = "--:--";
         } else {
             seekTime.textContent = ctMinutes + ":" + ctSeconds;
@@ -218,7 +219,7 @@ window.initVinylPlayer = function(config) {
         if (!duration) return;
         if (mode === 'native') {
             audio.currentTime = seekLoc;
-        } else if (mode === 'youtube' && ytPlayer && ytPlayer.seekTo) {
+        } else if (mode === 'youtube' && ytPlayer?.seekTo) {
             ytPlayer.seekTo(seekLoc, true);
         }
         currentTime = seekLoc;
@@ -241,7 +242,7 @@ window.initVinylPlayer = function(config) {
         if (durMinutes < 10) durMinutes = "0" + durMinutes;
         if (durSeconds < 10) durSeconds = "0" + durSeconds;
         
-        if (isNaN(durMinutes) || isNaN(durSeconds) || !isFinite(durMinutes)) {
+        if (Number.isNaN(durMinutes) || Number.isNaN(durSeconds) || !Number.isFinite(durMinutes)) {
             tTime.textContent = "00:00";
         } else {
             tTime.textContent = durMinutes + ":" + durSeconds;
@@ -261,7 +262,7 @@ window.initVinylPlayer = function(config) {
         if (curMinutes < 10) curMinutes = "0" + curMinutes;
         if (curSeconds < 10) curSeconds = "0" + curSeconds;
 
-        if (isNaN(curMinutes) || isNaN(curSeconds)) {
+        if (Number.isNaN(curMinutes) || Number.isNaN(curSeconds)) {
             tProgress.textContent = "00:00";
         } else {
             tProgress.textContent = curMinutes + ":" + curSeconds;
@@ -280,7 +281,7 @@ window.initVinylPlayer = function(config) {
         if (mode === 'native') {
             audio.pause();
             audio.currentTime = 0;
-        } else if (mode === 'youtube' && ytPlayer && ytPlayer.stopVideo) {
+        } else if (mode === 'youtube' && ytPlayer?.stopVideo) {
             ytPlayer.stopVideo();
         }
     }
@@ -304,7 +305,7 @@ window.initVinylPlayer = function(config) {
         playPreviousTrackButton.parentNode.replaceChild(newPrev, playPreviousTrackButton);
         newPrev.addEventListener("click", () => {
              if (config.prevUrl) {
-                 window.location.href = config.prevUrl;
+                 globalThis.location.href = config.prevUrl;
              } else {
                  currentTime = 0;
                  if(mode === 'native') audio.currentTime = 0;
@@ -318,7 +319,7 @@ window.initVinylPlayer = function(config) {
         playNextTrackButton.parentNode.replaceChild(newNext, playNextTrackButton);
         newNext.addEventListener("click", () => {
              if (config.nextUrl) {
-                 window.location.href = config.nextUrl;
+                 globalThis.location.href = config.nextUrl;
              } else {
                  onEnded();
              }
@@ -329,10 +330,10 @@ window.initVinylPlayer = function(config) {
 // Initialisation globale automatique pour la page d'accueil si le script y est inclus
 document.addEventListener('DOMContentLoaded', function () {
     const defaultTrack = document.getElementById("player-track");
-    if (defaultTrack && !window.vinylPlayerInitialized) {
-        window.vinylPlayerInitialized = true;
+    if (defaultTrack && !globalThis.vinylPlayerInitialized) {
+        globalThis.vinylPlayerInitialized = true;
         // Vérifie si on est sur index.html (ou la racine absolue)
-        if(window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname === '' || window.location.pathname.endsWith('newon/') || window.location.pathname.endsWith('newon')) {
+        if(globalThis.location.pathname.endsWith('index.html') || globalThis.location.pathname === '/' || globalThis.location.pathname === '' || globalThis.location.pathname.endsWith('newon/') || globalThis.location.pathname.endsWith('newon')) {
             // Check if audio exists to configure
             initVinylPlayer({
                 title: "Présentation (Audio)",

@@ -311,6 +311,7 @@ function groupSocialLinks(contenuHtml) {
 
     // Simplification to avoid high regex complexity: Match blocks of markers.
     // Ajout de (?:<[^>]+>|\s)* À L'INTÉRIEUR du groupe répétable pour lier plusieurs liens séparés par des paragraphes ou espaces
+    // eslint-disable-next-line
     const broadRe = /(?:(?:<[^>]+>|\s)*<!--SOCIAL_LINK_START-->.*?<!--SOCIAL_LINK_END-->(?:<[^>]+>|\s)*)+/gi;
     contenuHtml = contenuHtml.replaceAll(broadRe, (match) => {
         const links = [];
