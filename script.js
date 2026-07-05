@@ -87,6 +87,16 @@ document.addEventListener("DOMContentLoaded", function () {
     if (mobileMenuBtn && navMenu) {
         mobileMenuBtn.addEventListener('click', function () {
             navMenu.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+
+            // Gérer Locomotive Scroll
+            if (globalThis.locoScroll) {
+                if (navMenu.classList.contains('active')) {
+                    globalThis.locoScroll.stop();
+                } else {
+                    globalThis.locoScroll.start();
+                }
+            }
 
             // Change l'icône du hamburger (bars <-> xmark)
             const icon = this.querySelector('i');
@@ -105,6 +115,9 @@ document.addEventListener("DOMContentLoaded", function () {
             link.addEventListener('click', () => {
                 if (window.innerWidth <= 768) {
                     navMenu.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                    if (globalThis.locoScroll) globalThis.locoScroll.start();
+                    
                     const icon = mobileMenuBtn.querySelector('i');
                     icon.classList.remove('fa-xmark');
                     icon.classList.add('fa-bars');

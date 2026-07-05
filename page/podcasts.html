@@ -243,6 +243,34 @@
             background-color: var(--provence-violet);
             color: #fff;
         }
+
+        /* Responsive Fixes */
+        @media (max-width: 768px) {
+            .search-box {
+                min-width: 100% !important;
+                margin-left: 0 !important;
+            }
+            .search-bar-wrapper {
+                width: auto;
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+            .search-bar-input {
+                min-width: 0;
+            }
+            .filter-controls {
+                width: auto;
+                margin-left: 20px;
+                margin-right: 20px !important;
+                justify-content: center;
+            }
+            .custom-select-wrapper {
+                min-width: 100%;
+            }
+            .filters-container {
+                gap: 20px !important;
+            }
+        }
     </style>
 </head>
 

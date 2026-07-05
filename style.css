@@ -201,21 +201,20 @@ body {
 
     .menu-droite {
         position: fixed;
-        top: 85px;
-        /* Juste sous la navbar */
+        top: 0;
         right: -100%;
-        /* Caché hors de l'écran par défaut */
         width: 100%;
-        height: calc(100vh - 85px);
+        height: 100vh;
+        padding-top: 85px;
         background-color: var(--couleur-navbar-bg);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        /* Animation fluide slide */
         display: flex;
         justify-content: center;
         align-items: center;
-        border-top: 1px solid var(--couleur-navbar-border);
+        border-top: none;
+        z-index: -1;
     }
 
     .menu-droite.active {
@@ -240,6 +239,10 @@ body {
     #theme-toggle {
         font-size: 2rem;
         /* Bouton thème plus gros sur mobile */
+    }
+
+    body.menu-open {
+        overflow: hidden !important;
     }
 }
 
