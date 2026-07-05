@@ -105,6 +105,66 @@ function initFilters() {
     searchInput.addEventListener('input', applyFilters);
     categorySelect.addEventListener('change', applyFilters);
     sortSelect.addEventListener('change', applyFilters);
+
+    setupCustomSelects();
+}
+
+function setupCustomSelects() {
+    const selects = document.querySelectorAll('.filter-select');
+    selects.forEach(select => {
+        if (select.closest('.custom-select-wrapper')) return;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'custom-select-wrapper';
+        select.parentNode.insertBefore(wrapper, select);
+        wrapper.appendChild(select);
+        select.style.display = 'none';
+
+        const customSelect = document.createElement('div');
+        customSelect.className = 'custom-select';
+        
+        const selectedOption = select.options[select.selectedIndex];
+        customSelect.innerHTML = `
+            <span class="custom-select-trigger">${selectedOption ? selectedOption.textContent : ''}</span>
+            <svg class="custom-select-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        `;
+        wrapper.appendChild(customSelect);
+
+        const customOptions = document.createElement('div');
+        customOptions.className = 'custom-options';
+        
+        Array.from(select.options).forEach((option, index) => {
+            const customOption = document.createElement('div');
+            customOption.className = `custom-option ${index === select.selectedIndex ? 'selected' : ''}`;
+            customOption.textContent = option.textContent;
+            customOption.dataset.value = option.value;
+            
+            customOption.addEventListener('click', (e) => {
+                e.stopPropagation();
+                select.value = option.value;
+                select.dispatchEvent(new Event('change'));
+                customSelect.querySelector('.custom-select-trigger').textContent = option.textContent;
+                customOptions.querySelectorAll('.custom-option').forEach(opt => opt.classList.remove('selected'));
+                customOption.classList.add('selected');
+                wrapper.classList.remove('open');
+            });
+            customOptions.appendChild(customOption);
+        });
+
+        wrapper.appendChild(customOptions);
+
+        customSelect.addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.querySelectorAll('.custom-select-wrapper').forEach(w => {
+                if (w !== wrapper) w.classList.remove('open');
+            });
+            wrapper.classList.toggle('open');
+        });
+    });
+
+    document.addEventListener('click', () => {
+        document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+    });
 }
 
 // Récupération des données et affichage

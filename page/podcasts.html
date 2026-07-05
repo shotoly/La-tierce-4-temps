@@ -18,10 +18,236 @@
 
     <!-- Ajout Script (JS) de Locomotive Scroll -->
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+
+    <style>
+        /* ==========================================================
+           BARRE DE RECHERCHE (PODCASTS)
+           ========================================================== */
+        .search-bar-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 100%;
+            /* Prend toute la largeur disponible */
+            background-color: #ffffff;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            margin-left: 20px;
+
+        }
+
+        [data-theme="dark"] .search-bar-wrapper {
+            background-color: #222222;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .search-bar-input {
+            flex-grow: 1;
+            padding: 16px 25px;
+            border: none;
+            background: transparent;
+            font-family: var(--police-texte);
+            font-size: 1.1rem;
+            color: var(--couleur-texte);
+            outline: none;
+        }
+
+        .search-bar-input::placeholder {
+            color: #b0b0b0;
+            font-weight: 300;
+        }
+
+        .search-bar-button {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background-color: #2b2b2b;
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: -2px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        [data-theme="dark"] .search-bar-button {
+            background-color: var(--provence-violet);
+        }
+
+        .search-bar-button:hover {
+            transform: scale(1.05);
+            background-color: var(--provence-violet);
+        }
+
+        /* ==========================================================
+           BOUTONS DE FILTRES (PODCASTS)
+           ========================================================== */
+        .filter-select {
+            padding: 15px 45px 15px 25px;
+            border-radius: 50px;
+            border: 1px solid transparent;
+            background-color: #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            color: var(--couleur-texte);
+            font-family: var(--police-texte);
+            font-size: 1.1rem;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            transition: all 0.3s ease;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%232b2b2b"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            background-size: 20px;
+        }
+
+        [data-theme="dark"] .filter-select {
+            background-color: #222222;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ffffff"><path d="M7 10l5 5 5-5z"/></svg>');
+        }
+
+        .filter-select:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] .filter-select:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Style des options du menu déroulant (dépend du navigateur) */
+        .filter-select option {
+            background-color: #ffffff;
+            color: #171717;
+            font-family: var(--police-texte);
+            font-size: 1rem;
+            padding: 10px;
+        }
+
+        [data-theme="dark"] .filter-select option {
+            background-color: #222222;
+            color: #ffffff;
+        }
+
+        /* ==========================================================
+           CUSTOM DROPDOWN (JS)
+           ========================================================== */
+        .custom-select-wrapper {
+            position: relative;
+            user-select: none;
+            min-width: 200px;
+        }
+
+        .custom-select {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 25px;
+            border-radius: 50px;
+            background-color: #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            color: var(--couleur-texte);
+            font-family: var(--police-texte);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        [data-theme="dark"] .custom-select {
+            background-color: #222222;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+        }
+
+        .custom-select:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        [data-theme="dark"] .custom-select:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+        }
+
+        .custom-select-arrow {
+            margin-left: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .custom-select-wrapper.open .custom-select-arrow {
+            transform: rotate(180deg);
+        }
+
+        .custom-options {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            right: 0;
+            background-color: #ffffff;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+        }
+
+        [data-theme="dark"] .custom-options {
+            background-color: #222222;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .custom-select-wrapper.open .custom-options {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .custom-option {
+            padding: 12px 25px;
+            color: var(--couleur-texte);
+            font-family: var(--police-texte);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        [data-theme="dark"] .custom-option {
+            color: #ffffff;
+        }
+
+        .custom-option:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        [data-theme="dark"] .custom-option:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .custom-option.selected {
+            background-color: var(--provence-violet);
+            color: #fff;
+        }
+    </style>
 </head>
 
 <body>
-   
+
 
     <header class="navbar">
         <div class="logo">
@@ -47,25 +273,26 @@
         <section id="portfolio" data-scroll-section class="p60" style="position: relative; z-index: 50;">
             <!-- Barre de Recherche et Filtres -->
             <div class="filters-container inner-wrap"
-                style="margin-bottom: 40px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between;">
+                style="margin-bottom: 40px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: space-between;">
+
+                <!-- Barre de recherche stylisée -->
                 <div class="search-box" style="flex: 1; min-width: 250px;">
-                    <div style="position: relative;">
-                        <i class="fa-solid fa-magnifying-glass"
-                            style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--couleur-texte-secondaire);"></i>
-                        <input type="text" id="search-input" placeholder="Rechercher un podcast, un article..."
-                            style="width: 100%; padding: 12px 15px 12px 40px; border-radius: 50px; border: 1px solid var(--couleur-navbar-border); background-color: var(--couleur-navbar-bg); color: var(--couleur-texte); font-family: var(--police-texte); font-size: 1rem; outline: none;">
+                    <div class="search-bar-wrapper">
+                        <input type="text" id="search-input" class="search-bar-input"
+                            placeholder="Rechercher un podcast, un article...">
+                        <button class="search-bar-button" aria-label="Rechercher">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
                     </div>
                 </div>
 
-                <div class="filter-controls" style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <select id="filter-category"
-                        style="padding: 12px 20px; border-radius: 50px; border: 1px solid var(--couleur-navbar-border); background-color: var(--couleur-navbar-bg); color: var(--couleur-texte); font-family: var(--police-texte); font-size: 1rem; outline: none; cursor: pointer; appearance: none; -webkit-appearance: none;">
+                <div class="filter-controls" style="display: flex; gap: 20px; flex-wrap: wrap; margin-right: 20px;">
+                    <select id="filter-category" class="filter-select">
                         <option value="all">Toutes les catégories</option>
                         <!-- Les options seront générées dynamiquement -->
                     </select>
 
-                    <select id="sort-date"
-                        style="padding: 12px 20px; border-radius: 50px; border: 1px solid var(--couleur-navbar-border); background-color: var(--couleur-navbar-bg); color: var(--couleur-texte); font-family: var(--police-texte); font-size: 1rem; outline: none; cursor: pointer; appearance: none; -webkit-appearance: none;">
+                    <select id="sort-date" class="filter-select">
                         <option value="desc">Le plus récent d'abord</option>
                         <option value="asc">Le plus ancien d'abord</option>
                     </select>
@@ -86,11 +313,15 @@
                     <h3 class="footer-logo">Margault Giacalone</h3>
                     <p class="footer-sub">Étudiante en Licence d'Histoire</p>
                     <p> Aix en Provence, France</p>
-                    <p><a href="mailto:latierceaquatretemps@gmail.com" class="link-act">latierceaquatretemps@gmail.com</a></p>
+                    <p><a href="mailto:latierceaquatretemps@gmail.com"
+                            class="link-act">latierceaquatretemps@gmail.com</a></p>
                     <div class="social" style="margin-top: 20px;">
-                        <a href="https://www.instagram.com/latiercea4temps?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="link link-act"><i class="fa-brands fa-instagram"></i></a>
-                        <a href="https://youtube.com/@latiercea4temps-vid?si=mjm7GO3KU63Uz9kS" target="_blank" class="link link-act"><i class="fa-brands fa-youtube"></i></a>                        
-                        <a href="https://youtube.com/@latiercea4tempspod?si=5TfL5-C-UNUSONah" target="_blank" class="link link-act"><i class="fa-solid fa-microphone-lines"></i></a>
+                        <a href="https://www.instagram.com/latiercea4temps?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                            target="_blank" class="link link-act"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://youtube.com/@latiercea4temps-vid?si=mjm7GO3KU63Uz9kS" target="_blank"
+                            class="link link-act"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://youtube.com/@latiercea4tempspod?si=5TfL5-C-UNUSONah" target="_blank"
+                            class="link link-act"><i class="fa-solid fa-microphone-lines"></i></a>
                         <a href="https://www.facebook.com/share/1DmwCQeZ8x/?mibextid=wwXIfr" target="_blank"
                             class="link link-act"><i class="fa-brands fa-facebook"></i></a>
                         <a href="https://www.tiktok.com/@margault_gcln?_r=1&_t=ZN-9539XzescMw" target="_blank"
@@ -112,7 +343,9 @@
                     <p style="color: #818181; font-size: 0.85rem; margin-top: auto;">© 2026 Margault. All Rights
                         Reserved</p>
                     <div class="totop-wrapper" style="margin-top: 20px;">
-                        <button class="totop link-act" onclick="globalThis.scrollTo(0,0); return false;" style="background:none; border:none; padding:0; font:inherit; color:inherit; cursor:pointer;">Retour en haut
+                        <button class="totop link-act" onclick="globalThis.scrollTo(0,0); return false;"
+                            style="background:none; border:none; padding:0; font:inherit; color:inherit; cursor:pointer;">Retour
+                            en haut
                             <i class="fa-solid fa-arrow-up"></i></button>
                     </div>
                 </div>
@@ -120,7 +353,7 @@
         </section>
     </main>
 
-    <script src="render-podcasts.js"></script>
+    <script src="render-podcasts.js?v=2"></script>
     <script src="../script.js"></script>
 
     <script>
@@ -146,7 +379,7 @@
 
             const animatePanes = () => {
                 pans.forEach((pan, index) => {
-                    if(!pan) return;
+                    if (!pan) return;
                     setTimeout(() => {
                         pan.style.transition = 'top 0.4s cubic-bezier(0.85, 0, 0.15, 1)';
                         pan.style.top = '0%';
@@ -170,9 +403,14 @@
         <div class="newsletter-modal-content">
             <button class="newsletter-modal-close" id="close-newsletter-btn">&times;</button>
             <div class="newsletter-container">
-                <iframe width="540" height="480" src="https://4a8d3212.sibforms.com/v2/serve/MUIFAMasxBgNJMxwo8ig3hM5IWTOMR2bQDoSA0zKH3c96bVUU6G_2llA-hDDYebnryHRP-BMm4mqSdyxGvUzj0BHzh-fqqE0WXHs5UGSUhv7vQpP_NX2C890rSNtyB2bdbHFcaREaN9wCc4pffUD-wUMd2cmygnOQALJG3SEKYJvkqemzdY0zRZKlkKKMssTtVtaQ6V7IcfNuj3y6A==" frameborder="0" scrolling="auto" allowfullscreen style="display: block;margin-left: auto;margin-right: auto;max-width: 100%;"></iframe>
+                <iframe width="540" height="480"
+                    src="https://4a8d3212.sibforms.com/v2/serve/MUIFAMasxBgNJMxwo8ig3hM5IWTOMR2bQDoSA0zKH3c96bVUU6G_2llA-hDDYebnryHRP-BMm4mqSdyxGvUzj0BHzh-fqqE0WXHs5UGSUhv7vQpP_NX2C890rSNtyB2bdbHFcaREaN9wCc4pffUD-wUMd2cmygnOQALJG3SEKYJvkqemzdY0zRZKlkKKMssTtVtaQ6V7IcfNuj3y6A=="
+                    frameborder="0" scrolling="auto" allowfullscreen
+                    style="display: block;margin-left: auto;margin-right: auto;max-width: 100%;"></iframe>
             </div>
         </div>
     </div>
 
 </body>
+
+</html>
