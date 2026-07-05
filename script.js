@@ -58,10 +58,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // --- GESTION DU SCROLL POUR LA COULEUR DE LA NAVBAR ---
         // On vérifie que locoScroll existe bien
-        if (window.locoScroll) {
-            window.locoScroll.on('scroll', (args) => {
+        if (globalThis.locoScroll) {
+            globalThis.locoScroll.on('scroll', (args) => {
                 // Si on a scrollé au-delà de 90% de la hauteur de l'écran (fin de la vidéo)
-                if (args.scroll.y > window.innerHeight * 0.9) {
+                if (args.scroll.y > globalThis.innerHeight * 0.9) {
                     document.body.classList.add('is-scrolled');
                 } else {
                     document.body.classList.remove('is-scrolled');

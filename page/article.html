@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="../img/icon_petit.svg" />
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="../style/player.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-iw3OoTErCYJJB9mCa8LNS2hbsQ7M3C0EpIsO/H5+EGAkPGc6rk+V8i04oW/K5xq0" crossorigin="anonymous">
     <link
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&family=Outfit:wght@400;600;800&display=swap"
         rel="stylesheet">
@@ -279,102 +279,101 @@
         const urlParams = new URLSearchParams(globalThis.location.search);
         const articleId = urlParams.get('id');
 
-        fetch('donnees.json')
-            .then(response => response.json())
-            .then(articles => {
-                const currentIndex = articles.findIndex(a => a.id === articleId);
-                const article = currentIndex !== -1 ? articles[currentIndex] : null;
-                const main = document.getElementById('article-main');
+        function displayArticle(articles, articleId) {
+            const currentIndex = articles.findIndex(a => a.id === articleId);
+            const article = currentIndex === -1 ? null : articles[currentIndex];
+            const main = document.getElementById('article-main');
 
-                if (!article) {
-                    main.innerHTML = "<h2>Article introuvable.</h2>";
-                    return;
-                }
+            if (!article) {
+                main.innerHTML = "<h2>Article introuvable.</h2>";
+                return;
+            }
 
-                const prevArticle = currentIndex > 0 ? articles[currentIndex - 1] : null;
-                const nextArticle = currentIndex < articles.length - 1 ? articles[currentIndex + 1] : null;
+            const prevArticle = currentIndex > 0 ? articles[currentIndex - 1] : null;
+            const nextArticle = currentIndex < articles.length - 1 ? articles[currentIndex + 1] : null;
 
-                // On prépare le lecteur audio (il sera vide s'il n'y a pas de son)
-                let lecteurAudio = "";
-                const mediaSource = article.audio || article.lien;
+            let lecteurAudio = "";
+            const mediaSource = article.audio || article.lien;
 
-                if (mediaSource) {
-                    const isYouTube = mediaSource.includes('youtube.com') || mediaSource.includes('youtu.be');
-                    const isAudio = mediaSource.includes('.mp3') || mediaSource.includes('wav') || mediaSource.includes('ogg') || mediaSource.includes('m4a');
+            if (mediaSource) {
+                const isYouTube = mediaSource.includes('youtube.com') || mediaSource.includes('youtu.be');
+                const isAudio = mediaSource.includes('.mp3') || mediaSource.includes('wav') || mediaSource.includes('ogg') || mediaSource.includes('m4a');
 
-                    if (isYouTube || isAudio || article.audio) {
-                        lecteurAudio = `
-                            <div id="player-container" style="margin: 60px auto; max-width: 500px; transform: scale(1); position: relative;">
-                                <div id="player">
-                                    <div id="player-track">
-                                        <div id="album-name"></div>
-                                        <div id="track-name"></div>
-                                        <div id="seek-bar-container">
-                                            <div id="seek-time">00:00</div>
-                                            <div id="s-hover"></div>
-                                            <div id="seek-bar"></div>
-                                        </div>
-                                        <div id="track-time">
-                                            <div id="current-time">00:00</div>
-                                            <div id="track-length">00:00</div>
-                                        </div>
+                if (isYouTube || isAudio || article.audio) {
+                    lecteurAudio = `
+                        <div id="player-container" style="margin: 60px auto; max-width: 500px; transform: scale(1); position: relative;">
+                            <div id="player">
+                                <div id="player-track">
+                                    <div id="album-name"></div>
+                                    <div id="track-name"></div>
+                                    <div id="seek-bar-container">
+                                        <div id="seek-time">00:00</div>
+                                        <div id="s-hover"></div>
+                                        <div id="seek-bar"></div>
                                     </div>
-                                    <div id="player-content">
-                                        <div id="album-art">
-                                            <img src="${article.imageVinyl || article.image}" class="active" />
-                                            <div id="buffer-box">Chargement</div>
+                                    <div id="track-time">
+                                        <div id="current-time">00:00</div>
+                                        <div id="track-length">00:00</div>
+                                    </div>
+                                </div>
+                                <div id="player-content">
+                                    <div id="album-art">
+                                        <img src="${article.imageVinyl || article.image}" class="active" />
+                                        <div id="buffer-box">Chargement</div>
+                                    </div>
+                                    <div id="player-controls">
+                                        <div class="control" ${prevArticle ? '' : 'style="opacity: 0.5; pointer-events: none;"'}>
+                                            <div class="button" id="play-previous" ${prevArticle ? 'style="cursor: pointer;"' : ''}>
+                                                <i class="fas fa-backward"></i>
+                                            </div>
                                         </div>
-                                        <div id="player-controls">
-                                            <div class="control" ${prevArticle ? '' : 'style="opacity: 0.5; pointer-events: none;"'}>
-                                                <div class="button" id="play-previous" ${prevArticle ? 'style="cursor: pointer;"' : ''}>
-                                                    <i class="fas fa-backward"></i>
-                                                </div>
+                                        <div class="control">
+                                            <div class="button" id="play-pause-button">
+                                                <i class="fas fa-play"></i>
                                             </div>
-                                            <div class="control">
-                                                <div class="button" id="play-pause-button">
-                                                    <i class="fas fa-play"></i>
-                                                </div>
-                                            </div>
-                                            <div class="control" ${nextArticle ? '' : 'style="opacity: 0.5; pointer-events: none;"'}>
-                                                <div class="button" id="play-next" ${nextArticle ? 'style="cursor: pointer;"' : ''}>
-                                                    <i class="fas fa-forward"></i>
-                                                </div>
+                                        </div>
+                                        <div class="control" ${nextArticle ? '' : 'style="opacity: 0.5; pointer-events: none;"'}>
+                                            <div class="button" id="play-next" ${nextArticle ? 'style="cursor: pointer;"' : ''}>
+                                                <i class="fas fa-forward"></i>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        `;
+                        </div>
+                    `;
 
-                        // Initialisation asynchrone après injection
-                        setTimeout(() => {
-                            if (globalThis.initVinylPlayer) {
-                                globalThis.initVinylPlayer({
-                                    title: article.titre,
-                                    album: article.categorie,
-                                    coverUrl: article.imageVinyl || article.image,
-                                    audioUrl: mediaSource,
-                                    prevUrl: prevArticle ? 'article.html?id=' + prevArticle.id : null,
-                                    nextUrl: nextArticle ? 'article.html?id=' + nextArticle.id : null
-                                });
-                            }
-                        }, 200);
-                    }
+                    setTimeout(() => {
+                        if (globalThis.initVinylPlayer) {
+                            globalThis.initVinylPlayer({
+                                title: article.titre,
+                                album: article.categorie,
+                                coverUrl: article.imageVinyl || article.image,
+                                audioUrl: mediaSource,
+                                prevUrl: prevArticle ? 'article.html?id=' + prevArticle.id : null,
+                                nextUrl: nextArticle ? 'article.html?id=' + nextArticle.id : null
+                            });
+                        }
+                    }, 200);
                 }
+            }
 
-                // On affiche le tout !
-                main.innerHTML = `
-                    <div class="article-header">
-                        <span class="pastille ${article.categorie.toLowerCase()}">${article.categorie}</span>
-                        <h1 class="article-title">${article.titre}</h1>
-                    </div>
-                    <img src="${article.image}" alt="Couverture" class="article-cover">
-                    
-                    ${lecteurAudio} <div class="article-body">
-                        ${article.contenu}
-                    </div>
-                `;
-            });
+            main.innerHTML = `
+                <div class="article-header">
+                    <span class="pastille ${article.categorie.toLowerCase()}">${article.categorie}</span>
+                    <h1 class="article-title">${article.titre}</h1>
+                </div>
+                <img src="${article.image}" alt="Couverture" class="article-cover">
+                
+                ${lecteurAudio} <div class="article-body">
+                    ${article.contenu}
+                </div>
+            `;
+        }
+
+        fetch('donnees.json')
+            .then(response => response.json())
+            .then(articles => displayArticle(articles, articleId));
     </script>
 
     <!-- Newsletter Modal -->
@@ -382,7 +381,7 @@
         <div class="newsletter-modal-content">
             <button class="newsletter-modal-close" id="close-newsletter-btn">&times;</button>
             <div class="newsletter-container">
-                <iframe width="540" height="480" src="https://4a8d3212.sibforms.com/v2/serve/MUIFAMasxBgNJMxwo8ig3hM5IWTOMR2bQDoSA0zKH3c96bVUU6G_2llA-hDDYebnryHRP-BMm4mqSdyxGvUzj0BHzh-fqqE0WXHs5UGSUhv7vQpP_NX2C890rSNtyB2bdbHFcaREaN9wCc4pffUD-wUMd2cmygnOQALJG3SEKYJvkqemzdY0zRZKlkKKMssTtVtaQ6V7IcfNuj3y6A==" frameborder="0" scrolling="auto" allowfullscreen style="display: block;margin-left: auto;margin-right: auto;max-width: 100%;"></iframe>
+                <iframe width="540" height="480" src="https://4a8d3212.sibforms.com/v2/serve/MUIFAMasxBgNJMxwo8ig3hM5IWTOMR2bQDoSA0zKH3c96bVUU6G_2llA-hDDYebnryHRP-BMm4mqSdyxGvUzj0BHzh-fqqE0WXHs5UGSUhv7vQpP_NX2C890rSNtyB2bdbHFcaREaN9wCc4pffUD-wUMd2cmygnOQALJG3SEKYJvkqemzdY0zRZKlkKKMssTtVtaQ6V7IcfNuj3y6A==" title="Newsletter form" allowfullscreen style="display: block;margin-left: auto;margin-right: auto;max-width: 100%;"></iframe>
             </div>
         </div>
     </div>
