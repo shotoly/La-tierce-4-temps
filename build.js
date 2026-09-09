@@ -9,9 +9,33 @@ const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 const databaseId = process.env.NOTION_DATABASE_ID;
 
+// Fonction utilitaire pour gérer les retries avec délai (Rate Limit)
+const withRetry = async (fn, maxRetries = 5, baseDelayMs = 5000) => {
+    let attempt = 1;
+    while (true) {
+        try {
+            return await fn();
+        } catch (error) {
+            const isRateLimit = error.code === 'rate_limited' || error.status === 429 || (error.message && error.message.includes('rate limited'));
+            if (isRateLimit) {
+                if (attempt >= maxRetries) throw error;
+                // Notion renvoie parfois le Retry-After dans les headers
+                const retryAfterHeader = error.headers && (error.headers['retry-after'] || error.headers['Retry-After']);
+                const delayMs = retryAfterHeader ? parseInt(retryAfterHeader, 10) * 1000 : baseDelayMs * attempt;
+                
+                console.warn(`\x1b[33m⚠️ Rate limit Notion atteint. Pause de ${delayMs / 1000}s avant la tentative ${attempt + 1}/${maxRetries}...\x1b[0m`);
+                await new Promise(resolve => setTimeout(resolve, delayMs));
+                attempt++;
+            } else {
+                throw error;
+            }
+        }
+    }
+};
+
 // --- NOUVEAU : On apprend à l'outil à lire les colonnes Notion ---
 n2m.setCustomTransformer('column_list', async (block) => {
-    const { results } = await notion.blocks.children.list({ block_id: block.id });
+    const { results } = await withRetry(() => notion.blocks.children.list({ block_id: block.id }));
     const mdblocks = await n2m.blocksToMarkdown(results);
     const mdString = n2m.toMarkdownString(mdblocks);
     const content = typeof mdString === 'string' ? mdString : (mdString?.parent || "");
@@ -19,7 +43,7 @@ n2m.setCustomTransformer('column_list', async (block) => {
 });
 
 n2m.setCustomTransformer('column', async (block) => {
-    const { results } = await notion.blocks.children.list({ block_id: block.id });
+    const { results } = await withRetry(() => notion.blocks.children.list({ block_id: block.id }));
     const mdblocks = await n2m.blocksToMarkdown(results);
     const mdString = n2m.toMarkdownString(mdblocks);
     const content = typeof mdString === 'string' ? mdString : (mdString?.parent || "");
@@ -396,10 +420,10 @@ async function fetchNotionData() {
     const startTime = Date.now();
     try {
         console.log("Connexion à Notion en cours...");
-        const response = await notion.databases.query({
+        const response = await withRetry(() => notion.databases.query({
             database_id: databaseId,
             sorts: [{ property: 'Date', direction: 'descending' }],
-        });
+        }));
 
         const totalArticles = response.results.length;
         console.log(`\x1b[36m📥 ${totalArticles} articles trouvés. Début du traitement séquentiel...\x1b[0m`);
@@ -416,10 +440,13 @@ async function fetchNotionData() {
             console.log(`\n\x1b[34m[${currentIndex}/${totalArticles}] Traitement de : "${tempTitre}"\x1b[0m`);
             
             try {
-                const article = await pageToArticle(page);
+                const article = await withRetry(() => pageToArticle(page));
                 articles.push(article);
                 successCount++;
                 console.log(`\x1b[32m✅ Succès : "${tempTitre}" traité sans erreur majeure.\x1b[0m`);
+                
+                // Délai systématique de courtoisie entre chaque article pour lisser les requêtes
+                await new Promise(resolve => setTimeout(resolve, 1500));
             } catch (err) {
                 errorCount++;
                 console.error(`\x1b[31m❌ Erreur critique sur "${tempTitre}" : ${err.message}\x1b[0m`);
