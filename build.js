@@ -1,11 +1,79 @@
-const { Client } = require('@notionhq/client');
+const { Client, LogLevel } = require('@notionhq/client');
 const { NotionToMarkdown } = require('notion-to-md');
 const { marked } = require('marked');
 const fs = require('node:fs');
 const https = require('node:https');
+const http = require('node:http');
 const path = require('node:path');
 
-const notion = new Client({ auth: process.env.NOTION_API_KEY });
+// --- DÉBUT : Intercepteurs globaux pour logger TOUTES les requêtes API ---
+const patchRequest = (moduleObj, moduleName) => {
+    const originalRequest = moduleObj.request;
+    moduleObj.request = function(...args) {
+        const req = originalRequest.apply(this, args);
+        let url = 'unknown';
+        if (typeof args[0] === 'string') url = args[0];
+        else if (args[0] && args[0].href) url = args[0].href;
+        else if (args[0] && args[0].hostname) url = `${args[0].protocol || moduleName + ':'}//${args[0].hostname}${args[0].path || ''}`;
+        
+        // On ignore les logs de téléchargement d'images internes pour éviter le spam, sauf s'ils plantent
+        const isImg = url.includes('.jpg') || url.includes('.png');
+        if (!isImg) console.log(`\x1b[90m[${moduleName.toUpperCase()} REQ] --> ${url}\x1b[0m`);
+        
+        req.on('response', (res) => {
+            if (!isImg || res.statusCode >= 400) {
+                const color = res.statusCode >= 400 ? '\x1b[31m' : '\x1b[90m';
+                console.log(`${color}[${moduleName.toUpperCase()} RES] <-- ${res.statusCode} ${url}\x1b[0m`);
+                
+                // Si l'erreur est grave, on essaie de lire le body
+                if (res.statusCode >= 400) {
+                    let body = '';
+                    res.on('data', chunk => body += chunk);
+                    res.on('end', () => console.error(`\x1b[31m[${moduleName.toUpperCase()} BODY] ${body.substring(0, 500)}\x1b[0m`));
+                }
+            }
+        });
+        req.on('error', (err) => {
+            console.error(`\x1b[31m[${moduleName.toUpperCase()} ERROR] <-- ${url} : ${err.message}\x1b[0m`);
+        });
+        return req;
+    };
+};
+patchRequest(https, 'https');
+patchRequest(http, 'http');
+
+if (global.fetch) {
+    const originalFetch = global.fetch;
+    global.fetch = async function(...args) {
+        const url = typeof args[0] === 'string' ? args[0] : (args[0] && args[0].url ? args[0].url : 'unknown fetch');
+        console.log(`\x1b[90m[FETCH REQ] --> ${url}\x1b[0m`);
+        try {
+            const res = await originalFetch.apply(this, args);
+            const color = !res.ok ? '\x1b[31m' : '\x1b[90m';
+            console.log(`${color}[FETCH RES] <-- ${res.status} ${url}\x1b[0m`);
+            if (!res.ok) {
+                const clone = res.clone();
+                try {
+                    const text = await clone.text();
+                    console.error(`\x1b[31m[FETCH BODY ERROR] ${text.substring(0, 500)}\x1b[0m`);
+                } catch (e) { /* ignore */ }
+            }
+            return res;
+        } catch (err) {
+            console.error(`\x1b[31m[FETCH ERROR] <-- ${url} : ${err.message}\x1b[0m`);
+            throw err;
+        }
+    };
+}
+// --- FIN : Intercepteurs globaux ---
+
+const notion = new Client({ 
+    auth: process.env.NOTION_API_KEY,
+    logLevel: LogLevel.WARN,
+    logger: (level, message, extraInfo) => {
+        console.warn(`\x1b[33m[NOTION CLIENT ${level}] ${message}\x1b[0m`, extraInfo ? JSON.stringify(extraInfo) : '');
+    }
+});
 const n2m = new NotionToMarkdown({ notionClient: notion });
 const databaseId = process.env.NOTION_DATABASE_ID;
 
@@ -86,7 +154,10 @@ const isNativeVideoUrl = (url) => {
 
 n2m.setCustomTransformer('video', async (block) => {
     const video = block.video;
-    if (!video) return '';
+    if (!video) {
+        console.warn(`\x1b[33m[WARN] Bloc video sans propriété 'video' : ${block.id}\x1b[0m`);
+        return '';
+    }
     let url = '';
     if (video.type === 'external') {
         url = video.external.url;
@@ -94,7 +165,11 @@ n2m.setCustomTransformer('video', async (block) => {
         url = video.file.url;
     }
 
-    if (!url) return '';
+    if (!url) {
+        console.warn(`\x1b[33m[WARN] Bloc video sans URL : ${block.id}\x1b[0m`);
+        return '';
+    }
+    console.log(`\x1b[36m[TRANSFORM] Bloc video détecté : ${url}\x1b[0m`);
 
     // Transformation d'URL pour YouTube
     if (url.includes('youtube.com/') || url.includes('youtu.be/')) {
@@ -121,8 +196,12 @@ n2m.setCustomTransformer('video', async (block) => {
 // Ajouter aussi le transformer pour les embeds (quand l'URL est collée comme Intégration / Embed)
 n2m.setCustomTransformer('embed', async (block) => {
     const embed = block.embed;
-    if (!embed?.url) return '';
+    if (!embed?.url) {
+        console.warn(`\x1b[33m[WARN] Bloc embed sans URL : ${block.id}\x1b[0m`);
+        return '';
+    }
     const url = embed.url;
+    console.log(`\x1b[36m[TRANSFORM] Bloc embed détecté : ${url}\x1b[0m`);
 
     if (url.includes('youtube.com/') || url.includes('youtu.be/')) {
         const { videoId, isShort } = parseYouTubeUrl(url);
@@ -150,8 +229,12 @@ n2m.setCustomTransformer('embed', async (block) => {
 // Ajouter un transformer pour les bookmarks (favoris web)
 n2m.setCustomTransformer('bookmark', async (block) => {
     const bookmark = block.bookmark;
-    if (!bookmark?.url) return '';
+    if (!bookmark?.url) {
+        console.warn(`\x1b[33m[WARN] Bloc bookmark sans URL : ${block.id}\x1b[0m`);
+        return '';
+    }
     const url = bookmark.url;
+    console.log(`\x1b[36m[TRANSFORM] Bloc bookmark détecté : ${url}\x1b[0m`);
 
     if (url.includes('drive.google.com/file/d/')) {
         const match = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/.exec(url);
@@ -169,8 +252,12 @@ n2m.setCustomTransformer('bookmark', async (block) => {
 // Ajouter un transformer pour les aperçus de liens
 n2m.setCustomTransformer('link_preview', async (block) => {
     const link_preview = block.link_preview;
-    if (!link_preview?.url) return '';
+    if (!link_preview?.url) {
+        console.warn(`\x1b[33m[WARN] Bloc link_preview sans URL : ${block.id}\x1b[0m`);
+        return '';
+    }
     const url = link_preview.url;
+    console.log(`\x1b[36m[TRANSFORM] Bloc link_preview détecté : ${url}\x1b[0m`);
 
     if (url.includes('drive.google.com/file/d/')) {
         const match = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/.exec(url);
