@@ -137,7 +137,7 @@ const renderYouTubeEmbed = (videoId, isShort) => {
     if (isShort) {
         return `\n<div style="max-width: 350px; margin: 40px auto;"><div class="notion-short-wrapper" style="position: relative; width: 100%; padding-bottom: 177.77%; height: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06);"><iframe style="position: absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/${videoId}?loop=1&color=white&controls=1&modestbranding=1&playsinline=1&rel=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div></div>\n`;
     } else {
-        return `\n<div class="notion-video-wrapper"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>\n`;
+        return `\n<div class="notion-video-wrapper" style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin: 30px 0;"><iframe style="position: absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>\n`;
     }
 };
 
@@ -179,18 +179,18 @@ n2m.setCustomTransformer('video', async (block) => {
         const match = /vimeo\.com\/(?:video\/)?(\d+)/.exec(url);
         if (match) {
             const videoId = match[1];
-            return `\n<div class="notion-video-wrapper"><iframe src="https://player.vimeo.com/video/${videoId}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
+            return `\n<div class="notion-video-wrapper" style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin: 30px 0;"><iframe style="position: absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://player.vimeo.com/video/${videoId}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
         }
     } else if (url.includes('drive.google.com/file/d/')) {
         const match = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/.exec(url);
         if (match) {
             const fileId = match[1];
-            return `\n<div class="notion-video-wrapper"><iframe src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
+            return `\n<div class="notion-video-wrapper" style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin: 30px 0;"><iframe style="position: absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
         }
     }
 
     // Vidéo hébergée en direct
-    return `\n<div class="notion-video-wrapper"><video controls src="${url}"></video></div>\n`;
+    return `\n<div class="notion-video-wrapper" style="width: 100%; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin: 30px 0;"><video style="width: 100%; display: block;" controls src="${url}"></video></div>\n`;
 });
 
 // Ajouter aussi le transformer pour les embeds (quand l'URL est collée comme Intégration / Embed)
@@ -210,16 +210,16 @@ n2m.setCustomTransformer('embed', async (block) => {
         const match = /vimeo\.com\/(?:video\/)?(\d+)/.exec(url);
         if (match) {
             const videoId = match[1];
-            return `\n<div class="notion-video-wrapper"><iframe src="https://player.vimeo.com/video/${videoId}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
+            return `\n<div class="notion-video-wrapper" style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin: 30px 0;"><iframe style="position: absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://player.vimeo.com/video/${videoId}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
         }
     } else if (url.includes('drive.google.com/file/d/')) {
         const match = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/.exec(url);
         if (match) {
             const fileId = match[1];
-            return `\n<div class="notion-video-wrapper"><iframe src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
+            return `\n<div class="notion-video-wrapper" style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin: 30px 0;"><iframe style="position: absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
         }
     } else if (isNativeVideoUrl(url)) {
-        return `\n<div class="notion-video-wrapper"><video controls src="${url}"></video></div>\n`;
+        return `\n<div class="notion-video-wrapper" style="width: 100%; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin: 30px 0;"><video style="width: 100%; display: block;" controls src="${url}"></video></div>\n`;
     }
 
     // Si on ne sait pas quoi en faire, on affiche au moins le lien
@@ -240,10 +240,10 @@ n2m.setCustomTransformer('bookmark', async (block) => {
         const match = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/.exec(url);
         if (match) {
             const fileId = match[1];
-            return `\n<div class="notion-video-wrapper"><iframe src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
+            return `\n<div class="notion-video-wrapper" style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin: 30px 0;"><iframe style="position: absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
         }
     } else if (isNativeVideoUrl(url)) {
-        return `\n<div class="notion-video-wrapper"><video controls src="${url}"></video></div>\n`;
+        return `\n<div class="notion-video-wrapper" style="width: 100%; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin: 30px 0;"><video style="width: 100%; display: block;" controls src="${url}"></video></div>\n`;
     }
     
     return `\n<a href="${url}" target="_blank" class="link-act" style="color: var(--provence-violet);">${url}</a>\n`;
@@ -263,10 +263,10 @@ n2m.setCustomTransformer('link_preview', async (block) => {
         const match = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/.exec(url);
         if (match) {
             const fileId = match[1];
-            return `\n<div class="notion-video-wrapper"><iframe src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
+            return `\n<div class="notion-video-wrapper" style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin: 30px 0;"><iframe style="position: absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
         }
     } else if (isNativeVideoUrl(url)) {
-        return `\n<div class="notion-video-wrapper"><video controls src="${url}"></video></div>\n`;
+        return `\n<div class="notion-video-wrapper" style="width: 100%; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin: 30px 0;"><video style="width: 100%; display: block;" controls src="${url}"></video></div>\n`;
     }
     
     return `\n<a href="${url}" target="_blank" class="link-act" style="color: var(--provence-violet);">${url}</a>\n`;
@@ -349,7 +349,7 @@ async function processInternalImages(contenuHtml, id, titre) {
 function processGoogleDriveLinks(contenuHtml) {
     const regex = /<a[^>]*href="(https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)[^"]*)"[^>]*>.*?<\/a>/g;
     return contenuHtml.replaceAll(regex, (match, url, fileId) => {
-        return `\n<div class="notion-video-wrapper"><iframe src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
+        return `\n<div class="notion-video-wrapper" style="position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin: 30px 0;"><iframe style="position: absolute; top:0; left:0; width:100%; height:100%; border:none;" src="https://drive.google.com/file/d/${fileId}/preview" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>\n`;
     });
 }
 
@@ -358,7 +358,7 @@ function processNativeVideoLinks(contenuHtml) {
     return contenuHtml.replaceAll(regex, (match, url) => {
         const decodedUrl = url.replaceAll('&amp;', '&');
         if (isNativeVideoUrl(decodedUrl)) {
-            return `\n<div class="notion-video-wrapper"><video controls src="${url}"></video></div>\n`;
+            return `\n<div class="notion-video-wrapper" style="width: 100%; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin: 30px 0;"><video style="width: 100%; display: block;" controls src="${url}"></video></div>\n`;
         }
         return match;
     });
